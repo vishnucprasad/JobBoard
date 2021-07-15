@@ -10,17 +10,22 @@ const AdminPublicRoute = ({ component: Component, ...rest }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    adminInstance.get("/auth").then(({ data: { user } }) => {
-      user
-        ? dispatch({
+    adminInstance
+      .get("/auth")
+      .then(({ data: { user } }) => {
+        user &&
+          dispatch({
             type: actionTypes.LOGIN,
             auth: user,
-          })
-        : dispatch({
-            type: actionTypes.LOGOUT,
           });
-      setIsLoading(false);
-    });
+        setIsLoading(false);
+      })
+      .catch(() => {
+        dispatch({
+          type: actionTypes.LOGOUT,
+        });
+        setIsLoading(false);
+      });
   }, [dispatch]);
 
   const isAuthenticated = !!auth._id && auth.role === "Admin";

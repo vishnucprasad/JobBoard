@@ -10,7 +10,7 @@ const Loading = () => {
               <div className="row no-gutters justify-content-center">
                 <div>
                   <div className="row justify-content-center p-3">
-                    <div class="loader">
+                    <div className="loader">
                       <span></span>
                     </div>
                   </div>
