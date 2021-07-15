@@ -8,7 +8,7 @@ const AppRouter = () => {
   return (
     <Router>
       <Switch>
-        <AdminPublicRoute path="/admin-panel" component={Login} exact={true} />
+        <AdminPublicRoute path="/admin" component={Login} exact={true} />
         <Route component={NotFound} />
       </Switch>
     </Router>

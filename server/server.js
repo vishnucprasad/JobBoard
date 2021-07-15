@@ -1,9 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
+const path = require('path');
+const flash = require('express-flash');
 const database = require('./database/database');
+require('./auth/passport');
 const userRouter = require('./routes/user');
+const adminRouter = require('./routes/admin');
 
 const app = express();
 
@@ -11,19 +15,21 @@ const port = process.env.PORT || 5000;
 
 database.connect();
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
-app.use(bodyParser.json({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cors({ credentials: true, origin: true }));
+app.use(flash());
 
-app.use('/', userRouter);
+app.use(express.static(path.join(__dirname, 'client', 'public')));
+
+app.use('/user', userRouter);
+app.use('/admin', adminRouter);
+
+app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({ error: err });
+});
 
 app.listen(port, () => {
     console.log(`Server is running on  http://localhost:${port}`);

@@ -2,19 +2,37 @@ import React, { useState } from "react";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import Loader from "./Loader";
+import { adminInstance } from "../../../axios/axios";
+import { useAuthValue } from "../../../contexts/auth";
+import { actionTypes } from "../../../reducers/auth";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
 
+  const initialState = {
+    email: "",
+    password: "",
+  };
+
+  const [state, setState] = useState(initialState);
+
+  const [, dispatch] = useAuthValue();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    adminInstance.post("/login", state).then((response) => {
+      dispatch({
+        type: actionTypes.LOGIN,
+        auth: response.data.user,
+      });
+    });
   };
 
   return (
     <form onSubmit={handleSubmit} className="mt-4">
       <div className="form-group">
-        <label for="exampleInputIcon3">Your email</label>
+        <label htmlFor="exampleInputIcon3">Your email</label>
         <div className="input-group mb-4">
           <div className="input-group-prepend">
             <span className="input-group-text text-twitter">
@@ -27,12 +45,14 @@ const LoginForm = () => {
             placeholder="Email"
             type="text"
             aria-label="email adress"
+            value={state.email}
+            onChange={(e) => setState({ ...state, email: e.target.value })}
           />
         </div>
       </div>
       <div className="form-group">
         <div className="form-group">
-          <label for="exampleInputPassword6">Password</label>
+          <label htmlFor="exampleInputPassword6">Password</label>
           <div className="input-group mb-4">
             <div className="input-group-prepend">
               <span className="input-group-text text-twitter">
@@ -46,6 +66,8 @@ const LoginForm = () => {
               type="password"
               aria-label="Password"
               required
+              value={state.password}
+              onChange={(e) => setState({ ...state, password: e.target.value })}
             />
           </div>
         </div>
