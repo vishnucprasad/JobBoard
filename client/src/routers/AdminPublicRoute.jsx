@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuthValue } from "../contexts/auth";
 import { adminInstance } from "../axios/axios";
 import { actionTypes } from "../reducers/auth";
+import Loader from "../pages/Loader";
 
 const AdminPublicRoute = ({ component: Component, ...rest }) => {
   const [{ auth }, dispatch] = useAuthValue();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     adminInstance.get("/auth").then(({ data: { user } }) => {
@@ -17,12 +19,17 @@ const AdminPublicRoute = ({ component: Component, ...rest }) => {
         : dispatch({
             type: actionTypes.LOGOUT,
           });
+      setIsLoading(false);
     });
   }, [dispatch]);
 
   const isAuthenticated = !!auth._id && auth.role === "Admin";
 
-  return (
+  return isLoading ? (
+    <div>
+      <Loader />
+    </div>
+  ) : (
     <Route
       {...rest}
       component={(props) =>
