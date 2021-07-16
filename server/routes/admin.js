@@ -7,10 +7,14 @@ const router = express.Router();
 router.post('/login', async (req, res, next) => {
     passport.authenticate('admin-login', async (err, user, info) => {
         try {
-            if (err || !user) {
+            if (err) {
                 const error = new Error('An error occurred.');
 
                 return next(error);
+            }
+
+            if (!user) {
+                return res.status(401).json({ message: info.message });
             }
 
             req.login(user, { session: false }, async (error) => {

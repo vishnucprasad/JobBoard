@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import { adminInstance } from "../../../axios/axios";
 import { useAuthValue } from "../../../contexts/auth";
 import { actionTypes } from "../../../reducers/auth";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,12 +22,28 @@ const LoginForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    adminInstance.post("/login", state).then((response) => {
-      dispatch({
-        type: actionTypes.LOGIN,
-        auth: response.data.user,
+    adminInstance
+      .post("/login", state)
+      .then((response) => {
+        dispatch({
+          type: actionTypes.LOGIN,
+          auth: response.data.user,
+        });
+        setIsLoading(false);
+        Toast.fire({
+          title: "Successfully logged in",
+          icon: "success",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          setIsLoading(false);
+          Toast.fire({
+            title: error.response.data.message,
+            icon: "error",
+          });
+        }
       });
-    });
   };
 
   return (
