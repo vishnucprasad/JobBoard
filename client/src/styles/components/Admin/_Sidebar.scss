@@ -1,0 +1,15 @@
+.sidebar {
+  .sidebar__header {
+    height: 5rem;
+  }
+
+  .sidebar__menu {
+    a {
+      border-bottom: 1px solid $gray-500;
+
+      &:hover {
+        color: $twitter;
+      }
+    }
+  }
+}

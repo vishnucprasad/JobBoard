@@ -43,7 +43,7 @@ router.get('/auth', (req, res) => {
 
 router.get('/logout', (req, res) => {
     req.logout();
-    res.status(200).clearCookie('token').json({ message: "logged out" });
+    res.status(200).clearCookie('token').json({ status: true, message: "Successfully logged out" });
 });
 
 router.get('/', (req, res) => {
