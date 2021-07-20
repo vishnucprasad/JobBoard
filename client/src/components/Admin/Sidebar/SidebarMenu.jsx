@@ -7,6 +7,7 @@ import WorkIcon from "@material-ui/icons/Work";
 import PersonIcon from "@material-ui/icons/Person";
 import PieChartIcon from "@material-ui/icons/PieChart";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 
 const SidebarMenu = () => {
   return (
@@ -60,6 +61,17 @@ const SidebarMenu = () => {
           <div className="row px-2 align-items-center">
             <PieChartIcon className="col-3 p-0" />
             <div className="col-9 p-0">User activity track</div>
+          </div>
+        </ListGroup.Item>
+      </NavLink>
+      <NavLink
+        to="/admin/enquiries"
+        activeClassName="shadow-inset text-twitter"
+      >
+        <ListGroup.Item as="li" className="border-0 font-weight-bold">
+          <div className="row px-2 align-items-center">
+            <QuestionAnswerIcon className="col-3 p-0" />
+            <div className="col-9 p-0">Enquiries</div>
           </div>
         </ListGroup.Item>
       </NavLink>

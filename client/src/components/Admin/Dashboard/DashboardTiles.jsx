@@ -11,10 +11,12 @@ const DashboardTiles = () => {
   return (
     <div className="row">
       {tiles.map(({ title, value }, index) => (
-        <div className="col-md-3" key={index}>
+        <div className="col-md-3 my-3 my-md-0" key={index}>
           <div className="card bg-primary shadow-soft border-light">
             <div className="card-header text-center pb-0">
-              <h4 className="font-weight-bolder text-twitter mb-0">{title}</h4>
+              <h4 className="font-weight-bolder text-twitter text-truncate mb-0">
+                {title}
+              </h4>
               <span className="d-block my-2">
                 <span className="display-3 font-weight-bold text-slack">
                   {value}
