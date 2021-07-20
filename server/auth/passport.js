@@ -32,7 +32,7 @@ passport.use(new JWTstrategy(
     {
         secretOrKey: process.env.JWT_SECRET,
         jwtFromRequest: (req) => {
-            var token = null;
+            let token = null;
             if (req && req.cookies) {
                 token = req.cookies['token'];
             }

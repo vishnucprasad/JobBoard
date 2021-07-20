@@ -1,10 +1,11 @@
 import React from "react";
 import Layout from "../../components/Admin/Layout/Layout";
+import DashboardTiles from "../../components/Admin/Dashboard/DashboardTiles";
 
 const Dashboard = () => {
   return (
     <Layout>
-      <h1>Dashboard</h1>
+      <DashboardTiles />
     </Layout>
   );
 };
