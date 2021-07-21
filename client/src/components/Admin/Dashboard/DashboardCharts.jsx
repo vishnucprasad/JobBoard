@@ -50,10 +50,15 @@ const DashboardCharts = () => {
     <div className="mt-4">
       <div className="card bg-primary shadow-soft border-light">
         <div className="card-header pb-0">
-          <h6 className="font-weight-bolder text-uppercase d-flex mb-0">
-            <span>Revenue</span>
-            <span className="ml-auto">y-axis scale: 1 unit = 1000 INR</span>
-          </h6>
+          <div className="text-uppercase d-md-flex mb-0">
+            <div className="font-weight-bolder h6">Revenue</div>
+            <div className="ml-auto h6 d-none d-md-block">
+              y-axis scale: 1 unit = 1000 INR
+            </div>
+            <div className="small text-right d-block d-md-none">
+              y-axis scale: 1 unit = 1000 INR
+            </div>
+          </div>
         </div>
         <div className="card-body">
           <Line data={data} options={options} />
