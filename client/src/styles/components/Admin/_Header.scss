@@ -1,5 +1,10 @@
 .header {
   height: 5rem;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  z-index: 2;
 
   .header__profile-icon {
     max-width: 2rem;

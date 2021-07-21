@@ -1,4 +1,9 @@
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 3px;
+  z-index: 3;
+
   .sidebar__header {
     height: 5rem;
   }
