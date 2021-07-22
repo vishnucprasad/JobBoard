@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAuthValue } from "../contexts/auth";
-import { adminInstance } from "../axios/axios";
-import { actionTypes } from "../reducers/auth";
-import Loader from "../pages/Loader";
+import { useAuthValue } from "../../contexts/auth";
+import { adminInstance } from "../../axios/axios";
+import { actionTypes } from "../../reducers/auth";
+import Loader from "../../pages/Loader";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const AdminPublicRoute = ({ component: Component, ...rest }) => {
   const [{ auth }, dispatch] = useAuthValue();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -39,15 +39,13 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       {...rest}
       component={(props) =>
         isAuthenticated ? (
-          <div>
-            <Component {...props} />
-          </div>
+          <Redirect to="/admin/dashboard" />
         ) : (
-          <Redirect to="/admin" />
+          <Component {...props} />
         )
       }
     />
   );
 };
 
-export default PrivateRoute;
+export default AdminPublicRoute;

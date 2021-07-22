@@ -1,6 +1,35 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 const LoginOptions = () => {
+  const history = useHistory();
+
+  const handleGoogleAuth = () => {
+    const googleAuthURL = `${process.env.REACT_APP_ADMIN_BASE_URL}/auth/google`;
+
+    const width = 480;
+    const height = 620;
+    const left = Math.round(window.screenX + (window.outerWidth - width) / 2);
+    const top = Math.round(
+      window.screenY + (window.outerHeight - height) / 2.5
+    );
+
+    const loginWindow = window.open(
+      googleAuthURL,
+      "_blank",
+      `width=${width}, height=${height}, left=${left}, top=${top}`
+    );
+
+    if (loginWindow) {
+      const timer = setInterval(() => {
+        if (loginWindow.closed) {
+          history.push("/admin/dashboard");
+          if (timer) clearInterval(timer);
+        }
+      }, 500);
+    }
+  };
+
   return (
     <div>
       <div className="mt-3 mb-4 text-center">
@@ -10,8 +39,8 @@ const LoginOptions = () => {
         <button
           className="btn btn-primary btn-icon text-twitter mr-2 px-5"
           type="button"
-          aria-label="facebook button"
-          title="facebook button"
+          title="Sign in with google"
+          onClick={handleGoogleAuth}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
