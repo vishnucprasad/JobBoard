@@ -9,25 +9,29 @@ const EmployersList = () => {
       field: "name",
       headerName: "Name",
       headerClassName: "bg-light",
-      width: 200,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: "email",
       headerName: "Email",
       headerClassName: "bg-light",
-      width: 250,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: "bussinessName",
       headerName: "Bussiness Name",
       headerClassName: "bg-light",
-      width: 200,
+      flex: 1,
+      minWidth: 150,
     },
     {
       field: "employerId",
       headerName: "Details",
       headerClassName: "bg-light",
-      width: 175,
+      flex: 1,
+      minWidth: 150,
       renderCell: (params) => (
         <Link
           to={`/admin/employer-management/view/${params.value}`}
