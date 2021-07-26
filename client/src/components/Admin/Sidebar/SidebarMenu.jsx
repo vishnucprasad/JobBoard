@@ -22,7 +22,7 @@ const SidebarMenu = () => {
       </NavLink>
       <NavLink
         to="/admin/employer-management"
-        activeClassName="shadow-inset text-twitter"
+        activeClassName="bg-light text-twitter"
       >
         <ListGroup.Item as="li" className="border-0 font-weight-bold">
           <div className="row px-2 align-items-center">
@@ -33,7 +33,7 @@ const SidebarMenu = () => {
       </NavLink>
       <NavLink
         to="/admin/job-management"
-        activeClassName="shadow-inset text-twitter"
+        activeClassName="bg-light text-twitter"
       >
         <ListGroup.Item as="li" className="border-0 font-weight-bold">
           <div className="row px-2 align-items-center">
@@ -44,7 +44,7 @@ const SidebarMenu = () => {
       </NavLink>
       <NavLink
         to="/admin/user-management"
-        activeClassName="shadow-inset text-twitter"
+        activeClassName="bg-light text-twitter"
       >
         <ListGroup.Item as="li" className="border-0 font-weight-bold">
           <div className="row px-2 align-items-center">
@@ -55,7 +55,7 @@ const SidebarMenu = () => {
       </NavLink>
       <NavLink
         to="/admin/user-activity"
-        activeClassName="shadow-inset text-twitter"
+        activeClassName="bg-light text-twitter"
       >
         <ListGroup.Item as="li" className="border-0 font-weight-bold">
           <div className="row px-2 align-items-center">
@@ -64,10 +64,7 @@ const SidebarMenu = () => {
           </div>
         </ListGroup.Item>
       </NavLink>
-      <NavLink
-        to="/admin/enquiries"
-        activeClassName="shadow-inset text-twitter"
-      >
+      <NavLink to="/admin/enquiries" activeClassName="bg-light text-twitter">
         <ListGroup.Item as="li" className="border-0 font-weight-bold">
           <div className="row px-2 align-items-center">
             <QuestionAnswerIcon className="col-3 p-0" />
@@ -75,7 +72,7 @@ const SidebarMenu = () => {
           </div>
         </ListGroup.Item>
       </NavLink>
-      <NavLink to="/admin/profile" activeClassName="shadow-inset text-twitter">
+      <NavLink to="/admin/profile" activeClassName="bg-light text-twitter">
         <ListGroup.Item as="li" className="border-0 font-weight-bold">
           <div className="row px-2 align-items-center">
             <AccountBoxIcon className="col-3 p-0" />

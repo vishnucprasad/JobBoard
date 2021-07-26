@@ -6,6 +6,7 @@ import AuthSuccess from "../pages/Admin/AuthSuccess";
 import AuthError from "../pages/Admin/AuthError";
 import EmployerManagement from "../pages/Admin/EmployerManagement";
 import JobManagement from "../pages/Admin/JobManagement";
+import UserManagement from "../pages/Admin/UserManagement";
 import NotFound from "../pages/NotFound";
 import AdminPublicRoute from "./AdminRoutes/AdminPublicRoute";
 import AdminPrivateRoute from "./AdminRoutes/AdminPrivateRoute";
@@ -26,6 +27,11 @@ const AppRouter = () => {
         <AdminPrivateRoute
           path="/admin/job-management"
           component={JobManagement}
+          exact={true}
+        />
+        <AdminPrivateRoute
+          path="/admin/user-management"
+          component={UserManagement}
           exact={true}
         />
         <Route component={NotFound} />
