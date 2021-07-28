@@ -8,6 +8,7 @@ import EmployerManagement from "../pages/Admin/EmployerManagement";
 import JobManagement from "../pages/Admin/JobManagement";
 import UserManagement from "../pages/Admin/UserManagement";
 import UserActivity from "../pages/Admin/UserActivity";
+import Enquiries from "../pages/Admin/Enquiries";
 import NotFound from "../pages/NotFound";
 import AdminPublicRoute from "./AdminRoutes/AdminPublicRoute";
 import AdminPrivateRoute from "./AdminRoutes/AdminPrivateRoute";
@@ -38,6 +39,11 @@ const AppRouter = () => {
         <AdminPrivateRoute
           path="/admin/user-activity"
           component={UserActivity}
+          exact={true}
+        />
+        <AdminPrivateRoute
+          path="/admin/enquiries"
+          component={Enquiries}
           exact={true}
         />
         <Route component={NotFound} />
