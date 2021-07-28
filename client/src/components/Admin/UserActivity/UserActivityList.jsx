@@ -91,7 +91,7 @@ const UserActivityList = () => {
       <div className="card bg-primary shadow-soft border-light">
         <div className="card-header pb-0">
           <div className="text-uppercase d-md-flex mb-0">
-            <div className="font-weight-bolder h6">Users</div>
+            <div className="font-weight-bolder h6">Users Activity</div>
           </div>
         </div>
         <div className="card-body shadow-inset rounded m-3">
