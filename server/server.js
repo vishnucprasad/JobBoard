@@ -8,6 +8,7 @@ const database = require('./database/database');
 require('./auth/passport');
 const userRouter = require('./routes/user');
 const adminRouter = require('./routes/admin');
+const employerRouter = require('./routes/employer');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'client', 'public')));
 
 app.use('/user', userRouter);
 app.use('/admin', adminRouter);
+app.use('/employer', employerRouter);
 
 app.use((err, req, res, next) => {
     res.status(err.status || 500);
