@@ -1,0 +1,26 @@
+.phoneinput-input {
+    width: 100% !important;
+    height: 100% !important;
+    background: $primary !important;
+    padding-left: 3.5rem !important;
+}
+
+.phoneinput-button {
+    background: $primary !important;
+
+    &:hover {
+        background: $light !important;
+    }
+
+    .selected-flag{
+        background: $primary !important;
+
+        &:hover {
+            background: $light !important;
+        }
+    }
+}
+
+.phoneinput-dropdown {
+    background: $primary !important;
+}

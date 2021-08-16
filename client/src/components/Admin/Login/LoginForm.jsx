@@ -49,7 +49,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit} className="mt-4">
       <div className="form-group">
-        <label htmlFor="exampleInputIcon3">Your email</label>
+        <label htmlFor="EmailInput">Email</label>
         <div className="input-group mb-4">
           <div className="input-group-prepend">
             <span className="input-group-text text-twitter">
@@ -58,7 +58,7 @@ const LoginForm = () => {
           </div>
           <input
             className="form-control"
-            id="exampleInputIcon3"
+            id="EmailInput"
             placeholder="Email"
             type="text"
             aria-label="email adress"
@@ -69,7 +69,7 @@ const LoginForm = () => {
       </div>
       <div className="form-group">
         <div className="form-group">
-          <label htmlFor="exampleInputPassword6">Password</label>
+          <label htmlFor="PasswordInput">Password</label>
           <div className="input-group mb-4">
             <div className="input-group-prepend">
               <span className="input-group-text text-twitter">
@@ -78,7 +78,7 @@ const LoginForm = () => {
             </div>
             <input
               className="form-control"
-              id="exampleInputPassword6"
+              id="PasswordInput"
               placeholder="Password"
               type="password"
               aria-label="Password"

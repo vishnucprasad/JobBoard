@@ -8,6 +8,19 @@ router.post("/signup", async (req, res, next) => {
   passport.authenticate("employer-signup", async (err, user, info) => {
     try {
       if (err) {
+        if (err.keyValue.email) {
+          return res
+            .status(400)
+            .json({
+              message: `An account with email ${err.keyValue.email} aready exists.`,
+            });
+        } else if (err.keyValue.mobile) {
+          return res
+            .status(400)
+            .json({
+              message: `An account with mobile number ${err.keyValue.mobile} aready exists.`,
+            });
+        }
         return res.status(400).json(err);
       }
 
@@ -27,7 +40,7 @@ router.post("/signup", async (req, res, next) => {
 
         return res
           .cookie(process.env.COOKIE_KEY, token, cookieOptions)
-          .status(200)
+          .status(201)
           .json({ user });
       });
     } catch (error) {
