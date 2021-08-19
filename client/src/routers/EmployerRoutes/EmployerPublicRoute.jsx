@@ -39,7 +39,7 @@ const EmployerPublicRoute = ({ component: Component, ...rest }) => {
       {...rest}
       component={(props) =>
         isAuthenticated ? (
-          <Redirect to="/Employer/dashboard" />
+          <Redirect to="/employer/dashboard" />
         ) : (
           <Component {...props} />
         )

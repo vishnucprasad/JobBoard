@@ -15,8 +15,10 @@ const employerSchema = new Schema({
   },
   mobile: {
     type: String,
-    required: true,
     unique: true,
+  },
+  displayPicture: {
+    type: String,
   },
   description: {
     type: String,
@@ -28,7 +30,6 @@ const employerSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
   },
 });
 
@@ -36,16 +37,20 @@ employerSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
 
-  delete userObject.password;
+  if (userObject.password) delete userObject.password;
 
   return userObject;
 };
 
 employerSchema.pre("save", async function (next) {
   const user = this;
-  const hash = await bcrypt.hash(user.password, 10);
 
-  user.password = hash;
+  if (user.password) {
+    const hash = await bcrypt.hash(user.password, 10);
+
+    user.password = hash;
+  }
+
   next();
 });
 

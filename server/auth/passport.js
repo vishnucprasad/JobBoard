@@ -44,6 +44,7 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         const user = await Admin.findOne({ email: profile._json.email });
+
         if (!user) {
           return done(null, false, { message: "User not found" });
         }
@@ -97,6 +98,40 @@ passport.use(
         }
 
         return done(null, user, { message: "Logged in Successfully" });
+      } catch (error) {
+        return done(error);
+      }
+    }
+  )
+);
+
+passport.use(
+  "employer-google-auth",
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: process.env.GOOGLE_EMPLOYER_CALLBACK_URL,
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        const user = await Employer.findOne({ email: profile._json.email });
+
+        if (!user) {
+          try {
+            const newUser = await Employer.create({
+              name: profile.displayName,
+              email: profile.emails[0].value,
+              displayPicture: profile.photos[0].value,
+            });
+
+            return done(null, newUser);
+          } catch (error) {
+            done(error);
+          }
+        }
+
+        return done(null, user);
       } catch (error) {
         return done(error);
       }

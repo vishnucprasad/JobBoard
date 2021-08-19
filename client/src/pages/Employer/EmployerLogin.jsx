@@ -1,6 +1,7 @@
 import React from "react";
 import LoginForm from "../../components/Employer/Login/LoginForm";
 import { Link } from "react-router-dom";
+import LoginOptions from "../../components/Employer/Login/LoginOptions";
 
 const EmployerLogin = () => {
   return (
@@ -17,6 +18,7 @@ const EmployerLogin = () => {
                 </div>
                 <div className="card-body">
                   <LoginForm />
+                  <LoginOptions />
                   <div className="text-center mt-4">
                     <Link to="/employer/signup">
                       Create a new employer accout ? Signup here.
