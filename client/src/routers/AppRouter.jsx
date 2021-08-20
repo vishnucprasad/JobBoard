@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AdminLogin from "../pages/Admin/AdminLogin";
-import Dashboard from "../pages/Admin/Dashboard";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AuthSuccess from "../pages/AuthSuccess";
 import AuthError from "../pages/AuthError";
 import EmployerManagement from "../pages/Admin/EmployerManagement";
@@ -15,6 +15,7 @@ import AdminPublicRoute from "./AdminRoutes/AdminPublicRoute";
 import AdminPrivateRoute from "./AdminRoutes/AdminPrivateRoute";
 import EmployerLogin from "../pages/Employer/EmployerLogin";
 import EmployerSignup from "../pages/Employer/EmployerSignup";
+import EmployerDashboard from "../pages/Employer/EmployerDashboard";
 import EmployerPublicRoute from "./EmployerRoutes/EmployerPublicRoute";
 import EmployerPrivateRoute from "./EmployerRoutes/EmployerPrivateRoute";
 
@@ -23,7 +24,7 @@ const AppRouter = () => {
     <Router>
       <Switch>
         <AdminPublicRoute path="/admin" component={AdminLogin} exact={true} />
-        <AdminPrivateRoute path="/admin/dashboard" component={Dashboard} />
+        <AdminPrivateRoute path="/admin/dashboard" component={AdminDashboard} />
         <AdminPrivateRoute path="/admin/auth/success" component={AuthSuccess} />
         <AdminPublicRoute path="/admin/auth/error" component={AuthError} />
         <AdminPrivateRoute
@@ -73,6 +74,10 @@ const AppRouter = () => {
         <EmployerPublicRoute
           path="/employer/auth/error"
           component={AuthError}
+        />
+        <EmployerPrivateRoute
+          path="/employer/dashboard"
+          component={EmployerDashboard}
         />
         <Route component={NotFound} />
       </Switch>
