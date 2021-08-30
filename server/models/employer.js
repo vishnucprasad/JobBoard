@@ -15,7 +15,9 @@ const employerSchema = new Schema({
   },
   mobile: {
     type: String,
+    index: true,
     unique: true,
+    sparse: true,
   },
   displayPicture: {
     type: String,
