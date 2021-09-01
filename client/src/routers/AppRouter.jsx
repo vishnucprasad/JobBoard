@@ -5,7 +5,7 @@ import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AuthSuccess from "../pages/AuthSuccess";
 import AuthError from "../pages/AuthError";
 import EmployerManagement from "../pages/Admin/EmployerManagement";
-import JobManagement from "../pages/Admin/JobManagement";
+import AdminJobManagement from "../pages/Admin/AdminJobManagement";
 import UserManagement from "../pages/Admin/UserManagement";
 import UserActivity from "../pages/Admin/UserActivity";
 import Enquiries from "../pages/Admin/Enquiries";
@@ -16,6 +16,7 @@ import AdminPrivateRoute from "./AdminRoutes/AdminPrivateRoute";
 import EmployerLogin from "../pages/Employer/EmployerLogin";
 import EmployerSignup from "../pages/Employer/EmployerSignup";
 import EmployerDashboard from "../pages/Employer/EmployerDashboard";
+import EmployerJobManagement from "../pages/Employer/EmployerJobManagement";
 import EmployerPublicRoute from "./EmployerRoutes/EmployerPublicRoute";
 import EmployerPrivateRoute from "./EmployerRoutes/EmployerPrivateRoute";
 
@@ -34,7 +35,7 @@ const AppRouter = () => {
         />
         <AdminPrivateRoute
           path="/admin/job-management"
-          component={JobManagement}
+          component={AdminJobManagement}
           exact={true}
         />
         <AdminPrivateRoute
@@ -78,6 +79,11 @@ const AppRouter = () => {
         <EmployerPrivateRoute
           path="/employer/dashboard"
           component={EmployerDashboard}
+        />
+        <EmployerPrivateRoute
+          path="/employer/job-management"
+          component={EmployerJobManagement}
+          exact={true}
         />
         <Route component={NotFound} />
       </Switch>
