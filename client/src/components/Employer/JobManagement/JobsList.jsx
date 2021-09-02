@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import WorkIcon from "@material-ui/icons/Work";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -58,9 +59,25 @@ const JobsList = () => {
         <div className="card-header pb-0">
           <div className="text-uppercase d-md-flex mb-0">
             <div className="font-weight-bolder h6">Jobs</div>
+            <div className="w-md-25 ml-auto">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text text-twitter">
+                    <SearchIcon />
+                  </span>
+                </div>
+                <input
+                  className="form-control"
+                  id="exampleInputIcon1"
+                  placeholder="Search for jobs..."
+                  type="text"
+                  aria-label="Input with icon left"
+                />
+              </div>
+            </div>
             <Link
               to="/empoyer/job-management/create"
-              className="btn btn-primary btn-sm ml-auto font-weight-bolder text-twitter"
+              className="btn btn-primary btn-sm font-weight-bolder text-twitter ml-4"
             >
               <div className="d-flex align-items-center">
                 <AddIcon />
@@ -69,7 +86,7 @@ const JobsList = () => {
             </Link>
           </div>
         </div>
-        <div className="card-body shadow-inset rounded m-3 pb-0">
+        <div className="card-body shadow-inset rounded scroll-70 m-3 pb-0">
           {jobs.map((job) => (
             <div key={job.id} className="card shadow-soft rounded mb-4">
               <div className="card-body">
