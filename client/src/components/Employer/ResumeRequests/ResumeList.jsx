@@ -101,7 +101,7 @@ const ResumeList = () => {
                 <div className="card-body">
                   <div className="row align-items-center">
                     <div className="col-md-9">
-                      <Link to={`/employer/resume-request/view/${resume.id}`}>
+                      <Link to={`/employer/resume-requests/view/${resume.id}`}>
                         <p className="text-twitter font-weight-bold text-uppercase">
                           {resume.jobDetails.type}
                         </p>
