@@ -18,6 +18,7 @@ import EmployerSignup from "../pages/Employer/EmployerSignup";
 import EmployerDashboard from "../pages/Employer/EmployerDashboard";
 import EmployerJobManagement from "../pages/Employer/EmployerJobManagement";
 import ResumeRequests from "../pages/Employer/ResumeRequests";
+import AproovedRequests from "../pages/Employer/AproovedRequests";
 import EmployerPublicRoute from "./EmployerRoutes/EmployerPublicRoute";
 import EmployerPrivateRoute from "./EmployerRoutes/EmployerPrivateRoute";
 
@@ -89,6 +90,11 @@ const AppRouter = () => {
         <EmployerPrivateRoute
           path="/employer/resume-requests"
           component={ResumeRequests}
+          exact={true}
+        />
+        <EmployerPrivateRoute
+          path="/employer/aprooved-requests"
+          component={AproovedRequests}
           exact={true}
         />
         <Route component={NotFound} />

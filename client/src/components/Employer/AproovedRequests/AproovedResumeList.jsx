@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 
-const ResumeList = () => {
+const AproovedResumeList = () => {
   const resumes = [
     {
       id: "dgkjsvfbliuhblfuglshf1",
@@ -101,7 +101,7 @@ const ResumeList = () => {
                 <div className="card-body">
                   <div className="row align-items-center">
                     <div className="col-md-9">
-                      <Link to={`/employer/resume-request/view/${resume.id}`}>
+                      <Link to={`/employer/aprooved-request/view/${resume.id}`}>
                         <p className="text-twitter font-weight-bold text-uppercase">
                           {resume.jobDetails.type}
                         </p>
@@ -140,10 +140,10 @@ const ResumeList = () => {
                       <div className="d-flex align-items-center">
                         <div className="w-100">
                           <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
-                            Aproove
+                            Change schedule
                           </button>
                           <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
-                            Reject
+                            Delete Resume
                           </button>
                         </div>
                       </div>
@@ -159,4 +159,4 @@ const ResumeList = () => {
   );
 };
 
-export default ResumeList;
+export default AproovedResumeList;

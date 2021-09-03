@@ -86,59 +86,61 @@ const JobsList = () => {
             </Link>
           </div>
         </div>
-        <div className="card-body shadow-inset rounded scroll-70 m-3 pb-0">
-          {jobs.map((job) => (
-            <div key={job.id} className="card shadow-soft rounded mb-4">
-              <div className="card-body">
-                <div className="row align-items-center">
-                  <div className="col-md-8">
-                    <Link to={`/employer/job-management/view/${job.id}`}>
-                      <p className="text-twitter font-weight-bold text-uppercase">
-                        {job.type}
-                      </p>
-                      <h4 className="font-weight-bold">{job.designation}</h4>
-                      <p className="font-weight-bold mt-3 mb-2">
-                        <span className="mr-3">
-                          <WorkIcon className="text-twitter" />
-                          {job.companyName}
-                        </span>
-                        <span className="mr-3">
-                          <LocationOnIcon className="text-twitter" />
-                          {job.location}
-                        </span>
-                        <span className="badge badge-twitter font-weight-bolder px-3">
-                          {job.title}
-                        </span>
-                      </p>
-                    </Link>
-                  </div>
-                  <div className="col-md-4">
-                    <div className="d-flex align-items-center">
-                      <div className="text-center mr-4">
-                        <p className="font-weight-bold m-0">
-                          {job.workingDays} Days
+        <div className="card-body shadow-inset rounded m-3 px-3 pt-3 pb-0">
+          <div className="scroll-70 px-2 pt-2 pb-0">
+            {jobs.map((job) => (
+              <div key={job.id} className="card shadow-soft rounded mb-4">
+                <div className="card-body">
+                  <div className="row align-items-center">
+                    <div className="col-md-8">
+                      <Link to={`/employer/job-management/view/${job.id}`}>
+                        <p className="text-twitter font-weight-bold text-uppercase">
+                          {job.type}
                         </p>
-                        <h6 className="text-slack shadow-inset rounded-pill font-weight-bold py-1 px-3">
-                          {job.salary}
-                        </h6>
-                      </div>
-                      <div className="w-100">
-                        <Link
-                          to="/employer/job-management/edit"
-                          className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mb-3"
-                        >
-                          Edit Job
-                        </Link>
-                        <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
-                          Remove Job
-                        </button>
+                        <h4 className="font-weight-bold">{job.designation}</h4>
+                        <p className="font-weight-bold mt-3 mb-2">
+                          <span className="mr-3">
+                            <WorkIcon className="text-twitter" />
+                            {job.companyName}
+                          </span>
+                          <span className="mr-3">
+                            <LocationOnIcon className="text-twitter" />
+                            {job.location}
+                          </span>
+                          <span className="badge badge-twitter font-weight-bolder px-3">
+                            {job.title}
+                          </span>
+                        </p>
+                      </Link>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="d-flex align-items-center">
+                        <div className="text-center mr-4">
+                          <p className="font-weight-bold m-0">
+                            {job.workingDays} Days
+                          </p>
+                          <h6 className="text-slack shadow-inset rounded-pill font-weight-bold py-1 px-3">
+                            {job.salary}
+                          </h6>
+                        </div>
+                        <div className="w-100">
+                          <Link
+                            to="/employer/job-management/edit"
+                            className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mb-3"
+                          >
+                            Edit Job
+                          </Link>
+                          <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
+                            Remove Job
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
