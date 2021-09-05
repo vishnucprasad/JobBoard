@@ -1,111 +1,54 @@
 import React from "react";
-import { DataGrid } from "@material-ui/data-grid";
 import { Link } from "react-router-dom";
+import SearchIcon from "@material-ui/icons/Search";
+import WorkIcon from "@material-ui/icons/Work";
+import LocationOnIcon from "@material-ui/icons/LocationOn";
 
 const JobsList = () => {
-  const columns = [
-    { field: "id", headerName: "ID", headerClassName: "bg-light" },
+  const jobs = [
     {
-      field: "title",
-      headerName: "Title",
-      headerClassName: "bg-light",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "type",
-      headerName: "Type",
-      headerClassName: "bg-light",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "employerName",
-      headerName: "Employer Name",
-      headerClassName: "bg-light",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "companyName",
-      headerName: "Company Name",
-      headerClassName: "bg-light",
-      flex: 1,
-      minWidth: 150,
-    },
-    {
-      field: "jobId",
-      headerName: "Details",
-      headerClassName: "bg-light",
-      flex: 1,
-      minWidth: 150,
-      renderCell: (params) => (
-        <Link
-          to={`/admin/job-management/view/${params.value}`}
-          className="btn btn-primary btn-sm btn-block font-weight-bold p-0"
-        >
-          View
-        </Link>
-      ),
-    },
-  ];
-
-  const rows = [
-    {
-      id: 1,
+      id: "dgkjsvfbliuhblfuglshf1",
       title: "Web Developer",
+      designation: "Backend Developer",
       type: "Full time",
+      salary: "$2000",
+      workingDays: 20,
       employerName: "Vishnu C Prasad",
       companyName: "Nodesters",
-      jobId: "dgkjsvfbliuhblfuglshf",
+      location: "Western City, UK",
     },
     {
-      id: 2,
+      id: "dgkjsvfbliuhblfuglshf2",
       title: "Web Developer",
+      designation: "Backend Developer",
       type: "Full time",
+      salary: "$2000",
+      workingDays: 20,
       employerName: "Vishnu C Prasad",
       companyName: "Nodesters",
-      jobId: "dgkjsvfbliuhblfuglshf",
+      location: "Western City, UK",
     },
     {
-      id: 3,
+      id: "dgkjsvfbliuhblfuglshf3",
       title: "Web Developer",
+      designation: "Backend Developer",
       type: "Full time",
+      salary: "$2000",
+      workingDays: 20,
       employerName: "Vishnu C Prasad",
       companyName: "Nodesters",
-      jobId: "dgkjsvfbliuhblfuglshf",
+      location: "Western City, UK",
     },
     {
-      id: 4,
+      id: "dgkjsvfbliuhblfuglshf4",
       title: "Web Developer",
+      designation: "Backend Developer",
       type: "Full time",
+      salary: "$2000",
+      workingDays: 20,
       employerName: "Vishnu C Prasad",
       companyName: "Nodesters",
-      jobId: "dgkjsvfbliuhblfuglshf",
-    },
-    {
-      id: 5,
-      title: "Web Developer",
-      type: "Full time",
-      employerName: "Vishnu C Prasad",
-      companyName: "Nodesters",
-      jobId: "dgkjsvfbliuhblfuglshf",
-    },
-    {
-      id: 6,
-      title: "Web Developer",
-      type: "Full time",
-      employerName: "Vishnu C Prasad",
-      companyName: "Nodesters",
-      jobId: "dgkjsvfbliuhblfuglshf",
-    },
-    {
-      id: 7,
-      title: "Web Developer",
-      type: "Full time",
-      employerName: "Vishnu C Prasad",
-      companyName: "Nodesters",
-      jobId: "dgkjsvfbliuhblfuglshf",
+      location: "Western City, UK",
     },
   ];
 
@@ -115,11 +58,72 @@ const JobsList = () => {
         <div className="card-header pb-0">
           <div className="text-uppercase d-md-flex mb-0">
             <div className="font-weight-bolder h6">Jobs</div>
+            <div className="w-md-25 ml-auto">
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text text-twitter">
+                    <SearchIcon />
+                  </span>
+                </div>
+                <input
+                  className="form-control"
+                  id="exampleInputIcon1"
+                  placeholder="Search for jobs..."
+                  type="text"
+                  aria-label="Input with icon left"
+                />
+              </div>
+            </div>
           </div>
         </div>
-        <div className="card-body shadow-inset rounded m-3">
-          <div style={{ height: 500, width: "100%" }}>
-            <DataGrid rows={rows} columns={columns} pageSize={10} />
+        <div className="card-body shadow-inset rounded m-3 px-3 pt-3 pb-0">
+          <div className="scroll-70 px-2 pt-2 pb-0">
+            {jobs.map((job) => (
+              <div key={job.id} className="card shadow-soft rounded mb-4">
+                <div className="card-body">
+                  <div className="row align-items-center">
+                    <div className="col-md-8">
+                      <Link to={`/admin/job-management/view/${job.id}`}>
+                        <p className="text-twitter font-weight-bold text-uppercase">
+                          {job.type}
+                        </p>
+                        <h4 className="font-weight-bold">{job.designation}</h4>
+                        <p className="font-weight-bold mt-3 mb-2">
+                          <span className="mr-3">
+                            <WorkIcon className="text-twitter" />
+                            {job.companyName}
+                          </span>
+                          <span className="mr-3">
+                            <LocationOnIcon className="text-twitter" />
+                            {job.location}
+                          </span>
+                          <span className="badge badge-twitter font-weight-bolder px-3">
+                            {job.title}
+                          </span>
+                        </p>
+                      </Link>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="d-flex align-items-center">
+                        <div className="text-center mr-4">
+                          <p className="font-weight-bold m-0">
+                            {job.workingDays} Days
+                          </p>
+                          <h6 className="text-slack shadow-inset rounded-pill font-weight-bold py-1 px-3">
+                            {job.salary}
+                          </h6>
+                        </div>
+                        <div className="w-100">
+                          <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
+                            Remove Job
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
