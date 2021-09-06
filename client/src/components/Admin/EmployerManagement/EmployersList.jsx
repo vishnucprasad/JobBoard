@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import EmailIcon from "@material-ui/icons/Email";
+import PhoneIphoneIcon from "@material-ui/icons/PhoneIphone";
 import UserIcon from "../../../images/user-icon.png";
 
 const EmployersList = () => {
@@ -10,11 +11,13 @@ const EmployersList = () => {
       id: "dgkjsvfbliuhblfuglshf1",
       name: "Vishnu",
       email: "mail@vishnucprasad.in",
+      mobile: "+918157983670",
     },
     {
       id: "dgkjsvfbliuhblfuglshf2",
       name: "Vishnu",
       email: "mail@vishnucprasad.in",
+      mobile: "+918157983670",
       displayPicture:
         "https://lh3.googleusercontent.com/a-/AOh14GhBd0XUn7qW2xHxlqZK-Fr7Pp8D8IVJnMHHa5VT=s96-c",
       blocked: true,
@@ -91,6 +94,12 @@ const EmployersList = () => {
                             <EmailIcon className="text-twitter" />
                             {employer.email}
                           </span>
+                          {employer.mobile && (
+                            <span className="mr-3">
+                              <PhoneIphoneIcon className="text-twitter" />
+                              {employer.mobile}
+                            </span>
+                          )}
                         </p>
                       </Link>
                     </div>
