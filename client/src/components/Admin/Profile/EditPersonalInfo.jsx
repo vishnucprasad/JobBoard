@@ -24,7 +24,7 @@ const EditPersonalInfo = () => {
   };
 
   return (
-    <div className="shadow-soft rounded p-3">
+    <div className="shadow-soft rounded p-3 mb-4">
       <h6>Personal Info</h6>
       <form onSubmit={handleSubmit} className="mt-4">
         <div className="form-group">

@@ -79,7 +79,7 @@ const EnquiriesList = () => {
                 <input
                   className="form-control"
                   id="exampleInputIcon1"
-                  placeholder="Search for jobs..."
+                  placeholder="Search for enquiries..."
                   type="text"
                   aria-label="Input with icon left"
                 />
