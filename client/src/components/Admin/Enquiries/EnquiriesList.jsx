@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import MailIcon from "@material-ui/icons/Mail";
-import LocationOnIcon from "@material-ui/icons/LocationOn";
 import UserIcon from "../../../images/user-icon.png";
 
 const EnquiriesList = () => {

@@ -9,7 +9,7 @@ import AdminJobManagement from "../pages/Admin/AdminJobManagement";
 import UserManagement from "../pages/Admin/UserManagement";
 import UserActivity from "../pages/Admin/UserActivity";
 import Enquiries from "../pages/Admin/Enquiries";
-import Profile from "../pages/Admin/Profile";
+import AdminProfile from "../pages/Admin/AdminProfile";
 import NotFound from "../pages/NotFound";
 import AdminPublicRoute from "./AdminRoutes/AdminPublicRoute";
 import AdminPrivateRoute from "./AdminRoutes/AdminPrivateRoute";
@@ -22,6 +22,7 @@ import AproovedRequests from "../pages/Employer/AproovedRequests";
 import RejectedRequests from "../pages/Employer/RejectedRequests";
 import EmployerPublicRoute from "./EmployerRoutes/EmployerPublicRoute";
 import EmployerPrivateRoute from "./EmployerRoutes/EmployerPrivateRoute";
+import EmployerProfile from "../pages/Employer/EmployerProfile";
 
 const AppRouter = () => {
   return (
@@ -58,7 +59,7 @@ const AppRouter = () => {
         />
         <AdminPrivateRoute
           path="/admin/profile"
-          component={Profile}
+          component={AdminProfile}
           exact={true}
         />
         <EmployerPublicRoute
@@ -101,6 +102,11 @@ const AppRouter = () => {
         <EmployerPrivateRoute
           path="/employer/rejected-requests"
           component={RejectedRequests}
+          exact={true}
+        />
+        <EmployerPrivateRoute
+          path="/employer/profile"
+          component={EmployerProfile}
           exact={true}
         />
         <Route component={NotFound} />

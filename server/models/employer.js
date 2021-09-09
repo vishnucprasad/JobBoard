@@ -39,7 +39,10 @@ employerSchema.methods.toJSON = function () {
   const user = this;
   const userObject = user.toObject();
 
-  if (userObject.password) delete userObject.password;
+  if (userObject.password) {
+    delete userObject.password;
+    userObject.passwordAuth = true;
+  }
 
   return userObject;
 };
