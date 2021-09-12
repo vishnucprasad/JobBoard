@@ -1,0 +1,17 @@
+.postJobForm {
+    .formLogo {
+        cursor: pointer;
+        display: flex;
+        height: 13.5rem;
+        justify-content: center;
+        position: relative !important;
+        
+        img {
+            max-height: 13.5rem;
+        }
+
+        &::after {
+            content: none !important;
+        }
+    }
+}

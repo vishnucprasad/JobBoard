@@ -76,7 +76,7 @@ const JobsList = () => {
               </div>
             </div>
             <Link
-              to="/empoyer/job-management/create"
+              to="/employer/job-management/create"
               className="btn btn-primary btn-sm font-weight-bolder text-twitter ml-4"
             >
               <div className="d-flex align-items-center">
