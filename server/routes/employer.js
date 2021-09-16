@@ -1,6 +1,7 @@
 const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const upload = require("../middleware/upload");
 
 const router = express.Router();
 
@@ -132,6 +133,10 @@ router.get("/logout", (req, res) => {
     .status(200)
     .clearCookie("token")
     .json({ status: true, message: "Successfully logged out" });
+});
+
+router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
+  res.json({ file: req.file });
 });
 
 router.get("/", (req, res) => {
