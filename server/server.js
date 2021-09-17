@@ -4,27 +4,18 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const path = require("path");
 const flash = require("express-flash");
-const Grid = require("gridfs-stream");
-const methodOverride = require("method-override");
 const database = require("./database/database");
 require("./auth/passport");
 const userRouter = require("./routes/user");
 const adminRouter = require("./routes/admin");
 const employerRouter = require("./routes/employer");
-const mongoose = require("mongoose");
+const fileRouter = require("./routes/files");
 
 const app = express();
 
 const port = process.env.PORT || 5000;
 
 database.connect();
-
-let gfs;
-const conn = mongoose.connection;
-conn.once("open", () => {
-  gfs = Grid(conn.db, mongoose.mongo);
-  gfs.collection("uploads");
-});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -37,6 +28,7 @@ app.use(express.static(path.join(__dirname, "client", "public")));
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
 app.use("/employer", employerRouter);
+app.use("/file", fileRouter);
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
