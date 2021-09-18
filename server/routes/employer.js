@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const upload = require("../middleware/upload");
+const employerHelper = require("../helpers/employerHelper");
 
 const router = express.Router();
 
@@ -136,7 +137,10 @@ router.get("/logout", (req, res) => {
 });
 
 router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
-  res.json({ file: req.file });
+  employerHelper
+    .postJob(req.body, req.file, req.get("origin"), req.user._id)
+    .then((job) => res.json(job))
+    .catch((error) => res.json(error));
 });
 
 router.get("/", (req, res) => {
