@@ -138,7 +138,7 @@ router.get("/logout", (req, res) => {
 
 router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
   employerHelper
-    .postJob(req.body, req.file, req.get("origin"), req.user._id)
+    .postJob(req.body, req.file, req.protocol, req.get("host"), req.user._id)
     .then((job) => res.json(job))
     .catch((error) => res.json(error));
 });
