@@ -19,12 +19,15 @@ module.exports = {
         },
       };
       Job.create(newJob)
-        .then((job) => {
-          resolve(job);
-        })
-        .catch((error) => {
-          reject(error);
-        });
+        .then((job) => resolve(job))
+        .catch((error) => reject(error));
+    });
+  },
+  getAllJobs: (employerId) => {
+    return new Promise((resolve, reject) => {
+      Job.find({ employerId: mongoose.Types.ObjectId(employerId) })
+        .then((jobs) => resolve(jobs))
+        .catch((error) => reject(error));
     });
   },
 };

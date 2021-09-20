@@ -143,8 +143,11 @@ router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
     .catch((error) => res.json(error));
 });
 
-router.get("/", (req, res) => {
-  res.send("Express");
+router.get("/jobs", (req, res) => {
+  employerHelper
+    .getAllJobs(req.user._id)
+    .then((jobs) => res.json(jobs))
+    .catch((error) => res.json(error));
 });
 
 module.exports = router;

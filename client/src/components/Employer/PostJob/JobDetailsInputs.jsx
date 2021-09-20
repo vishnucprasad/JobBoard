@@ -134,7 +134,13 @@ const JobDetailsInputs = ({ state, setState }) => {
               placeholder="Salary"
               type="text"
               value={state.salary}
-              onChange={(e) => setState({ ...state, salary: e.target.value })}
+              onChange={(e) => {
+                const salary = e.target.value;
+
+                if (!salary || salary.match(/^\d{1,}(\.\d{0,2})?$/)) {
+                  setState({ ...state, salary });
+                }
+              }}
               required
             />
           </div>
