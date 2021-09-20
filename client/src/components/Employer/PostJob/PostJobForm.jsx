@@ -19,6 +19,7 @@ const PostJobForm = () => {
     type: "Full-Time",
     qualification: "",
     experience: "",
+    salary: "",
     languages: "",
     skills: "",
     companyName: "",
@@ -49,6 +50,7 @@ const PostJobForm = () => {
     formData.append("type", state.type);
     formData.append("qualification", state.qualification);
     formData.append("experience", state.experience);
+    formData.append("salary", state.salary);
     formData.append("languages", state.languages);
     formData.append("skills", state.skills);
     formData.append("description", state.description);

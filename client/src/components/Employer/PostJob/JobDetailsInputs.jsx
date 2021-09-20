@@ -122,6 +122,28 @@ const JobDetailsInputs = ({ state, setState }) => {
         <div className="form-group">
           <label
             className="text-twitter font-weight-bolder"
+            htmlFor="salaryInput"
+          >
+            Salary
+            <span className="font-weight-normal">(in $ LPA)</span>
+          </label>
+          <div className="input-group mb-4">
+            <input
+              className="form-control"
+              id="salaryInput"
+              placeholder="Salary"
+              type="text"
+              value={state.salary}
+              onChange={(e) => setState({ ...state, salary: e.target.value })}
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div className="col-lg-6">
+        <div className="form-group">
+          <label
+            className="text-twitter font-weight-bolder"
             htmlFor="languagesInput"
           >
             Languages Required
@@ -144,7 +166,7 @@ const JobDetailsInputs = ({ state, setState }) => {
           </div>
         </div>
       </div>
-      <div className="col-lg-12">
+      <div className="col-lg-6">
         <div className="form-group">
           <label
             className="text-twitter font-weight-bolder"

@@ -53,6 +53,10 @@ const jobSchema = new Schema({
     type: String,
     required: true,
   },
+  salary: {
+    type: String,
+    required: true,
+  },
   languages: [{ type: String }],
   skills: [{ type: String }],
   description: {
