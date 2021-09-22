@@ -2,10 +2,10 @@ import React from "react";
 import ChangePassword from "./ChangePassword";
 import SetPassword from "./SetPassword";
 import EditPersonalInfo from "./EditPersonalInfo";
-import { useAuthValue } from "../../../contexts/auth";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
 
 const EditProfile = () => {
-  const [{ auth }] = useAuthValue();
+  const [{ auth }] = useAuthState();
 
   return (
     <div className="card bg-primary shadow-soft border-light p-4">

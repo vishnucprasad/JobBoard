@@ -3,13 +3,13 @@ import PublishIcon from "@material-ui/icons/Publish";
 import DeleteIcon from "@material-ui/icons/Delete";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import userIcon from "../../../images/user-icon.png";
-import { useAuthValue } from "../../../contexts/auth";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
 import { actionTypes } from "../../../reducers/auth";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
 import { adminInstance } from "../../../axios/axios";
 
 const ProfileOverview = () => {
-  const [{ auth }, dispatch] = useAuthValue();
+  const [{ auth }, dispatch] = useAuthState();
 
   const handleLogout = () => {
     MySwal.fire({

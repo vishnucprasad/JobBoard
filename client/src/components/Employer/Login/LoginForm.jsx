@@ -3,7 +3,7 @@ import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import Loader from "./Loader";
 import { employerInstance } from "../../../axios/axios";
-import { useAuthValue } from "../../../contexts/auth";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
 import { actionTypes } from "../../../reducers/auth";
 import { Toast } from "../../../config/sweetalert/swal";
 
@@ -23,7 +23,7 @@ const LoginForm = () => {
 
   const [state, setState] = useState(initialState);
 
-  const [, dispatch] = useAuthValue();
+  const [, dispatch] = useAuthState();
 
   const handleSubmit = (e) => {
     e.preventDefault();

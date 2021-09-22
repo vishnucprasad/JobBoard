@@ -3,13 +3,13 @@ import { Dropdown } from "react-bootstrap";
 import userIcon from "../../../images/user-icon.png";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import { useAuthValue } from "../../../contexts/auth";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
 import { actionTypes } from "../../../reducers/auth";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
 import { adminInstance } from "../../../axios/axios";
 
 const HeaderDropdown = () => {
-  const [{ auth }, dispatch] = useAuthValue();
+  const [{ auth }, dispatch] = useAuthState();
 
   const handleLogout = () => {
     MySwal.fire({

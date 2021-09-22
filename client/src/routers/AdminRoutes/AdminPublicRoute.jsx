@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
-import { useAuthValue } from "../../contexts/auth";
+import { useAuthState } from "../../contexts/AuthStateProvider";
 import { adminInstance } from "../../axios/axios";
 import { actionTypes } from "../../reducers/auth";
 import Loader from "../../pages/Loader";
 
 const AdminPublicRoute = ({ component: Component, ...rest }) => {
-  const [{ auth }, dispatch] = useAuthValue();
+  const [{ auth }, dispatch] = useAuthState();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

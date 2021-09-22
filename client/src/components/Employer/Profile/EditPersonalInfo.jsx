@@ -4,10 +4,10 @@ import PersonIcon from "@material-ui/icons/Person";
 import WcIcon from "@material-ui/icons/Wc";
 import PhoneInput from "react-phone-input-2";
 import Loader from "./Loader";
-import { useAuthValue } from "../../../contexts/auth";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
 
 const EditPersonalInfo = () => {
-  const [{ auth }] = useAuthValue();
+  const [{ auth }] = useAuthState();
 
   const [isLoading, setIsLoading] = useState(false);
 

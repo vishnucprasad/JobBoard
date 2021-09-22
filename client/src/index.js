@@ -5,13 +5,13 @@ import "./styles/App.scss";
 import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
 import reportWebVitals from "./reportWebVitals";
 import authReducer, { initialState } from "./reducers/auth";
-import { AuthProvider } from "./contexts/auth";
+import { AuthStateProvider } from "./contexts/AuthStateProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthProvider initialState={initialState} reducer={authReducer}>
+    <AuthStateProvider initialState={initialState} reducer={authReducer}>
       <App />
-    </AuthProvider>
+    </AuthStateProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
