@@ -63,6 +63,10 @@ const jobSchema = new Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: String,
+    required: true,
+  },
   companyLogo: {
     id: {
       type: String,

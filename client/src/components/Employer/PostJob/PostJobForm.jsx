@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import CompanyDetailsInputs from "./CompanyDetailsInputs";
 import JobDetailsInputs from "./JobDetailsInputs";
 import Loader from "./Loader";
@@ -54,6 +55,7 @@ const PostJobForm = () => {
     formData.append("languages", state.languages);
     formData.append("skills", state.skills);
     formData.append("description", state.description);
+    formData.append("createdAt", moment().valueOf());
 
     employerInstance.post("/jobs/post", formData).then((response) => {
       console.log(response.data);
