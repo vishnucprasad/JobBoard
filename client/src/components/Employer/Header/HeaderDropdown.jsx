@@ -4,12 +4,15 @@ import userIcon from "../../../images/user-icon.png";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import { useAuthState } from "../../../contexts/AuthStateProvider";
-import { actionTypes } from "../../../reducers/auth";
+import { authActionTypes } from "../../../reducers/auth";
+import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import { employerActionTypes } from "../../../reducers/employer";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
 import { employerInstance } from "../../../axios/axios";
 
 const HeaderDropdown = () => {
   const [{ auth }, dispatch] = useAuthState();
+  const [, employerDipatch] = useEmployerState();
 
   const handleLogout = () => {
     MySwal.fire({
@@ -23,7 +26,10 @@ const HeaderDropdown = () => {
         employerInstance.get("/logout").then((response) => {
           if (response.data.status) {
             dispatch({
-              type: actionTypes.LOGOUT,
+              type: authActionTypes.LOGOUT,
+            });
+            employerDipatch({
+              type: employerActionTypes.SET_TO_INITIAL_STATE,
             });
             Toast.fire({
               icon: "success",

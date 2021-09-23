@@ -4,7 +4,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import userIcon from "../../../images/user-icon.png";
 import { useAuthState } from "../../../contexts/AuthStateProvider";
-import { actionTypes } from "../../../reducers/auth";
+import { authActionTypes } from "../../../reducers/auth";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
 import { adminInstance } from "../../../axios/axios";
 
@@ -23,7 +23,7 @@ const ProfileOverview = () => {
         adminInstance.get("/logout").then((response) => {
           if (response.data.status) {
             dispatch({
-              type: actionTypes.LOGOUT,
+              type: authActionTypes.LOGOUT,
             });
             Toast.fire({
               icon: "success",

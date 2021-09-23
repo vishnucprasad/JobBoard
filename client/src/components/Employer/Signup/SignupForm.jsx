@@ -7,7 +7,7 @@ import LockIcon from "@material-ui/icons/Lock";
 import Loader from "./Loader";
 import { employerInstance } from "../../../axios/axios";
 import { useAuthState } from "../../../contexts/AuthStateProvider";
-import { actionTypes } from "../../../reducers/auth";
+import { authActionTypes } from "../../../reducers/auth";
 import { Toast } from "../../../config/sweetalert/swal";
 
 const SignupForm = () => {
@@ -41,7 +41,7 @@ const SignupForm = () => {
         .post("/signup", { name, email, mobile, password })
         .then((response) => {
           dispatch({
-            type: actionTypes.LOGIN,
+            type: authActionTypes.LOGIN,
             auth: response.data.user,
           });
           Toast.fire({

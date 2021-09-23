@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Route, Redirect } from "react-router-dom";
 import { useAuthState } from "../../contexts/AuthStateProvider";
 import { employerInstance } from "../../axios/axios";
-import { actionTypes } from "../../reducers/auth";
+import { authActionTypes } from "../../reducers/auth";
 import Loader from "../../pages/Loader";
 
 const EmployerPublicRoute = ({ component: Component, ...rest }) => {
@@ -15,14 +15,14 @@ const EmployerPublicRoute = ({ component: Component, ...rest }) => {
       .then(({ data: { user } }) => {
         user &&
           dispatch({
-            type: actionTypes.LOGIN,
+            type: authActionTypes.LOGIN,
             auth: user,
           });
         setIsLoading(false);
       })
       .catch(() => {
         dispatch({
-          type: actionTypes.LOGOUT,
+          type: authActionTypes.LOGOUT,
         });
         setIsLoading(false);
       });

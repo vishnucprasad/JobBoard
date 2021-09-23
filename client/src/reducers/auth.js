@@ -1,27 +1,27 @@
-export const initialState = {
-    auth: {}
+export const authInitialState = {
+  auth: {},
 };
 
-export const actionTypes = {
-    LOGIN: "LOGIN",
-    LOGOUT: "LOGOUT"
+export const authActionTypes = {
+  LOGIN: "LOGIN",
+  LOGOUT: "LOGOUT",
 };
 
 const authReducer = (state, action) => {
-    switch (action.type) {
-        case actionTypes.LOGIN:
-            return {
-                ...state,
-                auth: { ...action.auth }
-            }
-        case actionTypes.LOGOUT:
-            return {
-                ...state,
-                auth: {}
-            }
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case authActionTypes.LOGIN:
+      return {
+        ...state,
+        auth: { ...action.auth },
+      };
+    case authActionTypes.LOGOUT:
+      return {
+        ...state,
+        auth: {},
+      };
+    default:
+      return state;
+  }
 };
 
 export default authReducer;

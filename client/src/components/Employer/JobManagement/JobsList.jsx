@@ -4,54 +4,10 @@ import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import WorkIcon from "@material-ui/icons/Work";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 
 const JobsList = () => {
-  const jobs = [
-    {
-      id: "dgkjsvfbliuhblfuglshf1",
-      title: "Web Developer",
-      designation: "Backend Developer",
-      type: "Full time",
-      salary: "$2000",
-      workingDays: 20,
-      employerName: "Vishnu C Prasad",
-      companyName: "Nodesters",
-      location: "Western City, UK",
-    },
-    {
-      id: "dgkjsvfbliuhblfuglshf2",
-      title: "Web Developer",
-      designation: "Backend Developer",
-      type: "Full time",
-      salary: "$2000",
-      workingDays: 20,
-      employerName: "Vishnu C Prasad",
-      companyName: "Nodesters",
-      location: "Western City, UK",
-    },
-    {
-      id: "dgkjsvfbliuhblfuglshf3",
-      title: "Web Developer",
-      designation: "Backend Developer",
-      type: "Full time",
-      salary: "$2000",
-      workingDays: 20,
-      employerName: "Vishnu C Prasad",
-      companyName: "Nodesters",
-      location: "Western City, UK",
-    },
-    {
-      id: "dgkjsvfbliuhblfuglshf4",
-      title: "Web Developer",
-      designation: "Backend Developer",
-      type: "Full time",
-      salary: "$2000",
-      workingDays: 20,
-      employerName: "Vishnu C Prasad",
-      companyName: "Nodesters",
-      location: "Western City, UK",
-    },
-  ];
+  const [{ jobs }] = useEmployerState();
 
   return (
     <div className="mt-4">
@@ -75,71 +31,104 @@ const JobsList = () => {
                 />
               </div>
             </div>
-            <Link
-              to="/employer/job-management/create"
-              className="btn btn-primary btn-sm font-weight-bolder text-twitter ml-4"
-            >
-              <div className="d-flex align-items-center">
-                <AddIcon />
-                <p className="m-0 font-weight-bolder">&nbsp;Add New Job</p>
-              </div>
-            </Link>
+            {jobs[0] && (
+              <Link
+                to="/employer/job-management/create"
+                className="btn btn-primary btn-sm font-weight-bolder text-twitter ml-4"
+              >
+                <div className="d-flex align-items-center">
+                  <AddIcon />
+                  <p className="m-0 font-weight-bolder">&nbsp;Post New Job</p>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
         <div className="card-body shadow-inset rounded m-3 px-3 pt-3 pb-0">
           <div className="scroll-70 px-2 pt-2 pb-0">
-            {jobs.map((job) => (
-              <div key={job.id} className="card shadow-soft rounded mb-4">
-                <div className="card-body">
-                  <div className="row align-items-center">
-                    <div className="col-md-8">
-                      <Link to={`/employer/job-management/view/${job.id}`}>
-                        <p className="text-twitter font-weight-bold text-uppercase">
-                          {job.type}
-                        </p>
-                        <h4 className="font-weight-bold">{job.designation}</h4>
-                        <p className="font-weight-bold mt-3 mb-2">
-                          <span className="mr-3">
-                            <WorkIcon className="text-twitter" />
-                            {job.companyName}
-                          </span>
-                          <span className="mr-3">
-                            <LocationOnIcon className="text-twitter" />
-                            {job.location}
-                          </span>
-                          <span className="badge badge-twitter font-weight-bolder px-3">
-                            {job.title}
-                          </span>
-                        </p>
-                      </Link>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="d-flex align-items-center">
-                        <div className="text-center mr-4">
-                          <p className="font-weight-bold m-0">
-                            {job.workingDays} Days
-                          </p>
-                          <h6 className="text-slack shadow-inset rounded-pill font-weight-bold py-1 px-3">
-                            {job.salary}
-                          </h6>
-                        </div>
-                        <div className="w-100">
-                          <Link
-                            to="/employer/job-management/edit"
-                            className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mb-3"
-                          >
-                            Edit Job
-                          </Link>
-                          <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
-                            Remove Job
-                          </button>
+            {jobs[0] ? (
+              jobs.map((job) => (
+                <div key={job._id} className="card shadow-soft rounded mb-4">
+                  <div className="card-body">
+                    <div className="row align-items-center">
+                      <div className="col-md-8">
+                        <Link to={`/employer/job-management/view/${job._id}`}>
+                          <div className="badge badge-twitter badge-lg font-weight-bolder px-3 mb-4">
+                            {job.title} - {job.type}
+                          </div>
+                          <h4 className="font-weight-bold">
+                            {job.designation}
+                          </h4>
+                          <div className="mt-3 mb-2">
+                            <p className="font-weight-bold">
+                              <WorkIcon className="text-twitter" />
+                              {job.companyName}
+                            </p>
+                            <p className="font-weight-bold">
+                              <LocationOnIcon className="text-twitter text-truncate" />
+                              {`${job.location.street}, ${job.location.city}, ${job.location.state}, ${job.location.country}, ${job.location.pinNumber}`}
+                            </p>
+                            <div>
+                              {job.skills.map((skill, index) => (
+                                <span
+                                  key={index}
+                                  className="badge badge-twitter font-weight-bolder px-3 mr-3"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </Link>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="d-flex align-items-center">
+                          <div className="text-center mr-4">
+                            <p className="font-weight-bold m-0">
+                              {job.experience}
+                            </p>
+                            <h6 className="text-slack shadow-inset rounded-pill font-weight-bold py-1 px-3">
+                              {job.salary}
+                            </h6>
+                          </div>
+                          <div className="w-100">
+                            <Link
+                              to={`/employer/job-management/edit/${job._id}`}
+                              className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mb-3"
+                            >
+                              Edit Job
+                            </Link>
+                            <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
+                              Remove Job
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              <div className="card shadow-soft rounded mb-4">
+                <div className="card-body">
+                  <div className="text-center">
+                    <h5 className="font-weight-bold my-4">
+                      There is no jobs to show here
+                    </h5>
+                    <Link
+                      to="/employer/job-management/create"
+                      className="btn btn-primary btn-sm font-weight-bolder text-twitter rounded-pill ml-4 px-5"
+                    >
+                      <div className="d-flex align-items-center">
+                        <p className="m-0 font-weight-bolder">
+                          &nbsp;Post a job
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </div>
