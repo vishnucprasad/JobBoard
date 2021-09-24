@@ -4,6 +4,7 @@ export const employerInitialState = {
 
 export const employerActionTypes = {
   POST_JOB: "POST_JOB",
+  DELETE_JOB: "DELETE_JOB",
   SET_JOBS: "SET_JOBS",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
@@ -14,6 +15,11 @@ const employerReducer = (state, action) => {
       return {
         ...state,
         jobs: [...state.jobs, action.job],
+      };
+    case employerActionTypes.DELETE_JOB:
+      return {
+        ...state,
+        jobs: state.jobs.filter((job) => job._id !== action.id),
       };
     case employerActionTypes.SET_JOBS:
       return {

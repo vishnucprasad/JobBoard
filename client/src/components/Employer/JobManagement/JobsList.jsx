@@ -5,9 +5,54 @@ import AddIcon from "@material-ui/icons/Add";
 import WorkIcon from "@material-ui/icons/Work";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import { employerActionTypes } from "../../../reducers/employer";
+import MySwal, { Toast } from "../../../config/sweetalert/swal";
+import Axios, { employerInstance } from "../../../axios/axios";
 
 const JobsList = () => {
-  const [{ jobs }] = useEmployerState();
+  const [{ jobs }, dispatch] = useEmployerState();
+
+  const handleDeleteJob = (jobId) => {
+    MySwal.fire({
+      title: "Are you sure you want to delete this job?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        employerInstance
+          .delete(`/jobs/delete/${jobId}`)
+          .then(({ data: job }) => {
+            Axios.delete(`/file/${job.companyLogo.id}`)
+              .then((response) => {
+                if (response.status) {
+                  dispatch({
+                    type: employerActionTypes.DELETE_JOB,
+                    id: jobId,
+                  });
+                  Toast.fire({
+                    title: "Successfully Deleted",
+                    icon: "success",
+                  });
+                }
+              })
+              .catch((error) => {
+                Toast.fire({
+                  title: "Something went wrong, Please try again",
+                  icon: "error",
+                });
+              });
+          })
+          .catch((error) => {
+            Toast.fire({
+              title: "Something went wrong, Please try again",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
 
   return (
     <div className="mt-4">
@@ -98,7 +143,10 @@ const JobsList = () => {
                             >
                               Edit Job
                             </Link>
-                            <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
+                            <button
+                              className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3"
+                              onClick={() => handleDeleteJob(job._id)}
+                            >
                               Remove Job
                             </button>
                           </div>

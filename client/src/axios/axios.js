@@ -13,3 +13,12 @@ export const employerInstance = axios.create({
   withCredentials: true,
   headers: { Authorization: `Bearer` },
 });
+
+const Axios = axios.create({
+  baseURL: process.env.REACT_APP_USER_BASE_URL,
+  timeout: 1000,
+  withCredentials: true,
+  headers: { Authorization: `Bearer` },
+});
+
+export default Axios;
