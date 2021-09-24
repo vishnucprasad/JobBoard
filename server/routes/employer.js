@@ -143,6 +143,13 @@ router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.delete("/jobs/delete/:id", (req, res) => {
+  employerHelper
+    .deleteJob(req.params.id)
+    .then((job) => res.json(job))
+    .catch((error) => res.json(error));
+});
+
 router.get("/jobs", (req, res) => {
   employerHelper
     .getAllJobs(req.user._id)

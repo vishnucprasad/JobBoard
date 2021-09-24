@@ -30,4 +30,11 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  deleteJob: (jobId) => {
+    return new Promise((resolve, reject) => {
+      Job.findByIdAndDelete(jobId)
+        .then((job) => resolve(job))
+        .catch((error) => reject(error));
+    });
+  },
 };
