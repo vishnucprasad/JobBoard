@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 import CompanyDetailsInputs from "./CompanyDetailsInputs";
 import JobDetailsInputs from "./JobDetailsInputs";
 import Loader from "./Loader";
 import { employerInstance } from "../../../axios/axios";
+import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import { employerActionTypes } from "../../../reducers/employer";
 
 const PostJobForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [, dispatch] = useEmployerState();
+  const history = useHistory();
 
   useEffect(() => {
     return () => {
@@ -58,7 +63,11 @@ const PostJobForm = () => {
     formData.append("createdAt", moment().valueOf());
 
     employerInstance.post("/jobs/post", formData).then((response) => {
-      console.log(response.data);
+      dispatch({
+        type: employerActionTypes.POST_JOB,
+        job: response.data,
+      });
+      history.push("/employer/job-management");
       setIsLoading(false);
     });
   };
