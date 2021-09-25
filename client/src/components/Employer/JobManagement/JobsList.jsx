@@ -127,8 +127,8 @@ const JobsList = () => {
                         </Link>
                       </div>
                       <div className="col-md-4">
-                        <div className="d-flex align-items-center">
-                          <div className="text-center mr-4">
+                        <div className="d-md-flex align-items-center">
+                          <div className="text-center mr-md-4">
                             <p className="font-weight-bold m-0">
                               {job.experience}
                             </p>

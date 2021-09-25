@@ -8,7 +8,7 @@ import { useEmployerState } from "../../contexts/EmployerStateProvider";
 
 const EmployerJobManagement = () => {
   const [{ jobs }, dispatch] = useEmployerState();
-  const [isLoading, setIsloading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     !jobs[0]
@@ -19,12 +19,15 @@ const EmployerJobManagement = () => {
               type: employerActionTypes.SET_JOBS,
               jobs: response.data,
             });
-            setIsloading(false);
+            setIsLoading(false);
           })
           .catch((error) => {
             console.log(error);
           })
-      : setIsloading(false);
+      : setIsLoading(false);
+    return () => {
+      setIsLoading(false);
+    };
   }, [jobs, dispatch]);
 
   return isLoading ? (

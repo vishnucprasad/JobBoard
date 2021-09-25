@@ -19,28 +19,7 @@ const PostJobForm = () => {
     };
   }, [setIsLoading]);
 
-  const initialState = {
-    title: "",
-    designation: "",
-    type: "Full-Time",
-    qualification: "",
-    experience: "",
-    salary: "",
-    languages: "",
-    skills: "",
-    companyName: "",
-    description: "",
-    companyLogo: null,
-    location: {
-      street: "",
-      city: "",
-      state: "",
-      country: "",
-      pinNumber: "",
-    },
-  };
-
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
