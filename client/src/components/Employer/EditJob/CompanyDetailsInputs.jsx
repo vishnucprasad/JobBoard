@@ -41,7 +41,6 @@ const CompanyDetailsInputs = ({ state, setState }) => {
                 onChange={(e) =>
                   setState({ ...state, newLogo: e.target.files[0] })
                 }
-                required
               />
               <label
                 className="custom-file-label formLogo shadow-inset"
