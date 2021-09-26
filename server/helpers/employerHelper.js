@@ -30,6 +30,29 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  updateJob: (jobDetails, logoDetails, protocol, host, employerId) => {
+    return new Promise((resolve, reject) => {
+      const { _id, ...rest } = jobDetails;
+
+      const updates = {
+        ...rest,
+        location: JSON.parse(rest.location),
+        languages: rest.languages.split(",").map((language) => language.trim()),
+        skills: rest.skills.split(",").map((skill) => skill.trim()),
+        companyLogo: logoDetails
+          ? {
+              id: logoDetails.id,
+              filename: logoDetails.filename,
+              url: `${protocol}://${host}/file/image/${logoDetails.filename}`,
+            }
+          : JSON.parse(rest.companyLogo),
+      };
+
+      Job.findByIdAndUpdate(_id, updates, { new: true })
+        .then((job) => resolve(job))
+        .catch((error) => reject(error));
+    });
+  },
   deleteJob: (jobId) => {
     return new Promise((resolve, reject) => {
       Job.findByIdAndDelete(jobId)
