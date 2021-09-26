@@ -5,6 +5,7 @@ export const employerInitialState = {
 export const employerActionTypes = {
   POST_JOB: "POST_JOB",
   DELETE_JOB: "DELETE_JOB",
+  UPDATE_JOB: "UPDATE_JOB",
   SET_JOBS: "SET_JOBS",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
@@ -15,6 +16,17 @@ const employerReducer = (state, action) => {
       return {
         ...state,
         jobs: [...state.jobs, action.job],
+      };
+    case employerActionTypes.UPDATE_JOB:
+      return {
+        ...state,
+        jobs: state.jobs.map((job) => {
+          if (job._id === action.id) {
+            return action.updatedJob;
+          } else {
+            return job;
+          }
+        }),
       };
     case employerActionTypes.DELETE_JOB:
       return {

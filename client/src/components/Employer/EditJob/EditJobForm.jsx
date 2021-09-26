@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import moment from "moment";
 import CompanyDetailsInputs from "./CompanyDetailsInputs";
 import JobDetailsInputs from "./JobDetailsInputs";
 import Loader from "./Loader";
 import JobNotFound from "./JobNotFound";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import { employerActionTypes } from "../../../reducers/employer";
+import Axios, { employerInstance } from "../../../axios/axios";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const EditJobForm = ({ jobId }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [{ jobs }] = useEmployerState();
+  const [{ jobs }, dispatch] = useEmployerState();
+  const history = useHistory();
 
   useEffect(() => {
     return () => {
@@ -18,6 +24,7 @@ const EditJobForm = ({ jobId }) => {
   const job = jobs.find((job) => job._id === jobId);
 
   const initialState = {
+    _id: job && job._id,
     title: job && job.title,
     designation: job && job.designation,
     type: job && job.type,
@@ -38,6 +45,78 @@ const EditJobForm = ({ jobId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const formData = new FormData();
+
+    formData.append("_id", state._id);
+    formData.append("companyName", state.companyName);
+    formData.append("location", JSON.stringify(state.location));
+    formData.append("companyLogo", JSON.stringify(state.companyLogo));
+    formData.append("title", state.title);
+    formData.append("designation", state.designation);
+    formData.append("type", state.type);
+    formData.append("qualification", state.qualification);
+    formData.append("experience", state.experience);
+    formData.append("salary", state.salary);
+    formData.append("languages", state.languages);
+    formData.append("skills", state.skills);
+    formData.append("description", state.description);
+    formData.append("createdAt", moment().valueOf());
+    state.newLogo &&
+      formData.append("newLogo", state.newLogo, state.newLogo.name);
+
+    employerInstance
+      .patch("/jobs/update", formData)
+      .then((response) => {
+        if (state.newLogo) {
+          Axios.delete(`/file/${state.companyLogo.id}`)
+            .then((deleteRresponse) => {
+              if (deleteRresponse.data.status) {
+                dispatch({
+                  type: employerActionTypes.UPDATE_JOB,
+                  id: state._id,
+                  updatedJob: response.data,
+                });
+
+                Toast.fire({
+                  title: "Successfully Updated",
+                  icon: "success",
+                });
+
+                history.push("/employer/job-management");
+                setIsLoading(false);
+              }
+            })
+            .catch((error) => {
+              Toast.fire({
+                title: "Something went wrong, Please try again",
+                icon: "error",
+              });
+            });
+        } else {
+          dispatch({
+            type: employerActionTypes.UPDATE_JOB,
+            id: state._id,
+            updatedJob: response.data,
+          });
+
+          Toast.fire({
+            title: "Successfully Updated",
+            icon: "success",
+          });
+
+          history.push("/employer/job-management");
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        Toast.fire({
+          title: "Something went wrong, Please try again",
+          icon: "error",
+        });
+
+        setIsLoading(false);
+      });
   };
 
   return job ? (
