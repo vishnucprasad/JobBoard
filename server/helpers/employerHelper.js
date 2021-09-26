@@ -30,7 +30,7 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
-  updateJob: (jobDetails, logoDetails, protocol, host, employerId) => {
+  updateJob: (jobDetails, logoDetails, protocol, host) => {
     return new Promise((resolve, reject) => {
       const { _id, ...rest } = jobDetails;
 

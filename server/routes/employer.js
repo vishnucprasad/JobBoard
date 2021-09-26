@@ -145,7 +145,7 @@ router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
 
 router.patch("/jobs/update", upload.single("newLogo"), (req, res) => {
   employerHelper
-    .updateJob(req.body, req.file, req.protocol, req.get("host"), req.user._id)
+    .updateJob(req.body, req.file, req.protocol, req.get("host"))
     .then((job) => res.json(job))
     .catch((error) => res.json(error));
 });
