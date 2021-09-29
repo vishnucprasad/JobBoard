@@ -2,13 +2,14 @@ import React from "react";
 import numeral from "numeral";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import JobNotFound from "./JobNotFound";
 
 const JobDetails = ({ jobId }) => {
   const [{ jobs }] = useEmployerState();
 
   const job = jobs.find((job) => job._id === jobId);
 
-  return (
+  return job ? (
     <div className="resume-list mt-4">
       <div className="card bg-primary shadow-soft border-light">
         <div className="card-header pb-0">
@@ -102,6 +103,8 @@ const JobDetails = ({ jobId }) => {
         </div>
       </div>
     </div>
+  ) : (
+    <JobNotFound />
   );
 };
 

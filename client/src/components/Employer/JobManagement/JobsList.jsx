@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import numeral from "numeral";
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import WorkIcon from "@material-ui/icons/Work";
@@ -133,7 +134,7 @@ const JobsList = () => {
                               {job.experience}
                             </p>
                             <h6 className="text-slack shadow-inset rounded-pill font-weight-bold py-1 px-3">
-                              {job.salary}
+                              {numeral(job.salary).format("$0,0.00")}
                             </h6>
                           </div>
                           <div className="w-100">
