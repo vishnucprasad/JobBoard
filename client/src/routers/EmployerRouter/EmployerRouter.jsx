@@ -15,7 +15,7 @@ import EmployerProfile from "../../pages/Employer/EmployerProfile";
 import EmployerPublicRoute from "./EmployerPublicRoute";
 import EmployerPrivateRoute from "./EmployerPrivateRoute";
 
-const EmployerRoutes = () => {
+const EmployerRouter = () => {
   return (
     <Switch>
       <EmployerPublicRoute
@@ -79,4 +79,4 @@ const EmployerRoutes = () => {
   );
 };
 
-export default EmployerRoutes;
+export default EmployerRouter;

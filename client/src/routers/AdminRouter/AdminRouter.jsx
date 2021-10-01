@@ -12,7 +12,7 @@ import AdminProfile from "../../pages/Admin/AdminProfile";
 import AdminPublicRoute from "./AdminPublicRoute";
 import AdminPrivateRoute from "./AdminPrivateRoute";
 
-const AdminRoutes = () => {
+const AdminRouter = () => {
   return (
     <Switch>
       <AdminPublicRoute path="/admin" component={AdminLogin} exact={true} />
@@ -53,4 +53,4 @@ const AdminRoutes = () => {
   );
 };
 
-export default AdminRoutes;
+export default AdminRouter;
