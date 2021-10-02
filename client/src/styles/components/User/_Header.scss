@@ -1,0 +1,11 @@
+.header {
+  height: 5rem;
+  position: sticky;
+  right: 0;
+  top: 0;
+  z-index: 2;
+
+  .header__profile-icon {
+    max-width: 1.5rem;
+  }
+}
