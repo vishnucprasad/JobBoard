@@ -1,0 +1,30 @@
+.DateRangePickerInput {
+    background: $primary;
+    border: none;
+    border-radius: 10px;
+    box-shadow: $shadow-inset;
+    padding: 5px 11px 5px 11px;
+
+    .DateInput_input{
+        background: $primary;
+        font-size: 16px !important;
+        padding: 5px 11px 5px 11px;
+    }
+}
+
+.DayPicker {
+    background: $primary !important;
+}
+
+.CalendarMonth {
+    background: $primary;
+
+}
+
+.CalendarMonthGrid__horizontal {
+    left: 19px;
+}
+
+.DayPickerNavigation_button__default {
+    background: $primary;
+}

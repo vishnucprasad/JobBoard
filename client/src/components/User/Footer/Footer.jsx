@@ -21,7 +21,7 @@ const Footer = () => {
             </p>
             <div>
               <button
-                class="btn btn-dark btn-icon-only btn-sm mr-4"
+                className="btn btn-dark btn-icon-only btn-sm mr-4"
                 type="button"
                 aria-label="facebook button"
                 title="facebook"
@@ -29,7 +29,7 @@ const Footer = () => {
                 <FacebookIcon />
               </button>
               <button
-                class="btn btn-dark btn-icon-only btn-sm mr-4"
+                className="btn btn-dark btn-icon-only btn-sm mr-4"
                 type="button"
                 aria-label="instagram button"
                 title="instagram"
@@ -37,7 +37,7 @@ const Footer = () => {
                 <InstagramIcon />
               </button>
               <button
-                class="btn btn-dark btn-icon-only btn-sm mr-4"
+                className="btn btn-dark btn-icon-only btn-sm mr-4"
                 type="button"
                 aria-label="twitter button"
                 title="twitter"
@@ -74,7 +74,7 @@ const Footer = () => {
       </div>
       <div className="bg-github text-white p-4">
         <div className="d-md-flex p-4">
-          <p className="m-0">&copy;All rights reserved by JobBoard.</p>
+          <p className="m-0">&copy;&nbsp;All rights reserved by JobBoard.</p>
           <div className="ml-auto my-3 my-md-0">
             <Link to="/about" className="mr-4">
               About Us
