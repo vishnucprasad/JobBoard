@@ -25,7 +25,7 @@ app.use(flash());
 
 app.use(express.static(path.join(__dirname, "client", "public")));
 
-app.use("/user", userRouter);
+app.use("/", userRouter);
 app.use("/admin", adminRouter);
 app.use("/employer", employerRouter);
 app.use("/file", fileRouter);

@@ -1,8 +1,12 @@
-const express = require('express');
+const express = require("express");
+const userHelper = require("../helpers/userHelper");
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.send('Express');
+router.get("/jobs", (req, res) => {
+  userHelper
+    .getAllJobs()
+    .then((jobs) => res.json(jobs))
+    .catch((error) => res.json(error));
 });
 
 module.exports = router;
