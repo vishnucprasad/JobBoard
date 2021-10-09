@@ -1,8 +1,16 @@
 import React from "react";
+import CategoryList from "./CategoryList";
+import SubCategoryList from "./SubCategoryList";
 
 const JobDetailsInputs = ({ state, setState }) => {
   return (
     <div className="row">
+      <div className="col-lg-6">
+        <CategoryList state={state} setState={setState} />
+      </div>
+      <div className="col-lg-6">
+        <SubCategoryList state={state} setState={setState} />
+      </div>
       <div className="col-lg-6">
         <div className="form-group">
           <label

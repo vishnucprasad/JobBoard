@@ -33,6 +33,14 @@ const jobSchema = new Schema({
       required: true,
     },
   },
+  category: {
+    type: String,
+    required: true,
+  },
+  subCategory: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,

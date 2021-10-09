@@ -20,6 +20,8 @@ const PostJobForm = () => {
   }, [setIsLoading]);
 
   const initialState = {
+    category: null,
+    subCategory: null,
     title: "",
     designation: "",
     type: "Full-Time",
@@ -51,6 +53,8 @@ const PostJobForm = () => {
     formData.append("companyName", state.companyName);
     formData.append("location", JSON.stringify(state.location));
     formData.append("companyLogo", state.companyLogo, state.companyLogo.name);
+    formData.append("category", state.category);
+    formData.append("subCategory", state.subCategory);
     formData.append("title", state.title);
     formData.append("designation", state.designation);
     formData.append("type", state.type);
@@ -62,14 +66,17 @@ const PostJobForm = () => {
     formData.append("description", state.description);
     formData.append("createdAt", moment().valueOf());
 
-    employerInstance.post("/jobs/post", formData).then((response) => {
-      dispatch({
-        type: employerActionTypes.POST_JOB,
-        job: response.data,
-      });
-      history.push("/employer/job-management");
-      setIsLoading(false);
-    });
+    employerInstance
+      .post("/jobs/post", formData)
+      .then((response) => {
+        dispatch({
+          type: employerActionTypes.POST_JOB,
+          job: response.data,
+        });
+        history.push("/employer/job-management");
+        setIsLoading(false);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
