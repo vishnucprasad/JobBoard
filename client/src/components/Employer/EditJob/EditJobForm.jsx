@@ -25,6 +25,8 @@ const EditJobForm = ({ jobId }) => {
 
   const initialState = {
     _id: job && job._id,
+    category: job && job.category,
+    subCategory: job && job.subCategory,
     title: job && job.title,
     designation: job && job.designation,
     type: job && job.type,
@@ -52,6 +54,8 @@ const EditJobForm = ({ jobId }) => {
     formData.append("companyName", state.companyName);
     formData.append("location", JSON.stringify(state.location));
     formData.append("companyLogo", JSON.stringify(state.companyLogo));
+    formData.append("category", state.category);
+    formData.append("subCategory", state.subCategory);
     formData.append("title", state.title);
     formData.append("designation", state.designation);
     formData.append("type", state.type);
