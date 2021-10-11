@@ -8,7 +8,7 @@ import { useFiltersState } from "../../../contexts/FiltersStateProvider";
 import { filtersActionTypes } from "../../../reducers/filters";
 
 const FindJob = () => {
-  const [{ category, location, startDate, endDate }, dispatch] =
+  const [{ search, location, startDate, endDate }, dispatch] =
     useFiltersState();
   const [calenderFocused, setCalenderFocused] = useState(null);
 
@@ -27,10 +27,10 @@ const FindJob = () => {
     setCalenderFocused(calenderFocused);
   };
 
-  const onCategoryChange = (e) => {
+  const onSearchChange = (e) => {
     dispatch({
       type: filtersActionTypes.SET_CATEGORY,
-      category: e.target.value,
+      search: e.target.value,
     });
   };
 
@@ -70,11 +70,11 @@ const FindJob = () => {
                 </div>
                 <input
                   className="form-control"
-                  placeholder="Search Category"
+                  placeholder="Search"
                   type="text"
                   autoFocus
-                  value={category}
-                  onChange={onCategoryChange}
+                  value={search}
+                  onChange={onSearchChange}
                 />
               </div>
             </div>

@@ -1,14 +1,14 @@
 import moment from "moment";
 
 export const filtersInitialState = {
-  category: "",
+  search: "",
   location: "",
   startDate: moment().startOf("month"),
   endDate: moment().endOf("month"),
 };
 
 export const filtersActionTypes = {
-  SET_CATEGORY: "SET_CATEGORY",
+  SET_SEARCH: "SET_SEARCH",
   SET_LOCATION: "SET_LOCATION",
   SET_START_DATE: "SET_START_DATE",
   SET_END_DATE: "SET_END_DATE",
@@ -16,10 +16,10 @@ export const filtersActionTypes = {
 
 const filtersReducer = (state, action) => {
   switch (action.type) {
-    case filtersActionTypes.SET_CATEGORY:
+    case filtersActionTypes.SET_SEARCH:
       return {
         ...state,
-        category: action.category,
+        search: action.search,
       };
     case filtersActionTypes.SET_LOCATION:
       return {

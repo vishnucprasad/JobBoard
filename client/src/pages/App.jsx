@@ -4,6 +4,8 @@ import authReducer, { authInitialState } from "../reducers/auth";
 import { AuthStateProvider } from "../contexts/AuthStateProvider";
 import employerReducer, { employerInitialState } from "../reducers/employer";
 import { EmployerStateProvider } from "../contexts/EmployerStateProvider";
+import userReducer, { userInitialState } from "../reducers/user";
+import { UserStateProvider } from "../contexts/UserStateProvider";
 
 const App = () => {
   return (
@@ -12,7 +14,12 @@ const App = () => {
         initialState={employerInitialState}
         reducer={employerReducer}
       >
-        <AppRouter />
+        <UserStateProvider
+          initialState={userInitialState}
+          reducer={userReducer}
+        >
+          <AppRouter />
+        </UserStateProvider>
       </EmployerStateProvider>
     </AuthStateProvider>
   );
