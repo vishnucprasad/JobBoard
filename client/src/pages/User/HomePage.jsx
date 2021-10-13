@@ -4,13 +4,14 @@ import Loader from "../Loader";
 import { useUserState } from "../../contexts/UserStateProvider";
 import { userActionTypes } from "../../reducers/user";
 import Axios from "../../axios/axios";
+import RecentlyAddedJobs from "../../components/User/HomePage/RecentlyAddedJobs";
 
 const HomePage = () => {
   const [, dispatch] = useUserState();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    Axios.get("/jobs")
+    Axios.get("/")
       .then((response) => {
         dispatch({
           type: userActionTypes.SET_JOBS,
@@ -28,7 +29,7 @@ const HomePage = () => {
     <Loader />
   ) : (
     <Layout>
-      <h1>HomePage</h1>
+      <RecentlyAddedJobs />
     </Layout>
   );
 };

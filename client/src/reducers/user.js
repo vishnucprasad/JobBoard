@@ -1,5 +1,5 @@
 export const userInitialState = {
-  jobs: [],
+  jobs: {},
 };
 
 export const userActionTypes = {

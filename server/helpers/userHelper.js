@@ -13,7 +13,7 @@ module.exports = {
         })
         .unwind("employerDetails")
         .project("-employerDetails.password")
-        .sort({ createdAt: 1 })
+        .sort({ createdAt: -1 })
         .limit(4)
         .then((jobs) => resolve(jobs))
         .catch((error) => reject(error));
