@@ -7,7 +7,7 @@ import { DateRangePicker } from "react-dates";
 import { useFiltersState } from "../../../contexts/FiltersStateProvider";
 import { filtersActionTypes } from "../../../reducers/filters";
 
-const FindJob = () => {
+const FindJobFilters = () => {
   const [{ search, location, startDate, endDate }, dispatch] =
     useFiltersState();
   const [calenderFocused, setCalenderFocused] = useState(null);
@@ -101,4 +101,4 @@ const FindJob = () => {
   );
 };
 
-export default FindJob;
+export default FindJobFilters;

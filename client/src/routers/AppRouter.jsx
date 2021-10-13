@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from "react-router-dom";
 import AdminRouter from "./AdminRouter/AdminRouter";
 import EmployerRouter from "./EmployerRouter/EmployerRouter";
 import UserRouter from "./UserRoutes/UserRouter";
@@ -9,7 +14,10 @@ const AppRouter = () => {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={UserRouter} />
+        <Route exact path="/">
+          <Redirect to="/user" />
+        </Route>
+        <Route path="/user" component={UserRouter} />
         <Route path="/admin" component={AdminRouter} />
         <Route path="/employer" component={EmployerRouter} />
         <Route component={NotFound} />

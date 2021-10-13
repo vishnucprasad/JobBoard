@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import FindJob from "../../components/User/HomePage/FindJob";
 import Layout from "../../components/User/Layout/Layout";
 import Loader from "../Loader";
-import { FiltersStateProvider } from "../../contexts/FiltersStateProvider";
-import filtersReducer, { filtersInitialState } from "../../reducers/filters";
 import { useUserState } from "../../contexts/UserStateProvider";
 import { userActionTypes } from "../../reducers/user";
 import Axios from "../../axios/axios";
@@ -31,12 +28,7 @@ const HomePage = () => {
     <Loader />
   ) : (
     <Layout>
-      <FiltersStateProvider
-        reducer={filtersReducer}
-        initialState={filtersInitialState}
-      >
-        <FindJob />
-      </FiltersStateProvider>
+      <h1>HomePage</h1>
     </Layout>
   );
 };

@@ -1,4 +1,4 @@
-import { Switch } from "react-router";
+import { Route, Switch } from "react-router";
 import AuthSuccess from "../../pages/AuthSuccess";
 import AuthError from "../../pages/AuthError";
 import EmployerLogin from "../../pages/Employer/EmployerLogin";
@@ -14,6 +14,7 @@ import RejectedRequests from "../../pages/Employer/RejectedRequests";
 import EmployerProfile from "../../pages/Employer/EmployerProfile";
 import EmployerPublicRoute from "./EmployerPublicRoute";
 import EmployerPrivateRoute from "./EmployerPrivateRoute";
+import NotFound from "../../pages/NotFound";
 
 const EmployerRouter = () => {
   return (
@@ -75,6 +76,7 @@ const EmployerRouter = () => {
         component={EmployerProfile}
         exact={true}
       />
+      <Route component={NotFound} />
     </Switch>
   );
 };

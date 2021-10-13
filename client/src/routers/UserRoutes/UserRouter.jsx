@@ -1,11 +1,14 @@
-import { Switch } from "react-router";
+import { Route, Switch } from "react-router-dom";
+import NotFound from "../../pages/NotFound";
+import FindJob from "../../pages/User/FindJob";
 import HomePage from "../../pages/User/HomePage";
-import UserPublicRoute from "./UserPublicRoute";
 
 const UserRouter = () => {
   return (
     <Switch>
-      <UserPublicRoute path="/" component={HomePage} />
+      <Route exact path="/user" component={HomePage} />
+      <Route path="/user/find" component={FindJob} />
+      <Route component={NotFound} />
     </Switch>
   );
 };

@@ -1,4 +1,4 @@
-import { Switch } from "react-router";
+import { Route, Switch } from "react-router";
 import AdminLogin from "../../pages/Admin/AdminLogin";
 import AdminDashboard from "../../pages/Admin/AdminDashboard";
 import AuthSuccess from "../../pages/AuthSuccess";
@@ -11,6 +11,7 @@ import Enquiries from "../../pages/Admin/Enquiries";
 import AdminProfile from "../../pages/Admin/AdminProfile";
 import AdminPublicRoute from "./AdminPublicRoute";
 import AdminPrivateRoute from "./AdminPrivateRoute";
+import NotFound from "../../pages/NotFound";
 
 const AdminRouter = () => {
   return (
@@ -49,6 +50,7 @@ const AdminRouter = () => {
         component={AdminProfile}
         exact={true}
       />
+      <Route component={NotFound} />
     </Switch>
   );
 };
