@@ -5,6 +5,7 @@ import { useUserState } from "../../contexts/UserStateProvider";
 import { userActionTypes } from "../../reducers/user";
 import Axios from "../../axios/axios";
 import RecentlyAddedJobs from "../../components/User/HomePage/RecentlyAddedJobs";
+import HighestPayingJobs from "../../components/User/HomePage/HighestPayingJobs";
 
 const HomePage = () => {
   const [, dispatch] = useUserState();
@@ -30,6 +31,7 @@ const HomePage = () => {
   ) : (
     <Layout>
       <RecentlyAddedJobs />
+      <HighestPayingJobs />
     </Layout>
   );
 };

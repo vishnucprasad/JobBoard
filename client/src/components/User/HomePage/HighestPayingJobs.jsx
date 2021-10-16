@@ -5,10 +5,10 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useUserState } from "../../../contexts/UserStateProvider";
 import { Link } from "react-router-dom";
 
-const RecentlyAddedJobs = () => {
+const HeighestPayingJobs = () => {
   const [
     {
-      jobs: { recentJobs },
+      jobs: { highestPayingJobs },
     },
   ] = useUserState();
 
@@ -17,7 +17,7 @@ const RecentlyAddedJobs = () => {
       <div className="d-flex align-items-center px-1">
         <div>
           <h5 className="text-twitter font-weight-bold m-0">
-            Recently Added Jobs
+            Highest Paying Jobs
           </h5>
         </div>
         <div className="ml-auto">
@@ -30,7 +30,7 @@ const RecentlyAddedJobs = () => {
         </div>
       </div>
       <div className="row">
-        {recentJobs.map((job) => (
+        {highestPayingJobs.map((job) => (
           <div key={job._id} className="col-md-6 p-3">
             <div className="card bg-primary shadow-soft border-light">
               <div className="card-body">
@@ -88,4 +88,4 @@ const RecentlyAddedJobs = () => {
   );
 };
 
-export default RecentlyAddedJobs;
+export default HeighestPayingJobs;
