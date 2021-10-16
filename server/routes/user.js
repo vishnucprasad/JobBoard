@@ -16,11 +16,18 @@ router.get("/", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.get("/job/:id", (req, res) => {
+  userHelper
+    .getJob(req.params.id)
+    .then((job) => res.json(job))
+    .catch((error) => res.json(error));
+});
+
 router.get("/jobs", (req, res) => {
   userHelper
     .getAllJobs()
     .then((jobs) => res.json(jobs))
-    .catch((error) => res.json(error));
+    .catch((error) => res.status(204).json(error));
 });
 
 module.exports = router;
