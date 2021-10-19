@@ -30,4 +30,11 @@ router.get("/jobs", (req, res) => {
     .catch((error) => res.status(204).json(error));
 });
 
+router.get("/jobs/find", (req, res) => {
+  userHelper
+    .findJObs(req.query)
+    .then((jobs) => res.json(jobs))
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;

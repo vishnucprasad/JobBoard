@@ -29,7 +29,7 @@ const FindJobFilters = () => {
 
   const onSearchChange = (e) => {
     dispatch({
-      type: filtersActionTypes.SET_CATEGORY,
+      type: filtersActionTypes.SET_SEARCH,
       search: e.target.value,
     });
   };
