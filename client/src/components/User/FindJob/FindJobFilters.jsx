@@ -6,6 +6,8 @@ import LocationSearchingIcon from "@material-ui/icons/LocationSearching";
 import { DateRangePicker } from "react-dates";
 import { useFiltersState } from "../../../contexts/FiltersStateProvider";
 import { filtersActionTypes } from "../../../reducers/filters";
+import CategoryList from "./CategoryList";
+import SubCategoryList from "./SubCategoryList";
 
 const FindJobFilters = () => {
   const [{ search, location, startDate, endDate }, dispatch] =
@@ -47,7 +49,7 @@ const FindJobFilters = () => {
       <div className="card bg-primary shadow-soft border-light">
         <div className="card-body">
           <div className="row">
-            <div className="col-md-4 my-2 my-md-0">
+            <div className="col-md-4 my-2 mb-md-3">
               <DateRangePicker
                 startDate={startDate}
                 startDateId="startDate"
@@ -61,7 +63,7 @@ const FindJobFilters = () => {
                 isOutsideRange={() => false}
               />
             </div>
-            <div className="col-md-4 my-2 my-md-0">
+            <div className="col-md-4 my-2 mb-md-3">
               <div className="input-group">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
@@ -78,7 +80,7 @@ const FindJobFilters = () => {
                 />
               </div>
             </div>
-            <div className="col-md-4 my-2 my-md-0">
+            <div className="col-md-4 my-2 mb-3 mb-md-3">
               <div className="input-group">
                 <div className="input-group-prepend">
                   <span className="input-group-text">
@@ -93,6 +95,12 @@ const FindJobFilters = () => {
                   onChange={onLocationChange}
                 />
               </div>
+            </div>
+            <div className="col-lg-6">
+              <CategoryList />
+            </div>
+            <div className="col-lg-6">
+              <SubCategoryList />
             </div>
           </div>
         </div>

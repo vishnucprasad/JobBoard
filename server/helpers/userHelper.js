@@ -82,6 +82,8 @@ module.exports = {
 
       let matchObj = {
         designation: { $regex: new RegExp(filters.search, "i") },
+        category: { $regex: new RegExp(filters.category, "i") },
+        subCategory: { $regex: new RegExp(filters.subCategory, "i") },
         $or: [
           { "location.street": { $regex: new RegExp(filters.location, "i") } },
           { "location.city": { $regex: new RegExp(filters.location, "i") } },

@@ -3,6 +3,8 @@ import moment from "moment";
 export const filtersInitialState = {
   search: "",
   location: "",
+  category: "",
+  subCategory: "",
   startDate: moment().startOf("month"),
   endDate: moment().endOf("month"),
 };
@@ -10,6 +12,8 @@ export const filtersInitialState = {
 export const filtersActionTypes = {
   SET_SEARCH: "SET_SEARCH",
   SET_LOCATION: "SET_LOCATION",
+  SET_CATEGORY: "SET_CATEGORY",
+  SET_SUBCATEGORY: "SET_SUBCATEGORY",
   SET_START_DATE: "SET_START_DATE",
   SET_END_DATE: "SET_END_DATE",
 };
@@ -25,6 +29,16 @@ const filtersReducer = (state, action) => {
       return {
         ...state,
         location: action.location,
+      };
+    case filtersActionTypes.SET_CATEGORY:
+      return {
+        ...state,
+        category: action.category,
+      };
+    case filtersActionTypes.SET_SUBCATEGORY:
+      return {
+        ...state,
+        subCategory: action.subCategory,
       };
     case filtersActionTypes.SET_START_DATE:
       return {

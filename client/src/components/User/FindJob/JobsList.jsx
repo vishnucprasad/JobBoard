@@ -12,12 +12,13 @@ import JobNotFound from "./JobNotFound";
 
 const JobsList = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [{ search, location, startDate, endDate }] = useFiltersState();
+  const [{ search, location, category, subCategory, startDate, endDate }] =
+    useFiltersState();
   const [{ jobs }, dispatch] = useUserState();
 
   useEffect(() => {
     Axios.get(
-      `/jobs/find?startDate=${startDate}&endDate=${endDate}&search=${search}&location=${location}`
+      `/jobs/find?startDate=${startDate}&endDate=${endDate}&search=${search}&location=${location}&category=${category}&subCategory=${subCategory}`
     ).then((response) => {
       dispatch({
         type: userActionTypes.SET_JOBS,
@@ -25,7 +26,7 @@ const JobsList = () => {
       });
       setIsLoading(false);
     });
-  }, [startDate, endDate, search, location, dispatch]);
+  }, [startDate, endDate, search, location, category, subCategory, dispatch]);
 
   return isLoading ? (
     <Loader />

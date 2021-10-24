@@ -25,15 +25,6 @@ const HeaderList = () => {
       </li>
       <li className="nav-item">
         <NavLink
-          to="/user/category"
-          className="nav-link justify-content-center"
-          activeClassName="text-twitter"
-        >
-          Category
-        </NavLink>
-      </li>
-      <li className="nav-item">
-        <NavLink
           to="/user/about"
           className="nav-link justify-content-center"
           activeClassName="text-twitter"
