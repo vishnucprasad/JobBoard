@@ -28,7 +28,7 @@ const CategoryList = () => {
           id="categorySelect"
           onChange={onCategoryChange}
         >
-          <option value="" selected="selected" disabled="disabled">
+          <option value="" selected="selected">
             -- Select Category --
           </option>
           {categories.map((category) => (

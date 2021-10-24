@@ -28,7 +28,7 @@ const CategoryList = () => {
           id="subCategorySelect"
           onChange={onSubCategoryChange}
         >
-          <option value="" selected="selected" disabled="disabled" hidden>
+          <option value="" selected="selected">
             -- Select Sub Category --
           </option>
           {subCategories &&
