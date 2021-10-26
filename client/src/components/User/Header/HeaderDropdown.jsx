@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import userIcon from "../../../images/user-icon.png";
 import WorkIcon from "@material-ui/icons/Work";
@@ -61,7 +62,9 @@ const HeaderDropdown = () => {
           <Dropdown.Item>
             <div className="row px-2 align-items-center text-danger">
               <ExitToAppIcon className="col-3 p-0" />
-              <div className="col-9 p-0">Login</div>
+              <Link to="/user/login" className="col-9 p-0">
+                Login
+              </Link>
             </div>
           </Dropdown.Item>
         )}
