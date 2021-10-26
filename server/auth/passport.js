@@ -4,6 +4,7 @@ const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 const JWTstrategy = require("passport-jwt").Strategy;
 const Admin = require("../models/admin");
 const Employer = require("../models/employer");
+const User = require("../models/user");
 
 passport.use(
   "admin-login",
@@ -134,6 +135,26 @@ passport.use(
         return done(null, user);
       } catch (error) {
         return done(error);
+      }
+    }
+  )
+);
+
+passport.use(
+  "user-signup",
+  new localStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+      passReqToCallback: true,
+    },
+    async (req, email, password, done) => {
+      try {
+        const user = await User.create(req.body);
+
+        return done(null, user);
+      } catch (error) {
+        done(error);
       }
     }
   )
