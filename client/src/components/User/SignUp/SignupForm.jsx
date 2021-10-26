@@ -5,6 +5,10 @@ import PersonIcon from "@material-ui/icons/Person";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import Loader from "./Loader";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
+import { authActionTypes } from "../../../reducers/auth";
+import Axios from "../../../axios/axios";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const SignupForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,9 +29,41 @@ const SignupForm = () => {
 
   const [state, setState] = useState(initialState);
 
+  const [, dispatch] = useAuthState();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    if (state.password === state.confirmedPassword) {
+      const { name, email, mobile, password } = state;
+
+      Axios.post("/signup", { name, email, mobile, password })
+        .then((response) => {
+          dispatch({
+            type: authActionTypes.LOGIN,
+            auth: response.data.user,
+          });
+          Toast.fire({
+            title: "Account Created Successfully",
+            icon: "success",
+          });
+        })
+        .catch((error) => {
+          if (error.response.status === 400) {
+            Toast.fire({
+              title: error.response.data.message,
+              icon: "error",
+            });
+            setIsLoading(false);
+          }
+        });
+    } else {
+      Toast.fire({
+        title: "Entered passwords doesn't match.",
+        icon: "error",
+      });
+      setIsLoading(false);
+    }
   };
 
   return (
