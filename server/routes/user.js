@@ -81,4 +81,10 @@ router.get("/jobs/find", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.use(passport.authenticate("user-jwt", { session: false }));
+
+router.get("/auth", (req, res) => {
+  res.json({ user: req.user });
+});
+
 module.exports = router;

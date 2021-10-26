@@ -207,3 +207,27 @@ passport.use(
     }
   )
 );
+
+passport.use(
+  "user-jwt",
+  new JWTstrategy(
+    {
+      secretOrKey: process.env.JWT_SECRET,
+      jwtFromRequest: (req) => {
+        let token = null;
+        if (req && req.cookies) {
+          token = req.cookies[process.env.COOKIE_KEY];
+        }
+        return token;
+      },
+    },
+    async (token, done) => {
+      try {
+        if (token.user.role === "Jobseeker") return done(null, token.user);
+        else done(null, false);
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
