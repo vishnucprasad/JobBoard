@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import EmailIcon from "@material-ui/icons/Email";
 import LockIcon from "@material-ui/icons/Lock";
 import Loader from "./Loader";
+import Axios from "../../../axios/axios";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
+import { authActionTypes } from "../../../reducers/auth";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,9 +23,31 @@ const LoginForm = () => {
 
   const [state, setState] = useState(initialState);
 
+  const [, dispatch] = useAuthState();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+    Axios.post("/login", state)
+      .then((response) => {
+        dispatch({
+          type: authActionTypes.LOGIN,
+          auth: response.data.user,
+        });
+        Toast.fire({
+          title: "Successfully logged in",
+          icon: "success",
+        });
+      })
+      .catch((error) => {
+        if (error.response.status === 401) {
+          setIsLoading(false);
+          Toast.fire({
+            title: error.response.data.message,
+            icon: "error",
+          });
+        }
+      });
   };
 
   return (
