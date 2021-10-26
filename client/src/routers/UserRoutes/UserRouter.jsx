@@ -4,6 +4,7 @@ import FindJob from "../../pages/User/FindJob";
 import HomePage from "../../pages/User/HomePage";
 import UserSignUp from "../../pages/User/UserSignUp";
 import UserPublicRoute from "./UserPublicRoute";
+import UserLogin from "../../pages/User/UserLogin";
 import ViewJob from "../../pages/User/ViewJob";
 
 const UserRouter = () => {
@@ -13,6 +14,7 @@ const UserRouter = () => {
       <Route path="/user/find" component={FindJob} />
       <Route path="/user/job/view/:id" component={ViewJob} />
       <UserPublicRoute path="/user/signup" component={UserSignUp} />
+      <UserPublicRoute path="/user/login" component={UserLogin} />
       <Route component={NotFound} />
     </Switch>
   );
