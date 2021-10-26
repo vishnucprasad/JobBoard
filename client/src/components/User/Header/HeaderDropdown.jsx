@@ -7,10 +7,37 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useAuthState } from "../../../contexts/AuthStateProvider";
+import { authActionTypes } from "../../../reducers/auth";
+import MySwal, { Toast } from "../../../config/sweetalert/swal";
+import Axios from "../../../axios/axios";
 
 const HeaderDropdown = () => {
-  const [{ auth }] = useAuthState();
+  const [{ auth }, dispatch] = useAuthState();
   const isAuthenticated = !!auth._id && auth.role === "Jobseeker";
+
+  const handleLogout = () => {
+    MySwal.fire({
+      title: "Are you sure you want to logout?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Logout",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.get("/logout").then((response) => {
+          if (response.data.status) {
+            dispatch({
+              type: authActionTypes.LOGOUT,
+            });
+            Toast.fire({
+              icon: "success",
+              title: response.data.message,
+            });
+          }
+        });
+      }
+    });
+  };
 
   return (
     <Dropdown>
@@ -51,7 +78,7 @@ const HeaderDropdown = () => {
               </div>
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item>
+            <Dropdown.Item onClick={handleLogout}>
               <div className="row px-2 align-items-center text-danger">
                 <PowerSettingsNewIcon className="col-3 p-0" />
                 <div className="col-9 p-0">Logout</div>
