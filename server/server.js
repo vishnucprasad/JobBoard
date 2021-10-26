@@ -25,10 +25,10 @@ app.use(flash());
 
 app.use(express.static(path.join(__dirname, "client", "public")));
 
-app.use("/", userRouter);
 app.use("/admin", adminRouter);
 app.use("/employer", employerRouter);
 app.use("/file", fileRouter);
+app.use("/", userRouter);
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500);

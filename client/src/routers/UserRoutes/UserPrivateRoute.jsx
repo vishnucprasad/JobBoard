@@ -16,7 +16,7 @@ const UserPrivateRoute = ({ component: Component, ...rest }) => {
             <Component {...props} />
           </div>
         ) : (
-          <Redirect to="/" />
+          <Redirect to="/user/login" />
         )
       }
     />

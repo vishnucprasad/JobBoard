@@ -87,12 +87,13 @@ const HeaderDropdown = () => {
           </div>
         ) : (
           <Dropdown.Item>
-            <div className="row px-2 align-items-center text-danger">
+            <Link
+              to="/user/login"
+              className="row px-2 align-items-center text-danger"
+            >
               <ExitToAppIcon className="col-3 p-0" />
-              <Link to="/user/login" className="col-9 p-0">
-                Login
-              </Link>
-            </div>
+              <div className="col-9 p-0">Login</div>
+            </Link>
           </Dropdown.Item>
         )}
       </Dropdown.Menu>
