@@ -3,10 +3,12 @@ import { Route, Switch } from "react-router-dom";
 import NotFound from "../../pages/NotFound";
 import FindJob from "../../pages/User/FindJob";
 import HomePage from "../../pages/User/HomePage";
-import UserSignUp from "../../pages/User/UserSignUp";
-import UserPublicRoute from "./UserPublicRoute";
-import UserLogin from "../../pages/User/UserLogin";
 import ViewJob from "../../pages/User/ViewJob";
+import ApplyJob from "../../pages/User/ApplyJob";
+import UserSignUp from "../../pages/User/UserSignUp";
+import UserLogin from "../../pages/User/UserLogin";
+import UserPublicRoute from "./UserPublicRoute";
+import UserPrivateRoute from "./UserPrivateRoute";
 import { useAuthState } from "../../contexts/AuthStateProvider";
 import { authActionTypes } from "../../reducers/auth";
 import Axios from "../../axios/axios";
@@ -43,6 +45,7 @@ const UserRouter = () => {
       <Route path="/user/job/view/:id" component={ViewJob} />
       <UserPublicRoute path="/user/signup" component={UserSignUp} />
       <UserPublicRoute path="/user/login" component={UserLogin} />
+      <UserPrivateRoute path="/user/job/apply/:id" component={ApplyJob} />
       <Route component={NotFound} />
     </Switch>
   );
