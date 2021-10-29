@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Job = require("../models/job");
+const Application = require("../models/application");
 const moment = require("moment");
 
 module.exports = {
@@ -110,6 +111,33 @@ module.exports = {
         .unwind("employerDetails")
         .project("-employerDetails.password")
         .then((jobs) => resolve(jobs))
+        .catch((error) => reject(error));
+    });
+  },
+  applyJob: (applicationDetails, files, protocol, host, userId) => {
+    return new Promise((resolve, reject) => {
+      const newApplication = {
+        userId: mongoose.Types.ObjectId(userId),
+        ...applicationDetails,
+        jobId: mongoose.Types.ObjectId(applicationDetails.jobId),
+        location: JSON.parse(applicationDetails.location),
+        skills: applicationDetails.skills
+          .split(",")
+          .map((skill) => skill.trim()),
+        photo: {
+          id: files.photo[0].id,
+          filename: files.photo[0].filename,
+          url: `${protocol}://${host}/file/image/${files.photo[0].filename}`,
+        },
+        resume: {
+          id: files.resume[0].id,
+          filename: files.resume[0].filename,
+          url: `${protocol}://${host}/file/pdf/${files.resume[0].filename}`,
+        },
+      };
+
+      Application.create(newApplication)
+        .then((application) => resolve(application))
         .catch((error) => reject(error));
     });
   },

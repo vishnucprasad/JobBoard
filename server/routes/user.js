@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const userHelper = require("../helpers/userHelper");
+const upload = require("../middleware/upload");
 
 const router = express.Router();
 
@@ -128,5 +129,25 @@ router.get("/logout", (req, res) => {
     .clearCookie("token")
     .json({ status: true, message: "Successfully logged out" });
 });
+
+router.post(
+  "/job/apply",
+  upload.fields([
+    { name: "photo", maxCount: 1 },
+    { name: "resume", maxCount: 1 },
+  ]),
+  (req, res) => {
+    userHelper
+      .applyJob(
+        req.body,
+        req.files,
+        req.protocol,
+        req.get("host"),
+        req.user._id
+      )
+      .then((application) => res.json(application))
+      .catch((error) => res.json(error));
+  }
+);
 
 module.exports = router;
