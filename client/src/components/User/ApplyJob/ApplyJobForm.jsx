@@ -1,11 +1,16 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import moment from "moment";
 import FormInputs from "./FormInputs";
 import Loader from "./Loader";
 import PhotoInput from "./PhotoInput";
 import ResumeInput from "./ResumeInput";
+import Axios from "../../../axios/axios";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const ApplyJobForm = ({ jobId }) => {
   const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
   const initialState = {
     jobId,
@@ -32,6 +37,33 @@ const ApplyJobForm = ({ jobId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const formData = new FormData();
+
+    formData.append("jobId", state.jobId);
+    formData.append("name", state.name);
+    formData.append("email", state.email);
+    formData.append("professionalTitle", state.professionalTitle);
+    formData.append("portfolioLink", state.portfolioLink);
+    formData.append("location", JSON.stringify(state.location));
+    formData.append("skills", state.skills);
+    formData.append("description", state.description);
+    formData.append("photo", state.photo, state.photo.name);
+    formData.append("resume", state.resume, state.resume.name);
+    formData.append("createdAt", moment().valueOf());
+
+    Axios.post("/job/apply", formData)
+      .then(({ data }) => {
+        setIsLoading(false);
+
+        Toast.fire({
+          title: "Application submitted successfully",
+          icon: "success",
+        });
+
+        history.push(`/user/application/view/${data._id}`);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
