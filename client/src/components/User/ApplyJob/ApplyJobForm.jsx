@@ -5,10 +5,13 @@ import FormInputs from "./FormInputs";
 import Loader from "./Loader";
 import PhotoInput from "./PhotoInput";
 import ResumeInput from "./ResumeInput";
+import { useUserState } from "../../../contexts/UserStateProvider";
+import { userActionTypes } from "../../../reducers/user";
 import Axios from "../../../axios/axios";
 import { Toast } from "../../../config/sweetalert/swal";
 
 const ApplyJobForm = ({ jobId }) => {
+  const [{ applications }, dispatch] = useUserState();
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
 
@@ -53,15 +56,45 @@ const ApplyJobForm = ({ jobId }) => {
     formData.append("createdAt", moment().valueOf());
 
     Axios.post("/job/apply", formData)
-      .then(({ data }) => {
-        setIsLoading(false);
+      .then(({ data: application }) => {
+        if (!applications[0]) {
+          Axios.get(`/applications`)
+            .then(({ data: applications }) => {
+              setIsLoading(false);
 
-        Toast.fire({
-          title: "Application submitted successfully",
-          icon: "success",
-        });
+              dispatch({
+                type: userActionTypes.SET_APPLICATIONS,
+                applications,
+              });
 
-        history.push(`/user/application/view/${data._id}`);
+              Toast.fire({
+                title: "Application submitted successfully",
+                icon: "success",
+              });
+
+              history.push(`/user/application/view/${application._id}`);
+            })
+            .catch((error) => {
+              Toast.fire({
+                title: "Something went wrong, Please try again",
+                icon: "error",
+              });
+            });
+        } else {
+          setIsLoading(false);
+
+          dispatch({
+            type: userActionTypes.ADD_APPLICATION,
+            application,
+          });
+
+          Toast.fire({
+            title: "Application submitted successfully",
+            icon: "success",
+          });
+
+          history.push(`/user/application/view/${application._id}`);
+        }
       })
       .catch((error) => {
         setIsLoading(false);
