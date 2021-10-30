@@ -13,6 +13,7 @@ import { useAuthState } from "../../contexts/AuthStateProvider";
 import { authActionTypes } from "../../reducers/auth";
 import Axios from "../../axios/axios";
 import Loader from "../../pages/Loader";
+import ViewApplication from "../../pages/User/ViewApplication";
 
 const UserRouter = () => {
   const [, dispatch] = useAuthState();
@@ -46,6 +47,10 @@ const UserRouter = () => {
       <UserPublicRoute path="/user/signup" component={UserSignUp} />
       <UserPublicRoute path="/user/login" component={UserLogin} />
       <UserPrivateRoute path="/user/job/apply/:id" component={ApplyJob} />
+      <UserPrivateRoute
+        path="/user/application/view/:id"
+        component={ViewApplication}
+      />
       <Route component={NotFound} />
     </Switch>
   );

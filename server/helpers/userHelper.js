@@ -141,4 +141,19 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  getApplications: (userId) => {
+    return new Promise((resolve, reject) => {
+      Application.aggregate()
+        .match({ userId: mongoose.Types.ObjectId(userId) })
+        .lookup({
+          from: "jobs",
+          localField: "jobId",
+          foreignField: "_id",
+          as: "jobDetails",
+        })
+        .unwind("jobDetails")
+        .then((applications) => resolve(applications))
+        .catch((error) => reject(error));
+    });
+  },
 };

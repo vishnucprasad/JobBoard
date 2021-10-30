@@ -150,4 +150,11 @@ router.post(
   }
 );
 
+router.get("/applications", (req, res) => {
+  userHelper
+    .getApplications(req.user._id)
+    .then((applications) => res.json(applications))
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;

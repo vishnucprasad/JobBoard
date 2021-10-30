@@ -29,7 +29,10 @@ const ResumeInput = ({ state, setState }) => {
             >
               {state.resume ? (
                 <div className="resume">
-                  <PdfViewer url={URL.createObjectURL(state.resume)} />
+                  <PdfViewer
+                    url={URL.createObjectURL(state.resume)}
+                    viewerClassName="viewer"
+                  />
                 </div>
               ) : (
                 <h5 className="text-twitter font-weight-bold">
