@@ -63,7 +63,14 @@ const ApplyJobForm = ({ jobId }) => {
 
         history.push(`/user/application/view/${data._id}`);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setIsLoading(false);
+
+        Toast.fire({
+          title: "Something went wrong, Please try again",
+          icon: "error",
+        });
+      });
   };
 
   return (
