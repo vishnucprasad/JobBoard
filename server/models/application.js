@@ -62,6 +62,11 @@ const applicationSchema = new Schema({
     type: String,
     required: true,
   },
+  status: {
+    type: String,
+    required: true,
+    default: "Applied",
+  },
   photo: {
     id: {
       type: String,
