@@ -45,8 +45,8 @@ const LoginOptions = () => {
             });
           if (!isLoading) {
             history.goBack();
-            if (timer) clearInterval(timer);
           }
+          if (timer) clearInterval(timer);
         }
       }, 500);
     }
