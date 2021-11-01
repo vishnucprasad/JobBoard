@@ -108,6 +108,24 @@ const CompanyDetailsInputs = ({ state, setState }) => {
             <div className="input-group mb-4">
               <input
                 className="form-control"
+                placeholder="District"
+                type="text"
+                value={state.location.district}
+                onChange={(e) =>
+                  setState({
+                    ...state,
+                    location: {
+                      ...state.location,
+                      district: e.target.value,
+                    },
+                  })
+                }
+                required
+              />
+            </div>
+            <div className="input-group mb-4">
+              <input
+                className="form-control"
                 placeholder="State"
                 type="text"
                 value={state.location.state}

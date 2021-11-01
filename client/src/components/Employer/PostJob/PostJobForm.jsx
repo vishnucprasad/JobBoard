@@ -36,6 +36,7 @@ const PostJobForm = () => {
     location: {
       street: "",
       city: "",
+      district: "",
       state: "",
       country: "",
       pinNumber: "",
