@@ -81,6 +81,47 @@ router.post("/login", async (req, res, next) => {
   })(req, res, next);
 });
 
+router.get(
+  "/auth/google",
+  passport.authenticate("user-google-auth", {
+    session: false,
+    scope: ["profile", "email"],
+  })
+);
+
+router.get("/auth/google/callback", async (req, res, next) => {
+  passport.authenticate("user-google-auth", async (err, user, info) => {
+    try {
+      if (err) {
+        const error = new Error("An error occurred.");
+
+        return next(error);
+      }
+
+      if (!user) {
+        return res.redirect(process.env.USER_AUTH_ERROR_REDIRECT_URL);
+      }
+
+      req.login(user, { session: false }, async (error) => {
+        if (error) return next(error);
+
+        const token = jwt.sign({ user }, process.env.JWT_SECRET);
+
+        const cookieOptions = {
+          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+          httpOnly: true,
+        };
+
+        return res
+          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+          .redirect(process.env.USER_AUTH_SUCCESS_REDIRECT_URL);
+      });
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
+});
+
 router.get("/", (req, res) => {
   userHelper
     .getRecentJobs()

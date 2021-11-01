@@ -7,6 +7,8 @@ import ViewJob from "../../pages/User/ViewJob";
 import ApplyJob from "../../pages/User/ApplyJob";
 import UserSignUp from "../../pages/User/UserSignUp";
 import UserLogin from "../../pages/User/UserLogin";
+import AuthSuccess from "../../pages/AuthSuccess";
+import AuthError from "../../pages/AuthError";
 import UserPublicRoute from "./UserPublicRoute";
 import UserPrivateRoute from "./UserPrivateRoute";
 import { useAuthState } from "../../contexts/AuthStateProvider";
@@ -46,6 +48,8 @@ const UserRouter = () => {
       <Route path="/user/job/view/:id" component={ViewJob} />
       <UserPublicRoute path="/user/signup" component={UserSignUp} />
       <UserPublicRoute path="/user/login" component={UserLogin} />
+      <UserPrivateRoute path="/user/auth/success" component={AuthSuccess} />
+      <UserPublicRoute path="/user/auth/error" component={AuthError} />
       <UserPrivateRoute path="/user/job/apply/:id" component={ApplyJob} />
       <UserPrivateRoute
         path="/user/application/view/:id"
