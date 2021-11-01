@@ -48,7 +48,7 @@ const RecentlyAddedJobs = () => {
                   </p>
                   <p className="font-weight-bold">
                     <LocationOnIcon className="text-twitter text-truncate" />
-                    {`${job.location.street}, ${job.location.city}, ${job.location.state}, ${job.location.country}, ${job.location.pinNumber}`}
+                    {`${job.location.street}, ${job.location.city}, ${job.location.district}, ${job.location.state}, ${job.location.country}, ${job.location.pinNumber}`}
                   </p>
                   <div className="text-truncate">
                     {job.skills.map((skill, index) => (

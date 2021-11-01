@@ -36,8 +36,8 @@ const JobDetails = ({ jobId }) => {
                     </div>
                     <h6>
                       {job.location.street}, {job.location.city},{" "}
-                      {job.location.state}, {job.location.country}, PIN:{" "}
-                      {job.location.pinNumber}
+                      {job.location.district}, {job.location.state},{" "}
+                      {job.location.country}, PIN: {job.location.pinNumber}
                     </h6>
                   </div>
                 </div>
