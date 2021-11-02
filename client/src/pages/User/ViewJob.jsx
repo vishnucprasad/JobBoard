@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Loader from "../Loader";
-import Layout from "../../components/User/Layout/Layout";
 import Axios from "../../axios/axios";
 import JobDetails from "../../components/User/ViewJob/JobDetails";
 
@@ -29,9 +28,9 @@ const ViewJob = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>
+    <div>
       <JobDetails job={job} />
-    </Layout>
+    </div>
   );
 };
 

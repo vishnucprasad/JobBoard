@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import ApplyJobForm from "../../components/User/ApplyJob/ApplyJobForm";
-import Layout from "../../components/User/Layout/Layout";
 import Axios from "../../axios/axios";
 import Loader from "../Loader";
 import JobNotFound from "../../components/User/ApplyJob/JobNotFound";
@@ -28,7 +27,7 @@ const ApplyJob = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>{job._id ? <ApplyJobForm jobId={id} /> : <JobNotFound />}</Layout>
+    <div>{job._id ? <ApplyJobForm jobId={id} /> : <JobNotFound />}</div>
   );
 };
 

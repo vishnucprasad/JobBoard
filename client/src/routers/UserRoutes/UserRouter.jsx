@@ -16,6 +16,7 @@ import { authActionTypes } from "../../reducers/auth";
 import Axios from "../../axios/axios";
 import Loader from "../../pages/Loader";
 import ViewApplication from "../../pages/User/ViewApplication";
+import Layout from "../../components/User/Layout/Layout";
 
 const UserRouter = () => {
   const [, dispatch] = useAuthState();
@@ -42,21 +43,23 @@ const UserRouter = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Switch>
-      <Route exact path="/user" component={HomePage} />
-      <Route path="/user/find" component={FindJob} />
-      <Route path="/user/job/view/:id" component={ViewJob} />
-      <UserPublicRoute path="/user/signup" component={UserSignUp} />
-      <UserPublicRoute path="/user/login" component={UserLogin} />
-      <UserPrivateRoute path="/user/auth/success" component={AuthSuccess} />
-      <UserPublicRoute path="/user/auth/error" component={AuthError} />
-      <UserPrivateRoute path="/user/job/apply/:id" component={ApplyJob} />
-      <UserPrivateRoute
-        path="/user/application/view/:id"
-        component={ViewApplication}
-      />
-      <Route component={NotFound} />
-    </Switch>
+    <Layout>
+      <Switch>
+        <Route exact path="/user" component={HomePage} />
+        <Route path="/user/find" component={FindJob} />
+        <Route path="/user/job/view/:id" component={ViewJob} />
+        <UserPublicRoute path="/user/signup" component={UserSignUp} />
+        <UserPublicRoute path="/user/login" component={UserLogin} />
+        <UserPrivateRoute path="/user/auth/success" component={AuthSuccess} />
+        <UserPublicRoute path="/user/auth/error" component={AuthError} />
+        <UserPrivateRoute path="/user/job/apply/:id" component={ApplyJob} />
+        <UserPrivateRoute
+          path="/user/application/view/:id"
+          component={ViewApplication}
+        />
+        <Route component={NotFound} />
+      </Switch>
+    </Layout>
   );
 };
 

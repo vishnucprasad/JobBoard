@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Axios from "../../axios/axios";
-import Layout from "../../components/User/Layout/Layout";
 import { useUserState } from "../../contexts/UserStateProvider";
 import { userActionTypes } from "../../reducers/user";
 import Loader from "../Loader";
@@ -33,9 +32,9 @@ const ViewApplication = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>
+    <div>
       <ApplicationOverview applicationId={id} />
-    </Layout>
+    </div>
   );
 };
 

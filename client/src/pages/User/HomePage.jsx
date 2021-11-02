@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/User/Layout/Layout";
 import Loader from "../Loader";
 import { useUserState } from "../../contexts/UserStateProvider";
 import { userActionTypes } from "../../reducers/user";
@@ -29,10 +28,10 @@ const HomePage = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>
+    <div>
       <RecentlyAddedJobs />
       <HighestPayingJobs />
-    </Layout>
+    </div>
   );
 };
 
