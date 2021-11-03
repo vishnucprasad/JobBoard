@@ -152,6 +152,7 @@ module.exports = {
           as: "jobDetails",
         })
         .unwind("jobDetails")
+        .sort({ createdAt: -1 })
         .then((applications) => resolve(applications))
         .catch((error) => reject(error));
     });

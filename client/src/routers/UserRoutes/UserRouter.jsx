@@ -17,6 +17,7 @@ import Axios from "../../axios/axios";
 import Loader from "../../pages/Loader";
 import ViewApplication from "../../pages/User/ViewApplication";
 import Layout from "../../components/User/Layout/Layout";
+import ViewAllApplications from "../../pages/User/ViewAllApplications";
 
 const UserRouter = () => {
   const [, dispatch] = useAuthState();
@@ -56,6 +57,10 @@ const UserRouter = () => {
         <UserPrivateRoute
           path="/user/application/view/:id"
           component={ViewApplication}
+        />
+        <UserPrivateRoute
+          path="/user/applications"
+          component={ViewAllApplications}
         />
         <Route component={NotFound} />
       </Switch>

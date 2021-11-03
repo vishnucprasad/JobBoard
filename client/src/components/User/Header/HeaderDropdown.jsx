@@ -66,10 +66,13 @@ const HeaderDropdown = () => {
         {isAuthenticated ? (
           <div>
             <Dropdown.Item>
-              <div className="row px-2 align-items-center text-twitter">
+              <Link
+                to="/user/applications"
+                className="row px-2 align-items-center text-twitter"
+              >
                 <WorkIcon className="col-3 p-0" />
                 <div className="col-9 p-0">Applications</div>
-              </div>
+              </Link>
             </Dropdown.Item>
             <Dropdown.Item>
               <div className="row px-2 align-items-center text-twitter">
