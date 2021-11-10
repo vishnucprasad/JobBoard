@@ -19,7 +19,7 @@ const UserLogin = () => {
                   <LoginOptions />
                   <div className="text-center mt-4">
                     <Link to="/user/signup">
-                      Create a new employer accout ? Signup here.
+                      Create a new accout ? Signup here.
                     </Link>
                   </div>
                 </div>

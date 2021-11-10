@@ -7,6 +7,7 @@ export const userActionTypes = {
   SET_JOBS: "SET_JOBS",
   SET_APPLICATIONS: "SET_APPLICATIONS",
   ADD_APPLICATION: "ADD_APPLICATION",
+  SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
 
 const userReducer = (state, action) => {
@@ -26,6 +27,8 @@ const userReducer = (state, action) => {
         ...state,
         applications: [...state.applications, action.application],
       };
+    case userActionTypes.SET_TO_INITIAL_STATE:
+      return userInitialState;
     default:
       return state;
   }

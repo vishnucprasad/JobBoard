@@ -18,6 +18,7 @@ import Loader from "../../pages/Loader";
 import ViewApplication from "../../pages/User/ViewApplication";
 import Layout from "../../components/User/Layout/Layout";
 import ViewAllApplications from "../../pages/User/ViewAllApplications";
+import UserProfile from "../../pages/User/UserProfile";
 
 const UserRouter = () => {
   const [, dispatch] = useAuthState();
@@ -62,6 +63,7 @@ const UserRouter = () => {
           path="/user/applications"
           component={ViewAllApplications}
         />
+        <UserPrivateRoute path="/user/profile" component={UserProfile} />
         <Route component={NotFound} />
       </Switch>
     </Layout>
