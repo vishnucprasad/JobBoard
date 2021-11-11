@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Job = require("../models/job");
 const Application = require("../models/application");
+const User = require("../models/user");
 const moment = require("moment");
 
 module.exports = {
@@ -154,6 +155,31 @@ module.exports = {
         .unwind("jobDetails")
         .sort({ createdAt: -1 })
         .then((applications) => resolve(applications))
+        .catch((error) => reject(error));
+    });
+  },
+  updateProfile: (userId, profileDetails, dpDetails, protocol, host) => {
+    return new Promise((resolve, reject) => {
+      const updates = {
+        ...profileDetails,
+        displayPictureDetails: dpDetails
+          ? {
+              id: dpDetails.id,
+              filename: dpDetails.filename,
+              url: `${protocol}://${host}/file/image/${dpDetails.filename}`,
+            }
+          : profileDetails.displayPictureDetails
+          ? JSON.parse(profileDetails.displayPictureDetails)
+          : null,
+        displayPicture: dpDetails
+          ? `${protocol}://${host}/file/image/${dpDetails.filename}`
+          : profileDetails.displayPicture
+          ? profileDetails.displayPicture
+          : null,
+      };
+
+      User.findByIdAndUpdate(userId, updates, { new: true })
+        .then((user) => resolve(user))
         .catch((error) => reject(error));
     });
   },

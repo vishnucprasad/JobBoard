@@ -19,8 +19,25 @@ const userSchema = new Schema({
     unique: true,
     sparse: true,
   },
+  gender: {
+    type: String,
+  },
   displayPicture: {
     type: String,
+  },
+  displayPictureDetails: {
+    id: {
+      type: String,
+      required: true,
+    },
+    filename: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
   },
   description: {
     type: String,
