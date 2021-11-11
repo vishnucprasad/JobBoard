@@ -43,20 +43,7 @@ const HeaderDropdown = () => {
     <Dropdown>
       <Dropdown.Toggle className="shadow-none border-0" id="dropdown-basic">
         <div className="d-flex align-items-center">
-          <div className="header__profile-icon">
-            <img
-              src={
-                isAuthenticated
-                  ? auth.displayPicture
-                    ? auth.displayPicture
-                    : userIcon
-                  : userIcon
-              }
-              alt="user"
-              className="img-fluid rounded-circle"
-            />
-          </div>
-          <div className="d-none d-md-block text-truncate">
+          <div className="text-truncate">
             {isAuthenticated ? auth.name : "Account"}
           </div>
         </div>
@@ -65,6 +52,29 @@ const HeaderDropdown = () => {
       <Dropdown.Menu>
         {isAuthenticated ? (
           <div>
+            <Dropdown.ItemText>
+              <div className="row align-items-center">
+                <div className="col-4 px-1">
+                  <img
+                    src={
+                      isAuthenticated
+                        ? auth.displayPicture
+                          ? auth.displayPicture
+                          : userIcon
+                        : userIcon
+                    }
+                    alt="user"
+                    className="img-fluid rounded-circle"
+                  />
+                </div>
+                <div className="col-8 px-1">
+                  <div className="text-truncate text-twitter font-weight-bolder">
+                    {isAuthenticated ? auth.name : "Account"}
+                  </div>
+                </div>
+              </div>
+            </Dropdown.ItemText>
+            <Dropdown.Divider />
             <Dropdown.Item>
               <Link
                 to="/user/applications"
