@@ -16,6 +16,7 @@ const EditPersonalInfo = () => {
     mobile: auth.mobile ? auth.mobile : "",
     name: auth.name ? auth.name : "",
     gender: auth.gender ? auth.gender : "",
+    description: auth.description ? auth.description : "",
   };
 
   const [state, setState] = useState(initialState);
@@ -101,6 +102,27 @@ const EditPersonalInfo = () => {
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
+          </div>
+        </div>
+        <div className="form-group">
+          <label
+            className="text-twitter font-weight-bolder"
+            htmlFor="descriptionInput"
+          >
+            Description
+          </label>
+          <div className="input-group mb-4">
+            <textarea
+              className="form-control"
+              id="descriptionInput"
+              rows="3"
+              placeholder="Describe your self"
+              value={state.description}
+              onChange={(e) =>
+                setState({ ...state, description: e.target.value })
+              }
+              required
+            ></textarea>
           </div>
         </div>
         {isLoading ? (
