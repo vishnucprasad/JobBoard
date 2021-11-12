@@ -43,6 +43,43 @@ const ProfileOverview = () => {
     });
   };
 
+  const handleUpload = (e) => {
+    if (image) {
+      const formData = new FormData();
+
+      formData.append("newDisplayPicture", image, image.name);
+
+      Axios.patch("/profile/update/displaypicture", formData)
+        .then((response) => {
+          Axios.delete(`/file/${auth.displayPictureDetails.id}`)
+            .then((deleteRresponse) => {
+              if (deleteRresponse.data.status) {
+                dispatch({
+                  type: authActionTypes.UPDATE_AUTH,
+                  updates: response.data.user,
+                });
+                Toast.fire({
+                  title: "Updated successfully",
+                  icon: "success",
+                });
+              }
+            })
+            .catch((error) => {
+              Toast.fire({
+                title: "Something went wrong, Please try again",
+                icon: "error",
+              });
+            });
+        })
+        .catch((error) => {
+          Toast.fire({
+            title: "Something went wrong, Please try again",
+            icon: "error",
+          });
+        });
+    }
+  };
+
   return (
     <div className="profile-overview">
       <div className="card bg-primary shadow-soft border-light mb-5 text-center p-4">
@@ -81,7 +118,10 @@ const ProfileOverview = () => {
                 </div>
               </div>
             ) : (
-              <button className="btn btn-icon-only text-slack m-3">
+              <button
+                className="btn btn-icon-only text-slack m-3"
+                onClick={handleUpload}
+              >
                 <CheckIcon />
               </button>
             )}
