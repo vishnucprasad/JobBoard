@@ -5,6 +5,7 @@ export const authInitialState = {
 export const authActionTypes = {
   LOGIN: "LOGIN",
   LOGOUT: "LOGOUT",
+  UPDATE_AUTH: "UPDATE_AUTH",
 };
 
 const authReducer = (state, action) => {
@@ -18,6 +19,11 @@ const authReducer = (state, action) => {
       return {
         ...state,
         auth: {},
+      };
+    case authActionTypes.UPDATE_AUTH:
+      return {
+        ...state,
+        auth: { ...state.auth, ...action.updates },
       };
     default:
       return state;

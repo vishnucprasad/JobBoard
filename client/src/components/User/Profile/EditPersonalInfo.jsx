@@ -5,9 +5,12 @@ import WcIcon from "@material-ui/icons/Wc";
 import PhoneInput from "react-phone-input-2";
 import Loader from "./Loader";
 import { useAuthState } from "../../../contexts/AuthStateProvider";
+import { authActionTypes } from "../../../reducers/auth";
+import Axios from "../../../axios/axios";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const EditPersonalInfo = () => {
-  const [{ auth }] = useAuthState();
+  const [{ auth }, dispatch] = useAuthState();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -24,6 +27,26 @@ const EditPersonalInfo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    Axios.patch("/profile/update/info", state)
+      .then((response) => {
+        dispatch({
+          type: authActionTypes.UPDATE_AUTH,
+          updates: state,
+        });
+        Toast.fire({
+          title: "Saved successfully",
+          icon: "success",
+        });
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        Toast.fire({
+          title: "Something went wrong, Please try again",
+          icon: "error",
+        });
+        setIsLoading(false);
+      });
   };
 
   return (
