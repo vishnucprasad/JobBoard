@@ -158,29 +158,31 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
-  updateProfile: (userId, profileDetails, dpDetails, protocol, host) => {
+  updateProfile: (userId, updates) => {
     return new Promise((resolve, reject) => {
-      const updates = {
-        ...profileDetails,
-        displayPictureDetails: dpDetails
-          ? {
-              id: dpDetails.id,
-              filename: dpDetails.filename,
-              url: `${protocol}://${host}/file/image/${dpDetails.filename}`,
-            }
-          : profileDetails.displayPictureDetails
-          ? JSON.parse(profileDetails.displayPictureDetails)
-          : null,
-        displayPicture: dpDetails
-          ? `${protocol}://${host}/file/image/${dpDetails.filename}`
-          : profileDetails.displayPicture
-          ? profileDetails.displayPicture
-          : null,
-      };
-
       User.findByIdAndUpdate(userId, updates, { new: true })
         .then((user) => resolve(user))
         .catch((error) => reject(error));
+    });
+  },
+  updateDisplayPicture: (userId, dpDetails, protocol, host) => {
+    return new Promise((resolve, reject) => {
+      if (dpDetails) {
+        const updates = {
+          displayPictureDetails: {
+            id: dpDetails.id,
+            filename: dpDetails.filename,
+            url: `${protocol}://${host}/file/image/${dpDetails.filename}`,
+          },
+          displayPicture: `${protocol}://${host}/file/image/${dpDetails.filename}`,
+        };
+
+        User.findByIdAndUpdate(userId, updates, { new: true })
+          .then((user) => resolve(user))
+          .catch((error) => reject(error));
+      } else {
+        reject({ errorMessage: "File not Found" });
+      }
     });
   },
 };

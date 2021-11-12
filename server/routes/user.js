@@ -198,14 +198,20 @@ router.get("/applications", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.patch("/profile/update/info", (req, res) => {
+  userHelper
+    .updateProfile(req.user._id, req.body)
+    .then((user) => res.json(user))
+    .catch((error) => res.json(error));
+});
+
 router.patch(
-  "/profile/update",
+  "/profile/update/displaypicture",
   upload.single("newDisplayPicture"),
   (req, res) => {
     userHelper
-      .updateProfile(
+      .updateDisplayPicture(
         req.user._id,
-        req.body,
         req.file,
         req.protocol,
         req.get("host")
