@@ -198,10 +198,26 @@ router.get("/applications", (req, res) => {
     .catch((error) => res.json(error));
 });
 
-router.patch("/profile/update/info", (req, res) => {
+router.patch("/profile/update/info", (req, res, next) => {
   userHelper
     .updateProfile(req.user._id, req.body)
-    .then((user) => res.json(user))
+    .then((user) => {
+      req.login(user, { session: false }, async (error) => {
+        if (error) return next(error);
+
+        const token = jwt.sign({ user }, process.env.JWT_SECRET);
+
+        const cookieOptions = {
+          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+          httpOnly: true,
+        };
+
+        return res
+          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+          .status(201)
+          .json({ user });
+      });
+    })
     .catch((error) => res.json(error));
 });
 
@@ -216,7 +232,23 @@ router.patch(
         req.protocol,
         req.get("host")
       )
-      .then((user) => res.json(user))
+      .then((user) => {
+        req.login(user, { session: false }, async (error) => {
+          if (error) return next(error);
+
+          const token = jwt.sign({ user }, process.env.JWT_SECRET);
+
+          const cookieOptions = {
+            expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+          };
+
+          return res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        });
+      })
       .catch((error) => res.json(error));
   }
 );
