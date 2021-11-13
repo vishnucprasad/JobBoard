@@ -68,6 +68,7 @@ const EditPersonalInfo = () => {
               type="text"
               aria-label="email adress"
               value={state.email}
+              required
               onChange={(e) => setState({ ...state, email: e.target.value })}
             />
           </div>
@@ -120,6 +121,7 @@ const EditPersonalInfo = () => {
               className="custom-select"
               id="genderSelect"
               value={state.gender}
+              required
               onChange={(e) => setState({ ...state, gender: e.target.value })}
             >
               <option value="Male">Male</option>
@@ -144,7 +146,6 @@ const EditPersonalInfo = () => {
               onChange={(e) =>
                 setState({ ...state, description: e.target.value })
               }
-              required
             ></textarea>
           </div>
         </div>

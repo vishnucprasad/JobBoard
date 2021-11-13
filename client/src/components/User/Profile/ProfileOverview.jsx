@@ -195,9 +195,11 @@ const ProfileOverview = () => {
                 {auth.role}
               </span>
             </div>
-            <div className="shadow-soft text-left rounded p-3 mt-3">
-              <h6 className="mb-2">{auth.description}</h6>
-            </div>
+            {auth.description.length > 0 && (
+              <div className="shadow-soft text-left rounded p-3 mt-3">
+                <h6 className="mb-2">{auth.description}</h6>
+              </div>
+            )}
           </div>
           <button
             className="btn btn-block btn-sm text-danger mt-3"
