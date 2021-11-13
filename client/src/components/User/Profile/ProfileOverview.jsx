@@ -195,7 +195,7 @@ const ProfileOverview = () => {
                 {auth.role}
               </span>
             </div>
-            {auth.description.length > 0 && (
+            {auth.description && auth.description.length > 0 && (
               <div className="shadow-soft text-left rounded p-3 mt-3">
                 <h6 className="mb-2">{auth.description}</h6>
               </div>
