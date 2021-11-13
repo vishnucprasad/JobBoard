@@ -28,15 +28,12 @@ const userSchema = new Schema({
   displayPictureDetails: {
     id: {
       type: String,
-      required: true,
     },
     filename: {
       type: String,
-      required: true,
     },
     url: {
       type: String,
-      required: true,
     },
   },
   description: {
