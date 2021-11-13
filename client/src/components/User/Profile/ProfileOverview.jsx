@@ -51,25 +51,36 @@ const ProfileOverview = () => {
 
       Axios.patch("/profile/update/displaypicture", formData)
         .then((response) => {
-          Axios.delete(`/file/${auth.displayPictureDetails.id}`)
-            .then((deleteRresponse) => {
-              if (deleteRresponse.data.status) {
-                dispatch({
-                  type: authActionTypes.UPDATE_AUTH,
-                  updates: response.data.user,
-                });
+          if (auth.displayPictureDetails) {
+            Axios.delete(`/file/${auth.displayPictureDetails.id}`)
+              .then((deleteRresponse) => {
+                if (deleteRresponse.data.status) {
+                  dispatch({
+                    type: authActionTypes.UPDATE_AUTH,
+                    updates: response.data.user,
+                  });
+                  Toast.fire({
+                    title: "Updated successfully",
+                    icon: "success",
+                  });
+                }
+              })
+              .catch((error) => {
                 Toast.fire({
-                  title: "Updated successfully",
-                  icon: "success",
+                  title: "Something went wrong, Please try again",
+                  icon: "error",
                 });
-              }
-            })
-            .catch((error) => {
-              Toast.fire({
-                title: "Something went wrong, Please try again",
-                icon: "error",
               });
+          } else {
+            dispatch({
+              type: authActionTypes.UPDATE_AUTH,
+              updates: response.data.user,
             });
+            Toast.fire({
+              title: "Updated successfully",
+              icon: "success",
+            });
+          }
         })
         .catch((error) => {
           Toast.fire({
@@ -78,6 +89,47 @@ const ProfileOverview = () => {
           });
         });
     }
+  };
+
+  const handleDelete = () => {
+    MySwal.fire({
+      title: "Are you sure you want to delete?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Axios.delete("/profile/update/displaypicture")
+          .then((response) => {
+            Axios.delete(`/file/${auth.displayPictureDetails.id}`)
+              .then((deleteRresponse) => {
+                if (deleteRresponse.data.status) {
+                  dispatch({
+                    type: authActionTypes.UPDATE_AUTH,
+                    updates: response.data.user,
+                  });
+                  Toast.fire({
+                    title: "Deleted successfully",
+                    icon: "success",
+                  });
+                }
+              })
+              .catch((error) => {
+                Toast.fire({
+                  title: "Something went wrong, Please try again",
+                  icon: "error",
+                });
+              });
+          })
+          .catch((error) => {
+            Toast.fire({
+              title: "Something went wrong, Please try again",
+              icon: "error",
+            });
+          });
+      }
+    });
   };
 
   return (
@@ -97,7 +149,7 @@ const ProfileOverview = () => {
               alt="Joseph Avatar"
             />
           </div>
-          <div className="d-flex justify-content-center">
+          <div className="d-flex justify-content-center m-3">
             {!image ? (
               <div id="companyLogoInput">
                 <div className="custom-file">
@@ -110,7 +162,7 @@ const ProfileOverview = () => {
                     required
                   />
                   <label
-                    className="btn btn-icon-only text-twitter p-2 m-3"
+                    className="btn btn-icon-only text-twitter p-2 mx-3"
                     htmlFor="customFile"
                   >
                     <PublishIcon />
@@ -119,15 +171,20 @@ const ProfileOverview = () => {
               </div>
             ) : (
               <button
-                className="btn btn-icon-only text-slack m-3"
+                className="btn btn-icon-only text-slack mx-3"
                 onClick={handleUpload}
               >
                 <CheckIcon />
               </button>
             )}
-            <button className="btn btn-icon-only text-danger m-3">
-              <DeleteIcon />
-            </button>
+            {auth.displayPictureDetails && (
+              <button
+                className="btn btn-icon-only text-danger mx-3"
+                onClick={handleDelete}
+              >
+                <DeleteIcon />
+              </button>
+            )}
           </div>
         </div>
         <div className="card-body p-0">
