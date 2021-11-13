@@ -204,7 +204,7 @@ router.patch("/profile/update/info", (req, res, next) => {
 router.patch(
   "/profile/update/displaypicture",
   upload.single("newDisplayPicture"),
-  (req, res) => {
+  (req, res, next) => {
     userHelper
       .updateDisplayPicture(
         req.user._id,
@@ -227,5 +227,23 @@ router.patch(
       .catch((error) => res.json(error));
   }
 );
+
+router.delete("/profile/update/displaypicture", (req, res, next) => {
+  userHelper
+    .deleteDisplayPicture(req.user._id)
+    .then((user) => {
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
+    })
+    .catch((error) => res.json(error));
+});
 
 module.exports = router;

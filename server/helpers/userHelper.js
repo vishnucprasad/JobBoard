@@ -185,4 +185,16 @@ module.exports = {
       }
     });
   },
+  deleteDisplayPicture: (userId) => {
+    return new Promise((resolve, reject) => {
+      const updates = {
+        displayPictureDetails: undefined,
+        displayPicture: undefined,
+      };
+
+      User.findByIdAndUpdate(userId, updates, { new: true })
+        .then((user) => resolve(user))
+        .catch((error) => reject(error));
+    });
+  },
 };
