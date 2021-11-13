@@ -160,6 +160,16 @@ module.exports = {
   },
   updateProfile: (userId, updates) => {
     return new Promise((resolve, reject) => {
+      if (updates.newPassword && updates.confirmedPassword) {
+        if (updates.newPassword === updates.confirmedPassword) {
+          updates.password = updates.newPassword;
+          delete updates.newPassword;
+          delete updates.confirmedPassword;
+        } else {
+          reject({ errMessage: "Entered passwords doesn't match." });
+        }
+      }
+
       User.findByIdAndUpdate(userId, updates, { new: true })
         .then((user) => resolve(user))
         .catch((error) => reject(error));
