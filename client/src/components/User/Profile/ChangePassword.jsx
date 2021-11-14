@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import LockIcon from "@material-ui/icons/Lock";
 import Loader from "./Loader";
+import Axios from "../../../axios/axios";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
+import { authActionTypes } from "../../../reducers/auth";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [, dispatch] = useAuthState();
 
   const initialState = {
-    password: "",
     newPassword: "",
     confirmedPassword: "",
   };
@@ -16,31 +20,39 @@ const ChangePassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    Axios.patch("/profile/update/info", state)
+      .then((response) => {
+        if (response.data.errMessage) {
+          Toast.fire({
+            title: response.data.errMessage,
+            icon: "error",
+          });
+        } else {
+          dispatch({
+            type: authActionTypes.UPDATE_AUTH,
+            updates: response.data.user,
+          });
+          Toast.fire({
+            title: "Saved successfully",
+            icon: "success",
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        Toast.fire({
+          title: "Something went wrong, Please try again",
+          icon: "error",
+        });
+        setIsLoading(false);
+      });
   };
 
   return (
     <div className="shadow-soft rounded p-3">
       <h6>Change Password</h6>
       <form onSubmit={handleSubmit} className="mt-4">
-        <div className="form-group">
-          <label htmlFor="currentPasswordInput">Current Password</label>
-          <div className="input-group mb-4">
-            <div className="input-group-prepend">
-              <span className="input-group-text text-twitter">
-                <LockIcon />
-              </span>
-            </div>
-            <input
-              className="form-control"
-              id="currentPasswordInput"
-              placeholder="Current Password"
-              type="password"
-              aria-label="password"
-              value={state.password}
-              onChange={(e) => setState({ ...state, password: e.target.value })}
-            />
-          </div>
-        </div>
         <div className="form-group">
           <div className="form-group">
             <label htmlFor="newPasswordInput">New Password</label>
