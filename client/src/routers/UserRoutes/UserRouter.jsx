@@ -20,6 +20,7 @@ import Layout from "../../components/User/Layout/Layout";
 import ViewAllApplications from "../../pages/User/ViewAllApplications";
 import UserProfile from "../../pages/User/UserProfile";
 import ContactUs from "../../pages/User/ContactUs";
+import AboutUs from "../../pages/User/AboutUs";
 
 const UserRouter = () => {
   const [, dispatch] = useAuthState();
@@ -51,6 +52,7 @@ const UserRouter = () => {
         <Route exact path="/user" component={HomePage} />
         <Route path="/user/find" component={FindJob} />
         <Route path="/user/job/view/:id" component={ViewJob} />
+        <Route path="/user/about" component={AboutUs} />
         <Route path="/user/contact" component={ContactUs} />
         <UserPublicRoute path="/user/signup" component={UserSignUp} />
         <UserPublicRoute path="/user/login" component={UserLogin} />
