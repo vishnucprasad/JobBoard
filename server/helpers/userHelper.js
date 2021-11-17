@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Job = require("../models/job");
 const Application = require("../models/application");
 const User = require("../models/user");
+const Enquiry = require("../models/enquiry");
 const moment = require("moment");
 
 module.exports = {
@@ -204,6 +205,13 @@ module.exports = {
 
       User.findByIdAndUpdate(userId, updates, { new: true })
         .then((user) => resolve(user))
+        .catch((error) => reject(error));
+    });
+  },
+  submitEnquiry: (enquiryDetails) => {
+    return new Promise((resolve, reject) => {
+      Enquiry.create(enquiryDetails)
+        .then((enquiry) => resolve(enquiry))
         .catch((error) => reject(error));
     });
   },

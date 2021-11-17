@@ -142,6 +142,13 @@ router.get("/jobs/find", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.post("/enquiry", (req, res) => {
+  userHelper
+    .submitEnquiry(req.body)
+    .then((enquiry) => res.json(enquiry))
+    .catch((error) => res.json(error));
+});
+
 router.use(passport.authenticate("user-jwt", { session: false }));
 
 router.get("/auth", (req, res) => {
