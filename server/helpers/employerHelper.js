@@ -1,7 +1,64 @@
 const mongoose = require("mongoose");
 const Job = require("../models/job");
+const Application = require("../models/application");
 
 module.exports = {
+  getCounts: (employerId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const jobsCount = await Job.countDocuments({
+          employerId: mongoose.Types.ObjectId(employerId),
+        });
+
+        const applications = await Application.aggregate()
+          .lookup({
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "jobDetails",
+          })
+          .unwind("jobDetails")
+          .match({
+            "jobDetails.employerId": mongoose.Types.ObjectId(employerId),
+          });
+
+        const approvedApplications = await Application.aggregate()
+          .match({ status: "Approved" })
+          .lookup({
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "jobDetails",
+          })
+          .unwind("jobDetails")
+          .match({
+            "jobDetails.employerId": mongoose.Types.ObjectId(employerId),
+          });
+
+        const rejectedApplications = await Application.aggregate()
+          .match({ status: "Rejected" })
+          .lookup({
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "jobDetails",
+          })
+          .unwind("jobDetails")
+          .match({
+            "jobDetails.employerId": mongoose.Types.ObjectId(employerId),
+          });
+
+        resolve({
+          jobsCount,
+          applicationsCount: applications.length,
+          approvedApplicationsCount: approvedApplications.length,
+          rejectedApplicationsCount: rejectedApplications.length,
+        });
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
   postJob: (jobDetails, logoDetails, protocol, host, employerId) => {
     return new Promise((resolve, reject) => {
       const newJob = {

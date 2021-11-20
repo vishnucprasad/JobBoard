@@ -136,6 +136,13 @@ router.get("/logout", (req, res) => {
     .json({ status: true, message: "Successfully logged out" });
 });
 
+router.get("/dashboard", (req, res) => {
+  employerHelper
+    .getCounts(req.user._id)
+    .then((data) => res.json(data))
+    .catch((error) => res.json(error));
+});
+
 router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
   employerHelper
     .postJob(req.body, req.file, req.protocol, req.get("host"), req.user._id)
