@@ -139,7 +139,12 @@ router.get("/logout", (req, res) => {
 router.get("/dashboard", (req, res) => {
   employerHelper
     .getCounts(req.user._id)
-    .then((data) => res.json(data))
+    .then((data) => {
+      employerHelper
+        .getApplicationFrequency(req.user._id)
+        .then((frequency) => res.json({ ...data, ...frequency }))
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
 });
 

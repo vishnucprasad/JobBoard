@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Job = require("../models/job");
 const Application = require("../models/application");
+const moment = require("moment");
 
 module.exports = {
   getCounts: (employerId) => {
@@ -57,6 +58,75 @@ module.exports = {
       } catch (error) {
         reject(error);
       }
+    });
+  },
+  getApplicationFrequency: (employerId) => {
+    return new Promise(async (resolve, reject) => {
+      // pmfd : previous month firstday & pmld : previous month last day
+      const pmfd = moment().subtract(1, "months").startOf("month").valueOf();
+      const pmld = moment().subtract(1, "months").endOf("month").valueOf();
+      const cmfd = moment().startOf("month").valueOf();
+      const cmld = moment().valueOf();
+
+      const pastMonthFrequency = [];
+      const currentMonthFrequency = [];
+
+      const nextDay = (day) => moment(day).add(1, "days").valueOf();
+
+      const getApplicationsByDay = async (day, nextDay) => {
+        try {
+          const applications = await Application.aggregate()
+            .match({
+              $or: [
+                {
+                  createdAt: moment(day).valueOf().toString(),
+                },
+                {
+                  createdAt: {
+                    $gt: moment(day).valueOf().toString(),
+                    $lt: moment(nextDay).valueOf().toString(),
+                  },
+                },
+              ],
+            })
+            .lookup({
+              from: "jobs",
+              localField: "jobId",
+              foreignField: "_id",
+              as: "jobDetails",
+            })
+            .unwind("jobDetails")
+            .match({
+              "jobDetails.employerId": mongoose.Types.ObjectId(employerId),
+            });
+
+          return applications;
+        } catch (error) {
+          throw new Error("An unexpected error occured", error);
+        }
+      };
+
+      for (day = pmfd; day <= pmld; day = nextDay(day)) {
+        try {
+          const applications = await getApplicationsByDay(day, nextDay(day));
+
+          pastMonthFrequency.push(applications.length);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      for (day = cmfd; day <= cmld; day = nextDay(day)) {
+        try {
+          const applications = await getApplicationsByDay(day, nextDay(day));
+
+          currentMonthFrequency.push(applications.length);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      resolve({ pastMonthFrequency, currentMonthFrequency });
     });
   },
   postJob: (jobDetails, logoDetails, protocol, host, employerId) => {
