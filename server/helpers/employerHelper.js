@@ -50,10 +50,12 @@ module.exports = {
           });
 
         resolve({
-          jobsCount,
-          applicationsCount: applications.length,
-          approvedApplicationsCount: approvedApplications.length,
-          rejectedApplicationsCount: rejectedApplications.length,
+          counts: [
+            { title: "Jobs", value: jobsCount },
+            { title: "Resume Requests", value: applications.length },
+            { title: "Approved Requests", value: approvedApplications.length },
+            { title: "Rejected Requests", value: rejectedApplications.length },
+          ],
         });
       } catch (error) {
         reject(error);

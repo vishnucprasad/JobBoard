@@ -1,32 +1,31 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 
 const DashboardCharts = () => {
-  const array = Array(31)
+  const [
+    {
+      dashboardData: { pastMonthFrequency, currentMonthFrequency },
+    },
+  ] = useEmployerState();
+
+  const labelsArray = Array(31)
     .fill()
     .map((_, index) => 1 + index);
 
-  const currentMonth = [];
-  const pastMonth = [];
-
-  array.forEach((value) => {
-    currentMonth.push(value * Math.floor(Math.random() * (6 - 1) + 1));
-    pastMonth.push(value * Math.floor(Math.random() * (6 - 1) + 1));
-  });
-
   const data = {
-    labels: array,
+    labels: labelsArray,
     datasets: [
       {
         label: "Current Month",
-        data: currentMonth,
+        data: currentMonthFrequency,
         fill: false,
         backgroundColor: "rgb(54, 162, 235)",
         borderColor: "rgba(54, 162, 235, 0.2)",
       },
       {
         label: "Past Month",
-        data: pastMonth,
+        data: pastMonthFrequency,
         fill: false,
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgba(255, 99, 132, 0.2)",

@@ -1,4 +1,5 @@
 export const employerInitialState = {
+  dashboardData: {},
   jobs: [],
 };
 
@@ -7,6 +8,7 @@ export const employerActionTypes = {
   DELETE_JOB: "DELETE_JOB",
   UPDATE_JOB: "UPDATE_JOB",
   SET_JOBS: "SET_JOBS",
+  SET_DASHBOARD_DATA: "SET_DASHBOARD_DATA",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
 
@@ -37,6 +39,11 @@ const employerReducer = (state, action) => {
       return {
         ...state,
         jobs: action.jobs,
+      };
+    case employerActionTypes.SET_DASHBOARD_DATA:
+      return {
+        ...state,
+        dashboardData: action.data,
       };
     case employerActionTypes.SET_TO_INITIAL_STATE:
       return employerInitialState;
