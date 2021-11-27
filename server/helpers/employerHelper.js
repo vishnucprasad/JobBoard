@@ -189,4 +189,21 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  getAllResumes: (employerId) => {
+    return new Promise((resolve, reject) => {
+      Application.aggregate()
+        .lookup({
+          from: "jobs",
+          localField: "jobId",
+          foreignField: "_id",
+          as: "jobDetails",
+        })
+        .unwind("jobDetails")
+        .match({
+          "jobDetails.employerId": mongoose.Types.ObjectId(employerId),
+        })
+        .then((resumes) => resolve(resumes))
+        .catch((error) => reject(error));
+    });
+  },
 };

@@ -176,4 +176,11 @@ router.get("/jobs", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.get("/resumes", (req, res) => {
+  employerHelper
+    .getAllResumes(req.user._id)
+    .then((resumes) => res.json(resumes))
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;
