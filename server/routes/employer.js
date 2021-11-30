@@ -183,4 +183,11 @@ router.get("/resumes", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.post("/resume/approve", (req, res) => {
+  employerHelper
+    .approveResume(req.body.resumeId, req.user._id)
+    .then((resume) => res.json(resume))
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;

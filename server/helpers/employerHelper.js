@@ -206,4 +206,39 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  approveResume: (resumeId, employerId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const resume = await Application.aggregate()
+          .match({
+            _id: mongoose.Types.ObjectId(resumeId),
+          })
+          .lookup({
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "jobDetails",
+          })
+          .unwind("jobDetails");
+
+        if (!resume[0]) {
+          reject({ error: "Resume not found" });
+        } else if (
+          resume[0].jobDetails.employerId.toString() === employerId.toString()
+        ) {
+          Application.findByIdAndUpdate(
+            resumeId,
+            { status: "Approved" },
+            { new: true }
+          )
+            .then((resume) => resolve(resume))
+            .catch((error) => reject(error));
+        } else {
+          reject({ error: "Access Denied" });
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
 };
