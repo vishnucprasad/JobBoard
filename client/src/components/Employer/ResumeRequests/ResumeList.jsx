@@ -42,7 +42,7 @@ const ResumeList = () => {
                 <div className="card-body">
                   <div className="row align-items-center">
                     <div className="col-md-9">
-                      <Link to={`/employer/resume-requests/view/${resume.id}`}>
+                      <Link to={`/employer/resume-requests/view/${resume._id}`}>
                         <p className="text-twitter font-weight-bold text-uppercase">
                           {resume.jobDetails.title} | {resume.jobDetails.type}
                         </p>
@@ -89,7 +89,7 @@ const ResumeList = () => {
                             Download Resume
                           </button>
                           <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
-                            Aproove
+                            Approve
                           </button>
                           <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
                             Reject
