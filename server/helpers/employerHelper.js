@@ -206,7 +206,7 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
-  approveResume: (resumeId, employerId) => {
+  updateResumeStatus: (resumeId, employerId, updates) => {
     return new Promise(async (resolve, reject) => {
       try {
         const resume = await Application.aggregate()
@@ -226,11 +226,7 @@ module.exports = {
         } else if (
           resume[0].jobDetails.employerId.toString() === employerId.toString()
         ) {
-          Application.findByIdAndUpdate(
-            resumeId,
-            { status: "Approved" },
-            { new: true }
-          )
+          Application.findByIdAndUpdate(resumeId, updates, { new: true })
             .then((resume) => resolve(resume))
             .catch((error) => reject(error));
         } else {

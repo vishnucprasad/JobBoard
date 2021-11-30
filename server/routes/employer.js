@@ -185,7 +185,14 @@ router.get("/resumes", (req, res) => {
 
 router.post("/resume/approve", (req, res) => {
   employerHelper
-    .approveResume(req.body.resumeId, req.user._id)
+    .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Approved" })
+    .then((resume) => res.json(resume))
+    .catch((error) => res.json(error));
+});
+
+router.post("/resume/reject", (req, res) => {
+  employerHelper
+    .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Rejected" })
     .then((resume) => res.json(resume))
     .catch((error) => res.json(error));
 });
