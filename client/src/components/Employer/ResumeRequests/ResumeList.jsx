@@ -4,12 +4,48 @@ import SearchIcon from "@material-ui/icons/Search";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { saveAs } from "file-saver";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import { employerInstance } from "../../../axios/axios";
+import MySwal, { Toast } from "../../../config/sweetalert/swal";
 
 const ResumeList = () => {
   const [{ resumes }] = useEmployerState();
 
   const downloadResume = ({ name, url, filename }) =>
     saveAs(url, `${name}-${filename}`);
+
+  const approveResume = (resumeId) => {
+    MySwal.fire({
+      title: "Are you sure you want to approve this resume?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Approve",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        employerInstance
+          .post("/resume/approve", { resumeId })
+          .then(({ data }) => {
+            if (data.status === "Approved") {
+              Toast.fire({
+                title: "Successfully Updated",
+                icon: "success",
+              });
+            } else {
+              Toast.fire({
+                title: "Something went wrong, Please try again",
+                icon: "error",
+              });
+            }
+          })
+          .catch((error) => {
+            Toast.fire({
+              title: "Something went wrong, Please try again",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
 
   return (
     <div className="resume-list mt-4">
@@ -88,7 +124,10 @@ const ResumeList = () => {
                           >
                             Download Resume
                           </button>
-                          <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
+                          <button
+                            className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3"
+                            onClick={() => approveResume(resume._id)}
+                          >
                             Approve
                           </button>
                           <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
