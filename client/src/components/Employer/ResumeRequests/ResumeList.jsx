@@ -27,7 +27,41 @@ const ResumeList = () => {
           .then(({ data }) => {
             if (data.status === "Approved") {
               Toast.fire({
-                title: "Successfully Updated",
+                title: "Successfully Approved",
+                icon: "success",
+              });
+            } else {
+              Toast.fire({
+                title: "Something went wrong, Please try again",
+                icon: "error",
+              });
+            }
+          })
+          .catch((error) => {
+            Toast.fire({
+              title: "Something went wrong, Please try again",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
+
+  const rejectResume = (resumeId) => {
+    MySwal.fire({
+      title: "Are you sure you want to reject this resume?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Reject",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        employerInstance
+          .post("/resume/reject", { resumeId })
+          .then(({ data }) => {
+            if (data.status === "Rejected") {
+              Toast.fire({
+                title: "Successfully Rejected",
                 icon: "success",
               });
             } else {
@@ -130,7 +164,10 @@ const ResumeList = () => {
                           >
                             Approve
                           </button>
-                          <button className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3">
+                          <button
+                            className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3"
+                            onClick={() => rejectResume(resume._id)}
+                          >
                             Reject
                           </button>
                         </div>
