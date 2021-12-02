@@ -1,17 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { saveAs } from "file-saver";
 import SearchIcon from "@material-ui/icons/Search";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 import { approvedRequests } from "../../../selectors/employer";
+import ActionButtons from "./ActionButtons";
 
 const AproovedResumeList = () => {
   const [{ resumes }] = useEmployerState();
   const requests = approvedRequests(resumes);
-
-  const downloadResume = ({ name, url, filename }) =>
-    saveAs(url, `${name}-${filename}`);
 
   return (
     <div className="resume-list mt-4">
@@ -79,27 +76,7 @@ const AproovedResumeList = () => {
                       </Link>
                     </div>
                     <div className="col-md-3">
-                      <div className="d-flex align-items-center">
-                        <div className="w-100">
-                          <button
-                            onClick={() =>
-                              downloadResume({
-                                name: request.name,
-                                ...request.resume,
-                              })
-                            }
-                            className="btn btn-primary btn-sm btn-block text-slack text-uppercase font-weight-bold mt-3"
-                          >
-                            Download Resume
-                          </button>
-                          <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
-                            Schedule Meeting
-                          </button>
-                          <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
-                            Mark As Appointed
-                          </button>
-                        </div>
-                      </div>
+                      <ActionButtons request={request} />
                     </div>
                   </div>
                 </div>
