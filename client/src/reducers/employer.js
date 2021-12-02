@@ -11,6 +11,7 @@ export const employerActionTypes = {
   SET_JOBS: "SET_JOBS",
   SET_DASHBOARD_DATA: "SET_DASHBOARD_DATA",
   SET_RESUMES: "SET_RESUMES",
+  UPDATE_RESUMES: "UPDATE_RESUMES",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
 
@@ -51,6 +52,20 @@ const employerReducer = (state, action) => {
       return {
         ...state,
         resumes: action.resumes,
+      };
+    case employerActionTypes.UPDATE_RESUMES:
+      return {
+        ...state,
+        resumes: state.resumes.map((resume) => {
+          if (resume._id === action.resumeId) {
+            return {
+              ...resume,
+              ...action.updates,
+            };
+          } else {
+            return resume;
+          }
+        }),
       };
     case employerActionTypes.SET_TO_INITIAL_STATE:
       return employerInitialState;

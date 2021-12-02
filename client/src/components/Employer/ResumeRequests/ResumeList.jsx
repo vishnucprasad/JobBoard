@@ -4,11 +4,14 @@ import SearchIcon from "@material-ui/icons/Search";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { saveAs } from "file-saver";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import { appliedRequests } from "../../../selectors/employer";
 import { employerInstance } from "../../../axios/axios";
+import { employerActionTypes } from "../../../reducers/employer";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
 
 const ResumeList = () => {
-  const [{ resumes }] = useEmployerState();
+  const [{ resumes }, dispatch] = useEmployerState();
+  const requests = appliedRequests(resumes);
 
   const downloadResume = ({ name, url, filename }) =>
     saveAs(url, `${name}-${filename}`);
@@ -26,6 +29,13 @@ const ResumeList = () => {
           .post("/resume/approve", { resumeId })
           .then(({ data }) => {
             if (data.status === "Approved") {
+              dispatch({
+                type: employerActionTypes.UPDATE_RESUMES,
+                resumeId,
+                updates: {
+                  status: data.status,
+                },
+              });
               Toast.fire({
                 title: "Successfully Approved",
                 icon: "success",
@@ -60,6 +70,13 @@ const ResumeList = () => {
           .post("/resume/reject", { resumeId })
           .then(({ data }) => {
             if (data.status === "Rejected") {
+              dispatch({
+                type: employerActionTypes.UPDATE_RESUMES,
+                resumeId,
+                updates: {
+                  status: data.status,
+                },
+              });
               Toast.fire({
                 title: "Successfully Rejected",
                 icon: "success",
@@ -107,32 +124,34 @@ const ResumeList = () => {
         </div>
         <div className="card-body shadow-inset rounded m-3 px-3 pt-3 pb-0">
           <div className="scroll-70 px-2 pt-2 pb-0">
-            {resumes.map((resume) => (
-              <div key={resume._id} className="card shadow-soft rounded mb-4">
+            {requests.map((request) => (
+              <div key={request._id} className="card shadow-soft rounded mb-4">
                 <div className="card-body">
                   <div className="row align-items-center">
                     <div className="col-md-9">
-                      <Link to={`/employer/resume-requests/view/${resume._id}`}>
+                      <Link
+                        to={`/employer/resume-requests/view/${request._id}`}
+                      >
                         <p className="text-twitter font-weight-bold text-uppercase">
-                          {resume.jobDetails.title} | {resume.jobDetails.type}
+                          {request.jobDetails.title} | {request.jobDetails.type}
                         </p>
                         <div className="d-block d-md-flex text-center align-items-center">
                           <img
-                            src={resume.photo.url}
+                            src={request.photo.url}
                             alt=""
                             className="img-fluid rounded-circle resume-image mr-3"
                           />
                           <h4 className="font-weight-bold m-0">
-                            {resume.name}
+                            {request.name}
                           </h4>
                         </div>
                         <div className="font-weight-bold mt-3 mb-2">
                           <div className="mb-3">
                             <LocationOnIcon className="text-twitter" />
-                            {`${resume.location.street}, ${resume.location.city}, ${resume.location.district}, ${resume.location.state}, ${resume.location.country}, ${resume.location.pinNumber}`}
+                            {`${request.location.street}, ${request.location.city}, ${request.location.district}, ${request.location.state}, ${request.location.country}, ${request.location.pinNumber}`}
                           </div>
                           <div className="mr-3">
-                            {resume.skills.map((skill, index) => (
+                            {request.skills.map((skill, index) => (
                               <span
                                 key={index}
                                 className="badge badge-twitter font-weight-bolder mr-3"
@@ -150,8 +169,8 @@ const ResumeList = () => {
                           <button
                             onClick={() =>
                               downloadResume({
-                                name: resume.name,
-                                ...resume.resume,
+                                name: request.name,
+                                ...request.resume,
                               })
                             }
                             className="btn btn-primary btn-sm btn-block text-slack text-uppercase font-weight-bold mt-3"
@@ -160,13 +179,13 @@ const ResumeList = () => {
                           </button>
                           <button
                             className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3"
-                            onClick={() => approveResume(resume._id)}
+                            onClick={() => approveResume(request._id)}
                           >
                             Approve
                           </button>
                           <button
                             className="btn btn-primary btn-sm btn-block text-danger text-uppercase font-weight-bold mt-3"
-                            onClick={() => rejectResume(resume._id)}
+                            onClick={() => rejectResume(request._id)}
                           >
                             Reject
                           </button>
