@@ -237,4 +237,62 @@ module.exports = {
       }
     });
   },
+  scheduleMeeting: (
+    { resumeId, meetingType, meetingLink, locationLink, date, time, message },
+    employerId
+  ) => {
+    return new Promise(async (resolve, reject) => {
+      if (meetingType === "online meeting" && !meetingLink) {
+        reject({ error: "Meeting link is required" });
+      } else if (meetingType === "office interview" && !locationLink) {
+        reject({ error: "Location link is required" });
+      } else {
+        const updates = {
+          schedule:
+            meetingType === "online meeting"
+              ? {
+                  meetingType,
+                  meetingLink,
+                  date,
+                  time,
+                  message,
+                }
+              : {
+                  meetingType,
+                  locationLink,
+                  date,
+                  time,
+                  message,
+                },
+        };
+
+        try {
+          const resume = await Application.aggregate()
+            .match({
+              _id: mongoose.Types.ObjectId(resumeId),
+            })
+            .lookup({
+              from: "jobs",
+              localField: "jobId",
+              foreignField: "_id",
+              as: "jobDetails",
+            })
+            .unwind("jobDetails")
+            .match({
+              "jobDetails.employerId": mongoose.Types.ObjectId(employerId),
+            });
+
+          if (resume[0]) {
+            Application.findByIdAndUpdate(resumeId, updates, { new: true })
+              .then((resume) => resolve(resume))
+              .catch((error) => reject(error));
+          } else {
+            reject({ error: "Resume not found" });
+          }
+        } catch (error) {
+          reject(error);
+        }
+      }
+    });
+  },
 };

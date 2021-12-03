@@ -95,6 +95,26 @@ const applicationSchema = new Schema({
       required: true,
     },
   },
+  schedule: {
+    meetingType: {
+      type: String,
+    },
+    meetingLink: {
+      type: String,
+    },
+    locationLink: {
+      type: String,
+    },
+    date: {
+      type: String,
+    },
+    time: {
+      type: String,
+    },
+    message: {
+      type: String,
+    },
+  },
 });
 
 const Application = mongoose.model("application", applicationSchema);

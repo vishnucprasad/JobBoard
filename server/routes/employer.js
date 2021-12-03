@@ -190,6 +190,13 @@ router.post("/resume/approve", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.post("/resume/approve/schedule", (req, res) => {
+  employerHelper
+    .scheduleMeeting(req.body, req.user._id)
+    .then((resume) => res.json(resume))
+    .catch((error) => res.json(error));
+});
+
 router.post("/resume/reject", (req, res) => {
   employerHelper
     .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Rejected" })
