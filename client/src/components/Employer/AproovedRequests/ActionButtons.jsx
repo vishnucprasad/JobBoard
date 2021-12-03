@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { saveAs } from "file-saver";
 
 const ActionButtons = ({ request }) => {
@@ -19,9 +20,12 @@ const ActionButtons = ({ request }) => {
         >
           Download Resume
         </button>
-        <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
+        <Link
+          to={`/employer/approved-requests/schedule/${request._id}`}
+          className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3"
+        >
           Schedule Meeting
-        </button>
+        </Link>
         <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
           Mark As Appointed
         </button>
