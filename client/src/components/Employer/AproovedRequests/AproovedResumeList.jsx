@@ -46,7 +46,7 @@ const AproovedResumeList = () => {
                     <div className="row align-items-center">
                       <div className="col-md-9">
                         <Link
-                          to={`/employer/resume-requests/view/${request._id}`}
+                          to={`/employer/approved-requests/view/${request._id}`}
                         >
                           <p className="text-twitter font-weight-bold text-uppercase">
                             {request.jobDetails.title} |{" "}

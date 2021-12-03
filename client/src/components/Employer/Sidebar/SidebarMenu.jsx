@@ -42,7 +42,7 @@ const SidebarMenu = () => {
         </ListGroup.Item>
       </NavLink>
       <NavLink
-        to="/employer/aprooved-requests"
+        to="/employer/approved-requests"
         activeClassName="bg-light text-twitter"
       >
         <ListGroup.Item as="li" className="border-0 font-weight-bold">

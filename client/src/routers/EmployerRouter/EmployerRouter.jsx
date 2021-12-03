@@ -63,8 +63,18 @@ const EmployerRouter = () => {
         exact={true}
       />
       <EmployerPrivateRoute
-        path="/employer/aprooved-requests"
+        path="/employer/resume-requests/view/:id"
+        component={ViewRequest}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/approved-requests"
         component={AproovedRequests}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/approved-requests/view/:id"
+        component={ViewRequest}
         exact={true}
       />
       <EmployerPrivateRoute
@@ -73,7 +83,7 @@ const EmployerRouter = () => {
         exact={true}
       />
       <EmployerPrivateRoute
-        path="/employer/resume-requests/view/:id"
+        path="/employer/rejected-requests/view/:id"
         component={ViewRequest}
         exact={true}
       />
