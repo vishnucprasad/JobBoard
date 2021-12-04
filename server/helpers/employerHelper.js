@@ -242,7 +242,9 @@ module.exports = {
     employerId
   ) => {
     return new Promise(async (resolve, reject) => {
-      if (meetingType === "online meeting" && !meetingLink) {
+      if (!resumeId || !meetingType || !date || !time || !message) {
+        reject({ error: "Invalid Data" });
+      } else if (meetingType === "online meeting" && !meetingLink) {
         reject({ error: "Meeting link is required" });
       } else if (meetingType === "office interview" && !locationLink) {
         reject({ error: "Location link is required" });

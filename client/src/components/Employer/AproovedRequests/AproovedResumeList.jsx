@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
@@ -48,10 +49,23 @@ const AproovedResumeList = () => {
                         <Link
                           to={`/employer/approved-requests/view/${request._id}`}
                         >
-                          <p className="text-twitter font-weight-bold text-uppercase">
-                            {request.jobDetails.title} |{" "}
-                            {request.jobDetails.type}
-                          </p>
+                          <div className="d-flex">
+                            <p className="text-twitter font-weight-bold text-uppercase">
+                              {request.jobDetails.title} |{" "}
+                              {request.jobDetails.type}
+                            </p>
+                            {request.schedule && (
+                              <div className="ml-3">
+                                <div className="badge badge-slack text-capitalize">
+                                  {request.schedule.meetingType} Scheduled on{" "}
+                                  {moment(
+                                    parseInt(request.schedule.date)
+                                  ).format("MMMM Do, YYYY")}{" "}
+                                  at {request.schedule.time}
+                                </div>
+                              </div>
+                            )}
+                          </div>
                           <div className="d-block d-md-flex text-center align-items-center">
                             <img
                               src={request.photo.url}

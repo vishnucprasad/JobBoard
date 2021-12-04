@@ -1,8 +1,11 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import Layout from "../../components/Employer/Layout/Layout";
 import ScheduleMeetingForm from "../../components/Employer/ScheduleMeeting/ScheduleMeetingForm";
 
 const ScheduleMeeting = () => {
+  const { id } = useParams();
+
   return (
     <Layout>
       <div className="mb-4">
@@ -10,7 +13,7 @@ const ScheduleMeeting = () => {
           <span className="">Schedule Meeting</span>
         </h6>
       </div>
-      <ScheduleMeetingForm />
+      <ScheduleMeetingForm resumeId={id} />
     </Layout>
   );
 };

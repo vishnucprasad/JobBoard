@@ -24,7 +24,7 @@ const ActionButtons = ({ request }) => {
           to={`/employer/approved-requests/schedule/${request._id}`}
           className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3"
         >
-          Schedule Meeting
+          {request.schedule ? "Reschedule Meeting" : "Schedule Meeting"}
         </Link>
         <button className="btn btn-primary btn-sm btn-block text-twitter text-uppercase font-weight-bold mt-3">
           Mark As Appointed

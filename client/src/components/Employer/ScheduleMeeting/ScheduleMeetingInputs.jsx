@@ -1,7 +1,14 @@
 import React from "react";
 import { SingleDatePicker } from "react-dates";
 
-const ScheduleMeetingInputs = ({ state, setState, date, setDate }) => {
+const ScheduleMeetingInputs = ({
+  state,
+  setState,
+  date,
+  setDate,
+  calenderFocused,
+  setCalenderFocused,
+}) => {
   const onDateChange = (date) => {
     if (date) {
       setDate(date);
@@ -9,7 +16,7 @@ const ScheduleMeetingInputs = ({ state, setState, date, setDate }) => {
   };
 
   const onFocusChange = ({ focused }) => {
-    setState({ ...state, calenderFocused: focused });
+    setCalenderFocused(focused);
   };
 
   return (
@@ -61,7 +68,7 @@ const ScheduleMeetingInputs = ({ state, setState, date, setDate }) => {
             <SingleDatePicker
               date={date}
               onDateChange={onDateChange}
-              focused={state.calenderFocused}
+              focused={calenderFocused}
               onFocusChange={onFocusChange}
               numberOfMonths={1}
               isOutsideRange={() => false}
