@@ -9,3 +9,7 @@ export const approvedRequests = (requests) => {
 export const rejectedRequests = (requests) => {
   return requests.filter((request) => request.status === "Rejected");
 };
+
+export const appointedRequests = (requests) => {
+  return requests.filter((request) => request.status === "Appointed");
+};
