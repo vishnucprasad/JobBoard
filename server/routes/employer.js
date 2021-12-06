@@ -204,4 +204,13 @@ router.post("/resume/reject", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.post("/resume/appoint", (req, res) => {
+  employerHelper
+    .updateResumeStatus(req.body.resumeId, req.user._id, {
+      status: "Appointed",
+    })
+    .then((resume) => res.json(resume))
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;
