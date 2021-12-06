@@ -2,7 +2,7 @@ import React from "react";
 
 const Loading = () => {
   return (
-    <section className="min-vh-100 d-flex align-items-center">
+    <section className="loader-container">
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-12 col-lg-6 mb-5 mb-lg-0">

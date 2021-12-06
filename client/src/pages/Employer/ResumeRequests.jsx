@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/Employer/Layout/Layout";
 import ResumeList from "../../components/Employer/ResumeRequests/ResumeList";
 import { useEmployerState } from "../../contexts/EmployerStateProvider";
 import { employerActionTypes } from "../../reducers/employer";
@@ -33,14 +32,14 @@ const ResumeRequests = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>
+    <div>
       <div className="mb-4">
         <h6 className="font-weight-bold text-uppercase m-0">
           <span className="">Resume Requests</span>
         </h6>
       </div>
       <ResumeList />
-    </Layout>
+    </div>
   );
 };
 

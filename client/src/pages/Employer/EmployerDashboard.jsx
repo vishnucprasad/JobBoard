@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/Employer/Layout/Layout";
 import DashboardTiles from "../../components/Employer/Dashboard/DashboardTiles";
 import DashboardCharts from "../../components/Employer/Dashboard/DashboardCharts";
 import { useEmployerState } from "../../contexts/EmployerStateProvider";
@@ -24,7 +23,7 @@ const EmployerDashboard = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>
+    <div>
       <div className="mb-4">
         <h6 className="font-weight-bold text-uppercase m-0">
           <span className="">Dashboard</span>
@@ -32,7 +31,7 @@ const EmployerDashboard = () => {
       </div>
       <DashboardTiles />
       <DashboardCharts />
-    </Layout>
+    </div>
   );
 };
 

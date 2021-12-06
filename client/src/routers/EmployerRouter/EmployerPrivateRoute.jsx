@@ -4,6 +4,7 @@ import { useAuthState } from "../../contexts/AuthStateProvider";
 import { employerInstance } from "../../axios/axios";
 import { authActionTypes } from "../../reducers/auth";
 import Loader from "../../pages/Loader";
+import Layout from "../../components/Employer/Layout/Layout";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const [{ auth }, dispatch] = useAuthState();
@@ -39,9 +40,9 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       {...rest}
       component={(props) =>
         isAuthenticated ? (
-          <div>
+          <Layout>
             <Component {...props} />
-          </div>
+          </Layout>
         ) : (
           <Redirect to="/employer" />
         )

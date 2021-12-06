@@ -1,7 +1,7 @@
 .loader-container {
   align-items: center;
   display: flex;
-  height: 100vh;
+  height: 80vh;
   justify-content: center;
 }
 
@@ -42,7 +42,6 @@
   );
 
   filter: blur(20px);
-  z-index: -1;
   animation: animate 0.5s linear infinite;
 }
 
