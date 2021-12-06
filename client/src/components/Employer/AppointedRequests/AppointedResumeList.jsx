@@ -1,5 +1,4 @@
 import React from "react";
-import moment from "moment";
 import { Link } from "react-router-dom";
 import SearchIcon from "@material-ui/icons/Search";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
