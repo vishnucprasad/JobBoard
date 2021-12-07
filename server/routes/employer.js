@@ -220,4 +220,11 @@ router.post("/resume/appoint", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.delete("/resume/:id", (req, res) => {
+  employerHelper
+    .deleteResume(req.params.id, req.user._id)
+    .then((resume) => res.json(resume))
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;

@@ -297,4 +297,34 @@ module.exports = {
       }
     });
   },
+  deleteResume: (resumeId, employerId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const resume = await Application.aggregate()
+          .match({
+            _id: mongoose.Types.ObjectId(resumeId),
+          })
+          .lookup({
+            from: "jobs",
+            localField: "jobId",
+            foreignField: "_id",
+            as: "jobDetails",
+          })
+          .unwind("jobDetails")
+          .match({
+            "jobDetails.employerId": mongoose.Types.ObjectId(employerId),
+          });
+
+        if (!resume[0]) {
+          reject({ error: "Resume not found" });
+        } else {
+          Application.findOneAndDelete(resumeId)
+            .then((resume) => resolve(resume))
+            .catch((error) => reject(error));
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
 };
