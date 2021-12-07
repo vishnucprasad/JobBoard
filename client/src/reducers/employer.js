@@ -12,6 +12,7 @@ export const employerActionTypes = {
   SET_DASHBOARD_DATA: "SET_DASHBOARD_DATA",
   SET_RESUMES: "SET_RESUMES",
   UPDATE_RESUMES: "UPDATE_RESUMES",
+  DELETE_RESUME: "DELETE_RESUME",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
 
@@ -66,6 +67,13 @@ const employerReducer = (state, action) => {
             return resume;
           }
         }),
+      };
+    case employerActionTypes.DELETE_RESUME:
+      return {
+        ...state,
+        resumes: state.resumes.filter(
+          (resume) => resume._id !== action.resumeId
+        ),
       };
     case employerActionTypes.SET_TO_INITIAL_STATE:
       return employerInitialState;
