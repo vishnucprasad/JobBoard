@@ -2,7 +2,7 @@ import React from "react";
 import { saveAs } from "file-saver";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 import { employerActionTypes } from "../../../reducers/employer";
-import { employerInstance } from "../../../axios/axios";
+import Axios, { employerInstance } from "../../../axios/axios";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
 
 const ActionButtons = ({ request }) => {
@@ -63,7 +63,10 @@ const ActionButtons = ({ request }) => {
       if (result.isConfirmed) {
         employerInstance
           .delete(`/resume/${resumeId}`)
-          .then(({ data }) => {
+          .then(async ({ data }) => {
+            console.log(data);
+            await Axios.delete(`/file/${data.resume.id}`);
+            await Axios.delete(`/file/${data.photo.id}`);
             dispatch({
               type: employerActionTypes.DELETE_RESUME,
               resumeId,

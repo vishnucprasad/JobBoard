@@ -318,7 +318,7 @@ module.exports = {
         if (!resume[0]) {
           reject({ error: "Resume not found" });
         } else {
-          Application.findOneAndDelete(resumeId)
+          Application.findByIdAndDelete(resumeId)
             .then((resume) => resolve(resume))
             .catch((error) => reject(error));
         }
