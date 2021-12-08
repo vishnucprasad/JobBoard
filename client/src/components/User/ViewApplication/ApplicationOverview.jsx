@@ -26,6 +26,8 @@ const ApplicationOverview = ({ applicationId }) => {
               application.status === "Applied"
                 ? "badge-twitter"
                 : application.status === "Approved"
+                ? "badge-success"
+                : application.status === "Appointed"
                 ? "badge-slack"
                 : application.status === "Rejected"
                 ? "badge-danger"
