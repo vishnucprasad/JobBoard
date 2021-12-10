@@ -44,71 +44,69 @@ const RequestFiltersInput = () => {
   };
 
   return (
-    <div className="py-4">
-      <div className="card bg-primary shadow-inset border-light">
-        <div className="card-body">
-          <div className="row">
-            <div className="col-md-4 my-2 mb-md-3">
-              <DateRangePicker
-                startDate={startDate}
-                startDateId="startDate"
-                endDate={endDate}
-                endDateId="endDate"
-                onDatesChange={onDatesChange}
-                focusedInput={calenderFocused}
-                onFocusChange={onFocusChange}
-                showClearDates={true}
-                numberOfMonths={1}
-                isOutsideRange={() => false}
+    <div className="card bg-primary shadow-inset border-light">
+      <div className="card-body py-2 px-3">
+        <div className="row">
+          <div className="col-md-4 my-2 mb-md-3">
+            <DateRangePicker
+              startDate={startDate}
+              startDateId="startDate"
+              endDate={endDate}
+              endDateId="endDate"
+              onDatesChange={onDatesChange}
+              focusedInput={calenderFocused}
+              onFocusChange={onFocusChange}
+              showClearDates={true}
+              numberOfMonths={1}
+              isOutsideRange={() => false}
+            />
+          </div>
+          <div className="col-md-4 my-2 mb-md-3">
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text">
+                  <SortIcon className="text-twitter" />
+                </span>
+              </div>
+              <select
+                className="custom-select"
+                id="categorySelect"
+                onChange={onSortChange}
+              >
+                <option value={sort} selected="selected" hidden>
+                  {sort}
+                </option>
+                <option value="Date" selected="selected">
+                  Date
+                </option>
+                <option value="Salary" selected="selected">
+                  Salary
+                </option>
+              </select>
+            </div>
+          </div>
+          <div className="col-md-4 my-2 mb-md-3">
+            <div className="input-group">
+              <div className="input-group-prepend">
+                <span className="input-group-text">
+                  <SearchIcon className="text-twitter" />
+                </span>
+              </div>
+              <input
+                className="form-control"
+                placeholder="Search"
+                type="text"
+                autoFocus
+                value={search}
+                onChange={onSearchChange}
               />
             </div>
-            <div className="col-md-4 my-2 mb-md-3">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    <SortIcon className="text-twitter" />
-                  </span>
-                </div>
-                <select
-                  className="custom-select"
-                  id="categorySelect"
-                  onChange={onSortChange}
-                >
-                  <option value={sort} selected="selected" hidden>
-                    {sort}
-                  </option>
-                  <option value="Date" selected="selected">
-                    Date
-                  </option>
-                  <option value="Salary" selected="selected">
-                    Salary
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div className="col-md-4 my-2 mb-md-3">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">
-                    <SearchIcon className="text-twitter" />
-                  </span>
-                </div>
-                <input
-                  className="form-control"
-                  placeholder="Search"
-                  type="text"
-                  autoFocus
-                  value={search}
-                  onChange={onSearchChange}
-                />
-              </div>
-            </div>
-            <div className="col-lg-6">
-              <CategoryList />
-            </div>
-            <div className="col-lg-6">
-              <SubCategoryList />
-            </div>
+          </div>
+          <div className="col-lg-6">
+            <CategoryList />
+          </div>
+          <div className="col-lg-6">
+            <SubCategoryList />
           </div>
         </div>
       </div>
