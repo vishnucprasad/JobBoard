@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SearchIcon from "@material-ui/icons/Search";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 import { rejectedRequests } from "../../../selectors/employer";
 import ActionButtons from "./ActionButtons";
+import RequestFilters from "../RequestFilters/RequestFilters";
 
 const RejectedResumeList = () => {
   const [{ resumes }] = useEmployerState();
@@ -14,24 +14,9 @@ const RejectedResumeList = () => {
     <div className="resume-list mt-4">
       <div className="card bg-primary shadow-soft border-light">
         <div className="card-header pb-0">
-          <div className="text-uppercase d-md-flex mb-0">
+          <div className="text-uppercase">
             <div className="font-weight-bolder h6">Resumes</div>
-            <div className="w-md-25 ml-auto">
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text text-twitter">
-                    <SearchIcon />
-                  </span>
-                </div>
-                <input
-                  className="form-control"
-                  id="exampleInputIcon1"
-                  placeholder="Search for resumes..."
-                  type="text"
-                  aria-label="Input with icon left"
-                />
-              </div>
-            </div>
+            <RequestFilters />
           </div>
         </div>
         <div className="card-body shadow-inset rounded m-3 px-3 pt-3 pb-0">
