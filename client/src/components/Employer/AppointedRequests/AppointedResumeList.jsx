@@ -5,10 +5,12 @@ import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 import { appointedRequests } from "../../../selectors/employer";
 import ActionButtons from "./ActionButtons";
 import RequestFilters from "../RequestFilters/RequestFilters";
+import { useEmployerFiltersState } from "../../../contexts/EmployerFiltersStateProvider";
 
 const AppointedResumeList = () => {
   const [{ resumes }] = useEmployerState();
-  const requests = appointedRequests(resumes);
+  const [filters] = useEmployerFiltersState();
+  const requests = appointedRequests(resumes, filters);
 
   return (
     <div className="resume-list mt-4">
