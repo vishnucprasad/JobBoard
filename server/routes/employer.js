@@ -3,6 +3,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const upload = require("../middleware/upload");
 const employerHelper = require("../helpers/employerHelper");
+const { signJwt } = require("../auth/sign-jwt");
 
 const router = express.Router();
 
@@ -26,21 +27,16 @@ router.post("/signup", async (req, res, next) => {
         return res.status(400).json({ message: info.message });
       }
 
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
-
-        const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-        const cookieOptions = {
-          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-          httpOnly: true,
-        };
-
-        return res
-          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
-          .status(201)
-          .json({ user });
-      });
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
     } catch (error) {
       return next(error);
     }
@@ -60,21 +56,16 @@ router.post("/login", async (req, res, next) => {
         return res.status(401).json({ message: info.message });
       }
 
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
-
-        const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-        const cookieOptions = {
-          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-          httpOnly: true,
-        };
-
-        return res
-          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
-          .status(200)
-          .json({ user });
-      });
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
     } catch (error) {
       return next(error);
     }
@@ -102,20 +93,15 @@ router.get("/auth/google/callback", async (req, res, next) => {
         return res.redirect(process.env.EMPLOYER_AUTH_ERROR_REDIRECT_URL);
       }
 
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
-
-        const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-        const cookieOptions = {
-          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-          httpOnly: true,
-        };
-
-        return res
-          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
-          .redirect(process.env.EMPLOYER_AUTH_SUCCESS_REDIRECT_URL);
-      });
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .redirect(process.env.EMPLOYER_AUTH_SUCCESS_REDIRECT_URL);
+        })
+        .catch((error) => {
+          return next(error);
+        });
     } catch (error) {
       return next(error);
     }
