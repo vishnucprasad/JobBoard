@@ -9,7 +9,7 @@ import { authActionTypes } from "../../../reducers/auth";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 import { employerActionTypes } from "../../../reducers/employer";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
-import { employerInstance } from "../../../axios/axios";
+import Axios, { employerInstance } from "../../../axios/axios";
 
 const ProfileOverview = () => {
   const [{ auth }, dispatch] = useAuthState();
@@ -41,6 +41,55 @@ const ProfileOverview = () => {
         });
       }
     });
+  };
+
+  const handleUpload = (e) => {
+    if (image) {
+      const formData = new FormData();
+
+      formData.append("newDisplayPicture", image, image.name);
+
+      employerInstance
+        .patch("/profile/update/displaypicture", formData)
+        .then((response) => {
+          if (auth.displayPictureDetails) {
+            Axios.delete(`/file/${auth.displayPictureDetails.id}`)
+              .then((deleteRresponse) => {
+                if (deleteRresponse.data.status) {
+                  dispatch({
+                    type: authActionTypes.UPDATE_AUTH,
+                    updates: response.data.user,
+                  });
+                  Toast.fire({
+                    title: "Updated successfully",
+                    icon: "success",
+                  });
+                }
+              })
+              .catch((error) => {
+                Toast.fire({
+                  title: "Something went wrong, Please try again",
+                  icon: "error",
+                });
+              });
+          } else {
+            dispatch({
+              type: authActionTypes.UPDATE_AUTH,
+              updates: response.data.user,
+            });
+            Toast.fire({
+              title: "Updated successfully",
+              icon: "success",
+            });
+          }
+        })
+        .catch((error) => {
+          Toast.fire({
+            title: "Something went wrong, Please try again",
+            icon: "error",
+          });
+        });
+    }
   };
 
   return (
@@ -81,7 +130,10 @@ const ProfileOverview = () => {
                 </div>
               </div>
             ) : (
-              <button className="btn btn-icon-only text-slack mx-3">
+              <button
+                className="btn btn-icon-only text-slack mx-3"
+                onClick={handleUpload}
+              >
                 <CheckIcon />
               </button>
             )}
