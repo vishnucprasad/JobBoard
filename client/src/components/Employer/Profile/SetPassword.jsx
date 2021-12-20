@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import LockIcon from "@material-ui/icons/Lock";
 import Loader from "./Loader";
+import { useAuthState } from "../../../contexts/AuthStateProvider";
+import { authActionTypes } from "../../../reducers/auth";
+import { employerInstance } from "../../../axios/axios";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const SetPassword = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [, dispatch] = useAuthState();
 
   const initialState = {
     newPassword: "",
@@ -15,6 +20,34 @@ const SetPassword = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    employerInstance
+      .patch("/profile/update/info", state)
+      .then((response) => {
+        if (response.data.errMessage) {
+          Toast.fire({
+            title: response.data.errMessage,
+            icon: "error",
+          });
+        } else {
+          dispatch({
+            type: authActionTypes.UPDATE_AUTH,
+            updates: response.data.user,
+          });
+          Toast.fire({
+            title: "Saved successfully",
+            icon: "success",
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        Toast.fire({
+          title: "Something went wrong, Please try again",
+          icon: "error",
+        });
+        setIsLoading(false);
+      });
   };
 
   return (
