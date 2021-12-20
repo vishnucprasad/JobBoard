@@ -345,4 +345,36 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  updateDisplayPicture: (employerId, dpDetails, protocol, host) => {
+    return new Promise((resolve, reject) => {
+      if (dpDetails) {
+        const updates = {
+          displayPictureDetails: {
+            id: dpDetails.id,
+            filename: dpDetails.filename,
+            url: `${protocol}://${host}/file/image/${dpDetails.filename}`,
+          },
+          displayPicture: `${protocol}://${host}/file/image/${dpDetails.filename}`,
+        };
+
+        Employer.findByIdAndUpdate(employerId, updates, { new: true })
+          .then((user) => resolve(user))
+          .catch((error) => reject(error));
+      } else {
+        reject({ errorMessage: "File not Found" });
+      }
+    });
+  },
+  deleteDisplayPicture: (employerId) => {
+    return new Promise((resolve, reject) => {
+      const updates = {
+        displayPictureDetails: undefined,
+        displayPicture: undefined,
+      };
+
+      Employer.findByIdAndUpdate(employerId, updates, { new: true })
+        .then((user) => resolve(user))
+        .catch((error) => reject(error));
+    });
+  },
 };

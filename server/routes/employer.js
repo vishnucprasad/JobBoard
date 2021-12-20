@@ -231,4 +231,49 @@ router.patch("/profile/update/info", (req, res, next) => {
     .catch((error) => res.json(error));
 });
 
+router.patch(
+  "/profile/update/displaypicture",
+  upload.single("newDisplayPicture"),
+  (req, res, next) => {
+    employerHelper
+      .updateDisplayPicture(
+        req.user._id,
+        req.file,
+        req.protocol,
+        req.get("host")
+      )
+      .then((user) => {
+        signJwt(req, user)
+          .then(({ token, cookieOptions }) => {
+            res
+              .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+              .status(201)
+              .json({ user });
+          })
+          .catch((error) => {
+            return next(error);
+          });
+      })
+      .catch((error) => res.json(error));
+  }
+);
+
+router.delete("/profile/update/displaypicture", (req, res, next) => {
+  employerHelper
+    .deleteDisplayPicture(req.user._id)
+    .then((user) => {
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
+    })
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;
