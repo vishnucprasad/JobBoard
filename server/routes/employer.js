@@ -213,4 +213,22 @@ router.delete("/resume/:id", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.patch("/profile/update/info", (req, res, next) => {
+  employerHelper
+    .updateProfile(req.user._id, req.body)
+    .then((user) => {
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
+    })
+    .catch((error) => res.json(error));
+});
+
 module.exports = router;

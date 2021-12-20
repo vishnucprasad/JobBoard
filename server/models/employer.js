@@ -19,8 +19,22 @@ const employerSchema = new Schema({
     unique: true,
     sparse: true,
   },
+  gender: {
+    type: String,
+  },
   displayPicture: {
     type: String,
+  },
+  displayPictureDetails: {
+    id: {
+      type: String,
+    },
+    filename: {
+      type: String,
+    },
+    url: {
+      type: String,
+    },
   },
   description: {
     type: String,
@@ -54,6 +68,18 @@ employerSchema.pre("save", async function (next) {
     const hash = await bcrypt.hash(user.password, 10);
 
     user.password = hash;
+  }
+
+  next();
+});
+
+employerSchema.pre("findOneAndUpdate", async function (next) {
+  const updates = this._update;
+
+  if (updates.password) {
+    const hash = await bcrypt.hash(updates.password, 10);
+
+    updates.password = hash;
   }
 
   next();

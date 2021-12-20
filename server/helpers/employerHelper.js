@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Job = require("../models/job");
+const Employer = require("../models/employer");
 const Application = require("../models/application");
 const moment = require("moment");
 
@@ -325,6 +326,23 @@ module.exports = {
       } catch (error) {
         reject(error);
       }
+    });
+  },
+  updateProfile: (employerId, updates) => {
+    return new Promise((resolve, reject) => {
+      if (updates.newPassword && updates.confirmedPassword) {
+        if (updates.newPassword === updates.confirmedPassword) {
+          updates.password = updates.newPassword;
+          delete updates.newPassword;
+          delete updates.confirmedPassword;
+        } else {
+          reject({ errMessage: "Entered passwords doesn't match." });
+        }
+      }
+
+      Employer.findByIdAndUpdate(employerId, updates, { new: true })
+        .then((user) => resolve(user))
+        .catch((error) => reject(error));
     });
   },
 };
