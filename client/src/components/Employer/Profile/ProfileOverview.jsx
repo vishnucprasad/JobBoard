@@ -92,6 +92,59 @@ const ProfileOverview = () => {
     }
   };
 
+  const handleDelete = () => {
+    MySwal.fire({
+      title: "Are you sure you want to delete?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        employerInstance
+          .delete("/profile/update/displaypicture")
+          .then((response) => {
+            if (auth.displayPictureDetails) {
+              Axios.delete(`/file/${auth.displayPictureDetails.id}`)
+                .then((deleteRresponse) => {
+                  if (deleteRresponse.data.status) {
+                    dispatch({
+                      type: authActionTypes.UPDATE_AUTH,
+                      updates: response.data.user,
+                    });
+                    Toast.fire({
+                      title: "Deleted successfully",
+                      icon: "success",
+                    });
+                  }
+                })
+                .catch((error) => {
+                  Toast.fire({
+                    title: "Something went wrong, Please try again",
+                    icon: "error",
+                  });
+                });
+            } else {
+              dispatch({
+                type: authActionTypes.UPDATE_AUTH,
+                updates: response.data.user,
+              });
+              Toast.fire({
+                title: "Deleted successfully",
+                icon: "success",
+              });
+            }
+          })
+          .catch((error) => {
+            Toast.fire({
+              title: "Something went wrong, Please try again",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
+
   return (
     <div className="profile-overview">
       <div className="card bg-primary shadow-soft border-light mb-5 text-center p-4">
@@ -138,7 +191,10 @@ const ProfileOverview = () => {
               </button>
             )}
             {auth.displayPicture && (
-              <button className="btn btn-icon-only text-danger mx-3">
+              <button
+                className="btn btn-icon-only text-danger mx-3"
+                onClick={handleDelete}
+              >
                 <DeleteIcon />
               </button>
             )}
