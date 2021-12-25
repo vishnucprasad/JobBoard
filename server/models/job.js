@@ -93,6 +93,11 @@ const jobSchema = new Schema({
       required: true,
     },
   },
+  paymentStatus: {
+    type: String,
+    required: true,
+    default: "pending",
+  },
 });
 
 const Job = mongoose.model("job", jobSchema);

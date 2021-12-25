@@ -137,8 +137,27 @@ router.get("/dashboard", (req, res) => {
 router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
   employerHelper
     .postJob(req.body, req.file, req.protocol, req.get("host"), req.user._id)
-    .then((job) => res.json(job))
+    .then((job) => {
+      employerHelper
+        .createRazorpayOrder(job._id, (job.salary / 100) * 10)
+        .then((order) => res.json(order))
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
+});
+
+router.post("/job/payment/verify", (req, res) => {
+  employerHelper
+    .verifyRazorpayPayment(req.body.payment)
+    .then(() => {
+      employerHelper
+        .changeJobStatus(req.body.order.receipt)
+        .then((job) => res.json(job))
+        .catch((error) => res.json(error));
+    })
+    .catch((error) => {
+      res.json(error);
+    });
 });
 
 router.patch("/jobs/update", upload.single("newLogo"), (req, res) => {

@@ -3,6 +3,12 @@ const Job = require("../models/job");
 const Employer = require("../models/employer");
 const Application = require("../models/application");
 const moment = require("moment");
+const Razorpay = require("razorpay");
+
+const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 module.exports = {
   getCounts: (employerId) => {
@@ -149,6 +155,46 @@ module.exports = {
         },
       };
       Job.create(newJob)
+        .then((job) => resolve(job))
+        .catch((error) => reject(error));
+    });
+  },
+  createRazorpayOrder: (jobId, amount) => {
+    return new Promise((resolve, reject) => {
+      instance.orders
+        .create({
+          amount: amount * 100,
+          currency: "USD",
+          receipt: jobId.toString(),
+          notes: {
+            key1: "value3",
+            key2: "value2",
+          },
+        })
+        .then((order) => resolve(order))
+        .catch((error) => reject(error));
+    });
+  },
+  verifyRazorpayPayment: (payment) => {
+    return new Promise((resolve, reject) => {
+      const crypto = require("crypto");
+
+      let hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
+      hmac.update(
+        payment.razorpay_order_id + "|" + payment.razorpay_payment_id
+      );
+      hmac = hmac.digest("hex");
+
+      if (hmac === payment.razorpay_signature) {
+        resolve();
+      } else {
+        reject({ errMessage: "Payment falied" });
+      }
+    });
+  },
+  changeJobStatus: (jobId) => {
+    return new Promise((resolve, reject) => {
+      Job.findByIdAndUpdate(jobId, { paymentStatus: "paid" }, { new: true })
         .then((job) => resolve(job))
         .catch((error) => reject(error));
     });
