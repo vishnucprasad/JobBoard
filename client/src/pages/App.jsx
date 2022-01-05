@@ -18,6 +18,10 @@ const App = () => {
 
       console.log("Web socket connected!");
     });
+
+    return () => {
+      socket.disconnect();
+    };
   }, [auth]);
 
   return <AppRouter />;

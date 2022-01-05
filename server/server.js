@@ -32,6 +32,10 @@ io.on("connection", (socket) => {
       callback(error);
     }
   });
+
+  socket.on("disconnect", () => {
+    console.log("Web socket disconnected!");
+  });
 });
 
 const port = process.env.PORT || 5000;
