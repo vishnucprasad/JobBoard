@@ -1,28 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { io } from "socket.io-client";
 import AppRouter from "../routers/AppRouter";
-import authReducer, { authInitialState } from "../reducers/auth";
-import { AuthStateProvider } from "../contexts/AuthStateProvider";
-import employerReducer, { employerInitialState } from "../reducers/employer";
-import { EmployerStateProvider } from "../contexts/EmployerStateProvider";
-import userReducer, { userInitialState } from "../reducers/user";
-import { UserStateProvider } from "../contexts/UserStateProvider";
+import { useAuthState } from "../contexts/AuthStateProvider";
 
 const App = () => {
-  return (
-    <AuthStateProvider initialState={authInitialState} reducer={authReducer}>
-      <EmployerStateProvider
-        initialState={employerInitialState}
-        reducer={employerReducer}
-      >
-        <UserStateProvider
-          initialState={userInitialState}
-          reducer={userReducer}
-        >
-          <AppRouter />
-        </UserStateProvider>
-      </EmployerStateProvider>
-    </AuthStateProvider>
-  );
+  const [{ auth }] = useAuthState();
+
+  useEffect(() => {
+    if (!auth._id) return console.log("Web socket not connected!");
+
+    const socket = io(process.env.REACT_APP_SOCKET_URL);
+
+    socket.emit("join", auth._id, (error) => {
+      if (error) {
+        return console.log(error);
+      }
+
+      console.log("Web socket connected!");
+    });
+  }, [auth]);
+
+  return <AppRouter />;
 };
 
 export default App;
