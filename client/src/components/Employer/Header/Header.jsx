@@ -1,6 +1,7 @@
 import React from "react";
 import MobileSidebar from "../Sidebar/MobileSidebar";
 import HeaderDropdown from "./HeaderDropdown";
+import Notifications from "./Notifications";
 
 const Header = () => {
   return (
@@ -11,6 +12,7 @@ const Header = () => {
         </h4>
       </div>
       <div className="ml-auto d-flex">
+        <Notifications />
         <HeaderDropdown />
         <MobileSidebar />
       </div>

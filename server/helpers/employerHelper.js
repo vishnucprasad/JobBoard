@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Job = require("../models/job");
 const Employer = require("../models/employer");
 const Application = require("../models/application");
+const Notification = require("../models/notification");
 const moment = require("moment");
 const Razorpay = require("razorpay");
 
@@ -233,6 +234,16 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Job.findByIdAndDelete(jobId)
         .then((job) => resolve(job))
+        .catch((error) => reject(error));
+    });
+  },
+  getNotifications: (employerId) => {
+    return new Promise((resolve, reject) => {
+      Notification.aggregate()
+        .match({ notifyTo: mongoose.Types.ObjectId(employerId) })
+        .limit(10)
+        .sort({ createdAt: -1 })
+        .then((notifications) => resolve(notifications))
         .catch((error) => reject(error));
     });
   },

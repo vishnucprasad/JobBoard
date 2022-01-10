@@ -22,10 +22,14 @@ const App = () => {
       console.log("Web socket connected!");
     });
 
-    socket.on("new-application", (application) => {
+    socket.on("new-application", ({ application, notification }) => {
       employerDispatch({
         type: employerActionTypes.ADD_RESUME,
         resume: application,
+      });
+      employerDispatch({
+        type: employerActionTypes.ADD_NOTIFICATION,
+        notification,
       });
     });
 

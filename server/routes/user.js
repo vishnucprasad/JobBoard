@@ -179,13 +179,24 @@ router.post(
         req.user._id
       )
       .then((application) => {
-        const io = req.app.get("socketio");
+        userHelper
+          .createNotification({
+            notifyTo: application.jobDetails.employerId,
+            title: "New resume request",
+            text: `New resume request received from ${application.name} for ${application.jobDetails.designation} job.`,
+            endpoint: `/employer/resume-requests/view/${application._id}`,
+          })
+          .then((notification) => {
+            const io = req.app.get("socketio");
 
-        io.to(application.jobDetails.employerId.toString()).emit(
-          "new-application",
-          application
-        );
-        res.json(application);
+            io.to(application.jobDetails.employerId.toString()).emit(
+              "new-application",
+              { application, notification }
+            );
+
+            res.json(application);
+          })
+          .catch((error) => res.json(error));
       })
       .catch((error) => res.json(error));
   }

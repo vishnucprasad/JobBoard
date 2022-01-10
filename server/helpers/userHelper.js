@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Job = require("../models/job");
 const Application = require("../models/application");
 const User = require("../models/user");
+const Notification = require("../models/notification");
 const Enquiry = require("../models/enquiry");
 const moment = require("moment");
 
@@ -113,6 +114,21 @@ module.exports = {
         .unwind("employerDetails")
         .project("-employerDetails.password")
         .then((jobs) => resolve(jobs))
+        .catch((error) => reject(error));
+    });
+  },
+  createNotification: ({ notifyTo, title, text, endpoint }) => {
+    return new Promise((resolve, reject) => {
+      const newNotification = {
+        notifyTo: mongoose.Types.ObjectId(notifyTo),
+        title,
+        text,
+        endpoint,
+        createdAt: moment().valueOf(),
+      };
+
+      Notification.create(newNotification)
+        .then((notification) => resolve(notification))
         .catch((error) => reject(error));
     });
   },

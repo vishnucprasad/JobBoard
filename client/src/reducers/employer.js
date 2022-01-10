@@ -2,6 +2,7 @@ export const employerInitialState = {
   dashboardData: null,
   jobs: [],
   resumes: [],
+  notifications: [],
 };
 
 export const employerActionTypes = {
@@ -14,6 +15,8 @@ export const employerActionTypes = {
   UPDATE_RESUMES: "UPDATE_RESUMES",
   ADD_RESUME: "ADD_RESUME",
   DELETE_RESUME: "DELETE_RESUME",
+  SET_NOTIFICATIONS: "SET_NOTIFICATIONS",
+  ADD_NOTIFICATION: "ADD_NOTIFICATION",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
 
@@ -80,6 +83,16 @@ const employerReducer = (state, action) => {
         resumes: state.resumes.filter(
           (resume) => resume._id !== action.resumeId
         ),
+      };
+    case employerActionTypes.SET_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: action.notifications,
+      };
+    case employerActionTypes.ADD_NOTIFICATION:
+      return {
+        ...state,
+        notifications: [action.notification, ...state.notifications],
       };
     case employerActionTypes.SET_TO_INITIAL_STATE:
       return employerInitialState;

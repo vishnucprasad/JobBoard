@@ -181,6 +181,13 @@ router.get("/jobs", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.get("/notifications", (req, res) => {
+  employerHelper
+    .getNotifications(req.user._id)
+    .then((notifications) => res.json(notifications))
+    .catch((error) => res.json(error));
+});
+
 router.get("/resumes", (req, res) => {
   employerHelper
     .getAllResumes(req.user._id)
