@@ -14,10 +14,12 @@ const AppointedRequests = () => {
       ? employerInstance
           .get("/resumes")
           .then((response) => {
-            dispatch({
-              type: employerActionTypes.SET_RESUMES,
-              resumes: response.data,
-            });
+            if (response.data[0]) {
+              dispatch({
+                type: employerActionTypes.SET_RESUMES,
+                resumes: response.data,
+              });
+            }
             setIsLoading(false);
           })
           .catch((error) => {

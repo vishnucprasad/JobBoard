@@ -139,7 +139,19 @@ module.exports = {
       };
 
       Application.create(newApplication)
-        .then((application) => resolve(application))
+        .then((application) => {
+          Application.aggregate()
+            .match({ _id: application._id })
+            .lookup({
+              from: "jobs",
+              localField: "jobId",
+              foreignField: "_id",
+              as: "jobDetails",
+            })
+            .unwind("jobDetails")
+            .then(([application]) => resolve(application))
+            .catch((error) => reject(error));
+        })
         .catch((error) => reject(error));
     });
   },

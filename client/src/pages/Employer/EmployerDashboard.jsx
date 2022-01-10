@@ -7,18 +7,24 @@ import { employerInstance } from "../../axios/axios";
 import Loader from "../Loader";
 
 const EmployerDashboard = () => {
-  const [, dispatch] = useEmployerState();
+  const [{ dashboardData }, dispatch] = useEmployerState();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    employerInstance.get("/dashboard").then(({ data }) => {
-      dispatch({
-        type: employerActionTypes.SET_DASHBOARD_DATA,
-        data,
-      });
+    !dashboardData
+      ? employerInstance.get("/dashboard").then(({ data }) => {
+          dispatch({
+            type: employerActionTypes.SET_DASHBOARD_DATA,
+            data,
+          });
+          setIsLoading(false);
+        })
+      : setIsLoading(false);
+
+    return () => {
       setIsLoading(false);
-    });
-  }, [dispatch]);
+    };
+  }, [dashboardData, dispatch]);
 
   return isLoading ? (
     <Loader />

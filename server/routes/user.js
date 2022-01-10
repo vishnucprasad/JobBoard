@@ -178,7 +178,15 @@ router.post(
         req.get("host"),
         req.user._id
       )
-      .then((application) => res.json(application))
+      .then((application) => {
+        const io = req.app.get("socketio");
+
+        io.to(application.jobDetails.employerId.toString()).emit(
+          "new-application",
+          application
+        );
+        res.json(application);
+      })
       .catch((error) => res.json(error));
   }
 );
