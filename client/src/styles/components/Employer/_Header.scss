@@ -8,4 +8,11 @@
   .header__profile-icon {
     max-width: 2rem;
   }
+
+  .dropdown-menu {
+    min-width: 12rem;
+    max-width: 100vw;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }

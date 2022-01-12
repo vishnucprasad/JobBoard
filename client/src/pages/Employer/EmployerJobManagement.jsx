@@ -14,10 +14,12 @@ const EmployerJobManagement = () => {
       ? employerInstance
           .get("/jobs")
           .then((response) => {
-            dispatch({
-              type: employerActionTypes.SET_JOBS,
-              jobs: response.data,
-            });
+            if (response.data[0]) {
+              dispatch({
+                type: employerActionTypes.SET_JOBS,
+                jobs: response.data,
+              });
+            }
             setIsLoading(false);
           })
           .catch((error) => {
