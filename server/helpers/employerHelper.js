@@ -247,6 +247,27 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  markNotificationAsRead: (notificationId) => {
+    return new Promise((resolve, reject) => {
+      Notification.findByIdAndUpdate(
+        notificationId,
+        { readStatus: true },
+        { new: true }
+      )
+        .then((notification) => resolve(notification))
+        .catch((error) => reject(error));
+    });
+  },
+  markAllNotificationsAsRead: (employerId) => {
+    return new Promise((resolve, reject) => {
+      Notification.updateMany(
+        { notifyTo: mongoose.Types.ObjectId(employerId) },
+        { readStatus: true }
+      )
+        .then((updateInfo) => resolve(updateInfo))
+        .catch((error) => reject(error));
+    });
+  },
   getAllResumes: (employerId) => {
     return new Promise((resolve, reject) => {
       Application.aggregate()

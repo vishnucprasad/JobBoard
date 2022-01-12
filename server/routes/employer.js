@@ -188,6 +188,20 @@ router.get("/notifications", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.post("/notifications/update/status", (req, res) => {
+  employerHelper
+    .markNotificationAsRead(req.body.notificationId)
+    .then((notification) => res.json(notification))
+    .catch((error) => res.json(error));
+});
+
+router.post("/notifications/update/status/all", (req, res) => {
+  employerHelper
+    .markAllNotificationsAsRead(req.user._id)
+    .then((updateInfo) => res.json(updateInfo))
+    .catch((error) => res.json(error));
+});
+
 router.get("/resumes", (req, res) => {
   employerHelper
     .getAllResumes(req.user._id)
