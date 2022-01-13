@@ -12,13 +12,13 @@ const Notifications = () => {
   const unReadNotifications = notifications.filter(
     (notification) => !notification.readStatus
   );
+  const dropdownNotifications = notifications.slice(0, 10);
 
   useEffect(() => {
     !notifications[0] &&
       employerInstance
         .get("/notifications")
         .then((response) => {
-          console.log(response.data);
           if (response.data[0]) {
             dispatch({
               type: employerActionTypes.SET_NOTIFICATIONS,
@@ -36,9 +36,11 @@ const Notifications = () => {
       <Dropdown.Toggle className="shadow-none border-0" id="dropdown-basic">
         <div className="text-twitter">
           <NotificationsIcon />
-          <span className="badge badge-twitter p-2">
-            {unReadNotifications.length}
-          </span>
+          {unReadNotifications.length > 0 && (
+            <span className="badge badge-twitter p-2">
+              {unReadNotifications.length}
+            </span>
+          )}
         </div>
       </Dropdown.Toggle>
 
@@ -51,8 +53,8 @@ const Notifications = () => {
             Show All
           </Link>
         </div>
-        {notifications[0] ? (
-          notifications.map((notification) => (
+        {dropdownNotifications[0] ? (
+          dropdownNotifications.map((notification) => (
             <Dropdown.Item key={notification._id} className="shadow-none">
               <Link to={notification.endpoint}>
                 <div className="bg-light rounded animate-right-8 p-3">
@@ -64,20 +66,19 @@ const Notifications = () => {
                       {moment(parseInt(notification.createdAt)).format("LLLL")}
                     </div>
                   </h6>
-                  <p
-                    className="m-0 text-truncate"
-                    style={{ wordBreak: "break-word" }}
-                  >
-                    {notification.text}
-                  </p>
+                  <p className="m-0 text-truncate">{notification.text}</p>
                 </div>
               </Link>
             </Dropdown.Item>
           ))
         ) : (
-          <div className="bg-light rounded animate-right-8 p-3">
-            <h6 className="text-twitter">There is no notifications to show!</h6>
-          </div>
+          <Dropdown.Item className="shadow-none">
+            <div className="bg-light rounded animate-right-8 p-3">
+              <p className="m-0 text-truncate">
+                There is no notifications to show!
+              </p>
+            </div>
+          </Dropdown.Item>
         )}
       </Dropdown.Menu>
     </Dropdown>

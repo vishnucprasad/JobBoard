@@ -18,6 +18,7 @@ import NotFound from "../../pages/NotFound";
 import ViewRequest from "../../pages/Employer/ViewRequest";
 import ScheduleMeeting from "../../pages/Employer/ScheduleMeeting";
 import AppointedRequests from "../../pages/Employer/AppointedRequests";
+import EmployerNotifications from "../../pages/Employer/EmployerNotifications";
 
 const EmployerRouter = () => {
   return (
@@ -102,6 +103,11 @@ const EmployerRouter = () => {
       <EmployerPrivateRoute
         path="/employer/appointed-requests/view/:id"
         component={ViewRequest}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/notifications"
+        component={EmployerNotifications}
         exact={true}
       />
       <EmployerPrivateRoute

@@ -241,7 +241,6 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Notification.aggregate()
         .match({ notifyTo: mongoose.Types.ObjectId(employerId) })
-        .limit(10)
         .sort({ createdAt: -1 })
         .then((notifications) => resolve(notifications))
         .catch((error) => reject(error));
