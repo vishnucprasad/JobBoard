@@ -2,9 +2,37 @@ import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
+import { employerActionTypes } from "../../../reducers/employer";
+import { employerInstance } from "../../../axios/axios";
 
 const Notifications = () => {
-  const [{ notifications }] = useEmployerState();
+  const [{ notifications }, dispatch] = useEmployerState();
+
+  const markAllNotificationsAsRead = () => {
+    employerInstance
+      .post("/notifications/update/status/all")
+      .then(() => {
+        dispatch({
+          type: employerActionTypes.UPDATE_READSTATUS_ALL,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const markNotificationAsRead = (notificationId) => {
+    employerInstance
+      .post("/notifications/update/status", { notificationId })
+      .then(({ data }) => {
+        if (data.readStatus) {
+          dispatch({
+            type: employerActionTypes.UPDATE_READSTATUS,
+            notificationId,
+            readStatus: data.readStatus,
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div className="mt-4">
@@ -13,7 +41,10 @@ const Notifications = () => {
           <div className="text-uppercase d-md-flex mb-0">
             <div className="font-weight-bolder h6">Notifications</div>
             <div className="w-md-25 ml-auto">
-              <button className="btn btn-primary btn-sm">
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={markAllNotificationsAsRead}
+              >
                 Mark all as read
               </button>
             </div>
@@ -23,9 +54,19 @@ const Notifications = () => {
           <div className="scroll-70 px-2 pt-2 pb-0">
             {notifications[0] ? (
               notifications.map((notification) => (
-                <div className="my-4">
+                <div
+                  className="my-4"
+                  key={notification._id}
+                  onClick={() => markNotificationAsRead(notification._id)}
+                >
                   <Link to={notification.endpoint}>
-                    <div className="bg-light rounded animate-right-8 p-3">
+                    <div
+                      className={
+                        !notification.readStatus
+                          ? "bg-light rounded animate-right-8 p-3"
+                          : "rounded animate-right-8 p-3"
+                      }
+                    >
                       <h6 className="d-md-flex justify-content-between">
                         <div className="text-twitter text-uppercase font-weight-bold">
                           {notification.title}

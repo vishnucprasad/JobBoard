@@ -17,6 +17,8 @@ export const employerActionTypes = {
   DELETE_RESUME: "DELETE_RESUME",
   SET_NOTIFICATIONS: "SET_NOTIFICATIONS",
   ADD_NOTIFICATION: "ADD_NOTIFICATION",
+  UPDATE_READSTATUS: "UPDATE_READSTATUS",
+  UPDATE_READSTATUS_ALL: "UPDATE_READSTATUS_ALL",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
 
@@ -93,6 +95,30 @@ const employerReducer = (state, action) => {
       return {
         ...state,
         notifications: [action.notification, ...state.notifications],
+      };
+    case employerActionTypes.UPDATE_READSTATUS:
+      return {
+        ...state,
+        notifications: state.notifications.map((notification) => {
+          if (notification._id === action.notificationId) {
+            return {
+              ...notification,
+              readStatus: action.readStatus,
+            };
+          } else {
+            return notification;
+          }
+        }),
+      };
+    case employerActionTypes.UPDATE_READSTATUS_ALL:
+      return {
+        ...state,
+        notifications: state.notifications.map((notification) => {
+          return {
+            ...notification,
+            readStatus: true,
+          };
+        }),
       };
     case employerActionTypes.SET_TO_INITIAL_STATE:
       return employerInitialState;

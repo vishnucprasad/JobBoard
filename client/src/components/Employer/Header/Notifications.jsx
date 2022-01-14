@@ -31,6 +31,22 @@ const Notifications = () => {
         });
   }, [notifications, dispatch]);
 
+  const markNotificationAsRead = (notificationId) => {
+    employerInstance
+      .post("/notifications/update/status", { notificationId })
+      .then(({ data }) => {
+        console.log(data);
+        if (data.readStatus) {
+          dispatch({
+            type: employerActionTypes.UPDATE_READSTATUS,
+            notificationId,
+            readStatus: data.readStatus,
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <Dropdown>
       <Dropdown.Toggle className="shadow-none border-0" id="dropdown-basic">
@@ -55,9 +71,19 @@ const Notifications = () => {
         </div>
         {dropdownNotifications[0] ? (
           dropdownNotifications.map((notification) => (
-            <Dropdown.Item key={notification._id} className="shadow-none">
+            <Dropdown.Item
+              key={notification._id}
+              className="shadow-none"
+              onClick={() => markNotificationAsRead(notification._id)}
+            >
               <Link to={notification.endpoint}>
-                <div className="bg-light rounded animate-right-8 p-3">
+                <div
+                  className={
+                    !notification.readStatus
+                      ? "bg-light rounded animate-right-8 p-3"
+                      : "rounded animate-right-8 p-3"
+                  }
+                >
                   <h6 className="d-md-flex justify-content-between">
                     <div className="text-twitter text-uppercase font-weight-bold">
                       {notification.title}
