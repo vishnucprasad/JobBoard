@@ -212,7 +212,26 @@ router.get("/resumes", (req, res) => {
 router.post("/resume/approve", (req, res) => {
   employerHelper
     .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Approved" })
-    .then((resume) => res.json(resume))
+    .then((resume) => {
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Application Approved",
+          text: `Your application for ${resume.professionalTitle} is approved by the employer.`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("application-approved", {
+            resume,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
 });
 

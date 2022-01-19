@@ -132,6 +132,15 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  getNotifications: (userId) => {
+    return new Promise((resolve, reject) => {
+      Notification.aggregate()
+        .match({ notifyTo: mongoose.Types.ObjectId(userId) })
+        .sort({ createdAt: -1 })
+        .then((notifications) => resolve(notifications))
+        .catch((error) => reject(error));
+    });
+  },
   applyJob: (applicationDetails, files, protocol, host, userId) => {
     return new Promise((resolve, reject) => {
       const newApplication = {

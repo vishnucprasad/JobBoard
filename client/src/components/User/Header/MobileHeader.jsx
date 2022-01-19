@@ -4,6 +4,7 @@ import { Modal } from "react-bootstrap";
 import MenuIcon from "@material-ui/icons/Menu";
 import HeaderList from "./HeaderList";
 import HeaderDropdown from "./HeaderDropdown";
+import Notifications from "./Notifications";
 
 const MobileHeader = () => {
   const [show, setShow] = useState(false);
@@ -12,6 +13,9 @@ const MobileHeader = () => {
     <div className="d-lg-none d-flex align-items-center">
       <div>
         <HeaderDropdown />
+      </div>
+      <div>
+        <Notifications />
       </div>
       <button
         className="btn btn-primary btn-icon-only"

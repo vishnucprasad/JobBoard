@@ -15,12 +15,13 @@ const Layout = ({ children }) => {
       <div className="col-md-10 p-0">
         <Header />
         <div className="layout-content">
-        <EmployerFiltersStateProvider
-      reducer={employerFiltersReducer}
-      initialState={employerFiltersInitialState}
-    >{children}
-    </EmployerFiltersStateProvider>
-    </div>
+          <EmployerFiltersStateProvider
+            reducer={employerFiltersReducer}
+            initialState={employerFiltersInitialState}
+          >
+            {children}
+          </EmployerFiltersStateProvider>
+        </div>
       </div>
     </div>
   );

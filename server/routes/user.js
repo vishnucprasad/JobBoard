@@ -202,6 +202,13 @@ router.post(
   }
 );
 
+router.get("/notifications", (req, res) => {
+  userHelper
+    .getNotifications(req.user._id)
+    .then((notifications) => res.json(notifications))
+    .catch((error) => res.json(error));
+});
+
 router.get("/applications", (req, res) => {
   userHelper
     .getApplications(req.user._id)

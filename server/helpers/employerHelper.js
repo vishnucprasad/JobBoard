@@ -237,6 +237,21 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  createNotification: ({ notifyTo, title, text, endpoint }) => {
+    return new Promise((resolve, reject) => {
+      const newNotification = {
+        notifyTo: mongoose.Types.ObjectId(notifyTo),
+        title,
+        text,
+        endpoint,
+        createdAt: moment().valueOf(),
+      };
+
+      Notification.create(newNotification)
+        .then((notification) => resolve(notification))
+        .catch((error) => reject(error));
+    });
+  },
   getNotifications: (employerId) => {
     return new Promise((resolve, reject) => {
       Notification.aggregate()

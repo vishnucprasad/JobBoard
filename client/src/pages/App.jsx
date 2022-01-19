@@ -4,10 +4,13 @@ import AppRouter from "../routers/AppRouter";
 import { useAuthState } from "../contexts/AuthStateProvider";
 import { useEmployerState } from "../contexts/EmployerStateProvider";
 import { employerActionTypes } from "../reducers/employer";
+import { useUserState } from "../contexts/UserStateProvider";
+import { userActionTypes } from "../reducers/user";
 
 const App = () => {
   const [{ auth }] = useAuthState();
   const [, employerDispatch] = useEmployerState();
+  const [, userDispatch] = useUserState();
 
   useEffect(() => {
     if (!auth._id) return console.log("Web socket not connected!");
@@ -33,10 +36,22 @@ const App = () => {
       });
     });
 
+    socket.on("application-approved", ({ resume, notification }) => {
+      userDispatch({
+        type: userActionTypes.UPDATE_APPLICATION_STATUS,
+        applicationId: resume._id,
+        status: resume.status,
+      });
+      userDispatch({
+        type: userActionTypes.ADD_NOTIFICATION,
+        notification,
+      });
+    });
+
     return () => {
       socket.disconnect();
     };
-  }, [auth, employerDispatch]);
+  }, [auth, employerDispatch, userDispatch]);
 
   return <AppRouter />;
 };
