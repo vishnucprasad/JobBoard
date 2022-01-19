@@ -30,6 +30,21 @@ const Notifications = () => {
         });
   }, [notifications, dispatch]);
 
+  const markNotificationAsRead = (notificationId) => {
+    Axios.post("/notifications/update/status", { notificationId })
+      .then(({ data }) => {
+        console.log(data);
+        if (data.readStatus) {
+          dispatch({
+            type: userActionTypes.UPDATE_READSTATUS,
+            notificationId,
+            readStatus: data.readStatus,
+          });
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <Dropdown>
       <Dropdown.Toggle className="shadow-none border-0" id="dropdown-basic">
@@ -54,7 +69,11 @@ const Notifications = () => {
         </div>
         {dropdownNotifications[0] ? (
           dropdownNotifications.map((notification) => (
-            <Dropdown.Item key={notification._id} className="shadow-none">
+            <Dropdown.Item
+              key={notification._id}
+              className="shadow-none"
+              onClick={() => markNotificationAsRead(notification._id)}
+            >
               <Link to={notification.endpoint}>
                 <div
                   className={

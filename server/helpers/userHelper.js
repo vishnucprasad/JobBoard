@@ -141,6 +141,27 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  markNotificationAsRead: (notificationId) => {
+    return new Promise((resolve, reject) => {
+      Notification.findByIdAndUpdate(
+        notificationId,
+        { readStatus: true },
+        { new: true }
+      )
+        .then((notification) => resolve(notification))
+        .catch((error) => reject(error));
+    });
+  },
+  markAllNotificationsAsRead: (userId) => {
+    return new Promise((resolve, reject) => {
+      Notification.updateMany(
+        { notifyTo: mongoose.Types.ObjectId(userId) },
+        { readStatus: true }
+      )
+        .then((updateInfo) => resolve(updateInfo))
+        .catch((error) => reject(error));
+    });
+  },
   applyJob: (applicationDetails, files, protocol, host, userId) => {
     return new Promise((resolve, reject) => {
       const newApplication = {

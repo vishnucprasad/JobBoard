@@ -21,6 +21,7 @@ import ViewAllApplications from "../../pages/User/ViewAllApplications";
 import UserProfile from "../../pages/User/UserProfile";
 import ContactUs from "../../pages/User/ContactUs";
 import AboutUs from "../../pages/User/AboutUs";
+import UserNotifications from "../../pages/User/UserNotifications";
 
 const UserRouter = () => {
   const [, dispatch] = useAuthState();
@@ -66,6 +67,10 @@ const UserRouter = () => {
         <UserPrivateRoute
           path="/user/applications"
           component={ViewAllApplications}
+        />
+        <UserPrivateRoute
+          path="/user/notifications"
+          component={UserNotifications}
         />
         <UserPrivateRoute path="/user/profile" component={UserProfile} />
         <Route component={NotFound} />

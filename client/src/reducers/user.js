@@ -11,6 +11,8 @@ export const userActionTypes = {
   UPDATE_APPLICATION_STATUS: "UPDATE_APPLICATION_STATUS",
   SET_NOTIFICATIONS: "SET_NOTIFICATIONS",
   ADD_NOTIFICATION: "ADD_NOTIFICATION",
+  UPDATE_READSTATUS: "UPDATE_READSTATUS",
+  UPDATE_READSTATUS_ALL: "UPDATE_READSTATUS_ALL",
   SET_TO_INITIAL_STATE: "SET_TO_INITIAL_STATE",
 };
 
@@ -54,6 +56,30 @@ const userReducer = (state, action) => {
       return {
         ...state,
         notifications: [action.notification, ...state.notifications],
+      };
+    case userActionTypes.UPDATE_READSTATUS:
+      return {
+        ...state,
+        notifications: state.notifications.map((notification) => {
+          if (notification._id === action.notificationId) {
+            return {
+              ...notification,
+              readStatus: action.readStatus,
+            };
+          } else {
+            return notification;
+          }
+        }),
+      };
+    case userActionTypes.UPDATE_READSTATUS_ALL:
+      return {
+        ...state,
+        notifications: state.notifications.map((notification) => {
+          return {
+            ...notification,
+            readStatus: true,
+          };
+        }),
       };
     case userActionTypes.SET_TO_INITIAL_STATE:
       return userInitialState;

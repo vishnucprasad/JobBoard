@@ -209,6 +209,20 @@ router.get("/notifications", (req, res) => {
     .catch((error) => res.json(error));
 });
 
+router.post("/notifications/update/status", (req, res) => {
+  userHelper
+    .markNotificationAsRead(req.body.notificationId)
+    .then((notification) => res.json(notification))
+    .catch((error) => res.json(error));
+});
+
+router.post("/notifications/update/status/all", (req, res) => {
+  userHelper
+    .markAllNotificationsAsRead(req.user._id)
+    .then((updateInfo) => res.json(updateInfo))
+    .catch((error) => res.json(error));
+});
+
 router.get("/applications", (req, res) => {
   userHelper
     .getApplications(req.user._id)
