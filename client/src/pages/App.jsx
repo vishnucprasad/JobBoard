@@ -36,7 +36,7 @@ const App = () => {
       });
     });
 
-    socket.on("application-approved", ({ resume, notification }) => {
+    socket.on("change-application-status", ({ resume, notification }) => {
       userDispatch({
         type: userActionTypes.UPDATE_APPLICATION_STATUS,
         applicationId: resume._id,

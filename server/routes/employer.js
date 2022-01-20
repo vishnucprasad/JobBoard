@@ -223,7 +223,7 @@ router.post("/resume/approve", (req, res) => {
         .then((notification) => {
           const io = req.app.get("socketio");
 
-          io.to(resume.userId.toString()).emit("application-approved", {
+          io.to(resume.userId.toString()).emit("change-application-status", {
             resume,
             notification,
           });
