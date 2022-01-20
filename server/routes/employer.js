@@ -280,7 +280,27 @@ router.post("/resume/appoint", (req, res) => {
     .updateResumeStatus(req.body.resumeId, req.user._id, {
       status: "Appointed",
     })
-    .then((resume) => res.json(resume))
+    .then((resume) => {
+      console.log(resume);
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Appointed!",
+          text: `Congrats!, You are appointed as a ${resume.professionalTitle}`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("change-application-status", {
+            resume,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
 });
 
