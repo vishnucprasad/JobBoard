@@ -245,7 +245,26 @@ router.post("/resume/approve/schedule", (req, res) => {
 router.post("/resume/reject", (req, res) => {
   employerHelper
     .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Rejected" })
-    .then((resume) => res.json(resume))
+    .then((resume) => {
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Application Rejected",
+          text: `Your application for ${resume.professionalTitle} is rejected by the employer.`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("change-application-status", {
+            resume,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
 });
 
