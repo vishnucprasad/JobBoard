@@ -48,6 +48,18 @@ const App = () => {
       });
     });
 
+    socket.on("schedule-meeting", ({ resumeId, schedule, notification }) => {
+      userDispatch({
+        type: userActionTypes.UPDATE_APPLICATION,
+        id: resumeId,
+        updates: { schedule },
+      });
+      userDispatch({
+        type: userActionTypes.ADD_NOTIFICATION,
+        notification,
+      });
+    });
+
     return () => {
       socket.disconnect();
     };

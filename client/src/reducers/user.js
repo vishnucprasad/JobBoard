@@ -8,6 +8,7 @@ export const userActionTypes = {
   SET_JOBS: "SET_JOBS",
   SET_APPLICATIONS: "SET_APPLICATIONS",
   ADD_APPLICATION: "ADD_APPLICATION",
+  UPDATE_APPLICATION: "UPDATE_APPLICATION",
   UPDATE_APPLICATION_STATUS: "UPDATE_APPLICATION_STATUS",
   SET_NOTIFICATIONS: "SET_NOTIFICATIONS",
   ADD_NOTIFICATION: "ADD_NOTIFICATION",
@@ -32,6 +33,20 @@ const userReducer = (state, action) => {
       return {
         ...state,
         applications: [...state.applications, action.application],
+      };
+    case userActionTypes.UPDATE_APPLICATION:
+      return {
+        ...state,
+        applications: state.applications.map((application) => {
+          if (application._id === action.id) {
+            return {
+              ...application,
+              ...action.updates,
+            };
+          } else {
+            return application;
+          }
+        }),
       };
     case userActionTypes.UPDATE_APPLICATION_STATUS:
       return {

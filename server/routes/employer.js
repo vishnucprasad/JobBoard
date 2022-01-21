@@ -238,7 +238,27 @@ router.post("/resume/approve", (req, res) => {
 router.post("/resume/approve/schedule", (req, res) => {
   employerHelper
     .scheduleMeeting(req.body, req.user._id)
-    .then((resume) => res.json(resume))
+    .then((resume) => {
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Meeting Scheduled!",
+          text: `A meeting is scheduled at ${resume.schedule.time} by the employer.`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("schedule-meeting", {
+            resumeId: resume._id,
+            schedule: resume.schedule,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
 });
 
@@ -281,7 +301,6 @@ router.post("/resume/appoint", (req, res) => {
       status: "Appointed",
     })
     .then((resume) => {
-      console.log(resume);
       employerHelper
         .createNotification({
           notifyTo: resume.userId,
