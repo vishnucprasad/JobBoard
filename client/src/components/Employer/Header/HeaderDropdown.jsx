@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Dropdown } from "react-bootstrap";
 import userIcon from "../../../images/user-icon.png";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
@@ -56,11 +57,14 @@ const HeaderDropdown = () => {
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        <Dropdown.Item href="#/action-1">
-          <div className="row px-2 align-items-center text-twitter">
+        <Dropdown.Item>
+          <Link
+            to="/employer/profile"
+            className="row px-2 align-items-center text-twitter"
+          >
             <AccountBoxIcon className="col-3 p-0" />
             <div className="col-9 p-0">Profile</div>
-          </div>
+          </Link>
         </Dropdown.Item>
         <Dropdown.Divider />
         <Dropdown.Item onClick={handleLogout}>

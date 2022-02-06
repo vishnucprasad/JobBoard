@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../components/Employer/Layout/Layout";
 import JobsList from "../../components/Employer/JobManagement/JobsList";
 import Loader from "../Loader";
 import { employerInstance } from "../../axios/axios";
@@ -15,10 +14,12 @@ const EmployerJobManagement = () => {
       ? employerInstance
           .get("/jobs")
           .then((response) => {
-            dispatch({
-              type: employerActionTypes.SET_JOBS,
-              jobs: response.data,
-            });
+            if (response.data[0]) {
+              dispatch({
+                type: employerActionTypes.SET_JOBS,
+                jobs: response.data,
+              });
+            }
             setIsLoading(false);
           })
           .catch((error) => {
@@ -33,14 +34,14 @@ const EmployerJobManagement = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>
+    <div>
       <div className="mb-4">
         <h6 className="font-weight-bold text-uppercase m-0">
           <span className="">Job Management</span>
         </h6>
       </div>
       <JobsList />
-    </Layout>
+    </div>
   );
 };
 

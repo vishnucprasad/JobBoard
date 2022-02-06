@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Layout from "../../components/Employer/Layout/Layout";
 import JobDetails from "../../components/Employer/ViewJob/JobDetails";
 import Loader from "../Loader";
 import { employerInstance } from "../../axios/axios";
@@ -35,14 +34,14 @@ const EmployerViewJob = () => {
   return isLoading ? (
     <Loader />
   ) : (
-    <Layout>
+    <div>
       <div className="mb-4">
         <h6 className="font-weight-bold text-uppercase m-0">
           <span className="">View Job</span>
         </h6>
       </div>
       <JobDetails jobId={id} />
-    </Layout>
+    </div>
   );
 };
 

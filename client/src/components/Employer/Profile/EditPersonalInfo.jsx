@@ -5,9 +5,12 @@ import WcIcon from "@material-ui/icons/Wc";
 import PhoneInput from "react-phone-input-2";
 import Loader from "./Loader";
 import { useAuthState } from "../../../contexts/AuthStateProvider";
+import { authActionTypes } from "../../../reducers/auth";
+import { employerInstance } from "../../../axios/axios";
+import { Toast } from "../../../config/sweetalert/swal";
 
 const EditPersonalInfo = () => {
-  const [{ auth }] = useAuthState();
+  const [{ auth }, dispatch] = useAuthState();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -16,6 +19,7 @@ const EditPersonalInfo = () => {
     mobile: auth.mobile ? auth.mobile : "",
     name: auth.name ? auth.name : "",
     gender: auth.gender ? auth.gender : "",
+    description: auth.description ? auth.description : "",
   };
 
   const [state, setState] = useState(initialState);
@@ -23,6 +27,27 @@ const EditPersonalInfo = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
+
+    employerInstance
+      .patch("/profile/update/info", state)
+      .then((response) => {
+        dispatch({
+          type: authActionTypes.UPDATE_AUTH,
+          updates: state,
+        });
+        Toast.fire({
+          title: "Saved successfully",
+          icon: "success",
+        });
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        Toast.fire({
+          title: "Something went wrong, Please try again",
+          icon: "error",
+        });
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -101,6 +126,23 @@ const EditPersonalInfo = () => {
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
+          </div>
+        </div>
+        <div className="form-group">
+          <label className="my-1 mr-2" htmlFor="descriptionInput">
+            Description
+          </label>
+          <div className="input-group mb-4">
+            <textarea
+              className="form-control"
+              id="descriptionInput"
+              rows="3"
+              placeholder="Describe your self"
+              value={state.description}
+              onChange={(e) =>
+                setState({ ...state, description: e.target.value })
+              }
+            ></textarea>
           </div>
         </div>
         {isLoading ? (

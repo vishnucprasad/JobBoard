@@ -3,6 +3,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const upload = require("../middleware/upload");
 const employerHelper = require("../helpers/employerHelper");
+const { signJwt } = require("../auth/sign-jwt");
 
 const router = express.Router();
 
@@ -26,21 +27,16 @@ router.post("/signup", async (req, res, next) => {
         return res.status(400).json({ message: info.message });
       }
 
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
-
-        const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-        const cookieOptions = {
-          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-          httpOnly: true,
-        };
-
-        return res
-          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
-          .status(201)
-          .json({ user });
-      });
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
     } catch (error) {
       return next(error);
     }
@@ -60,21 +56,16 @@ router.post("/login", async (req, res, next) => {
         return res.status(401).json({ message: info.message });
       }
 
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
-
-        const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-        const cookieOptions = {
-          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-          httpOnly: true,
-        };
-
-        return res
-          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
-          .status(200)
-          .json({ user });
-      });
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
     } catch (error) {
       return next(error);
     }
@@ -102,20 +93,15 @@ router.get("/auth/google/callback", async (req, res, next) => {
         return res.redirect(process.env.EMPLOYER_AUTH_ERROR_REDIRECT_URL);
       }
 
-      req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
-
-        const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
-        const cookieOptions = {
-          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
-          httpOnly: true,
-        };
-
-        return res
-          .cookie(process.env.COOKIE_KEY, token, cookieOptions)
-          .redirect(process.env.EMPLOYER_AUTH_SUCCESS_REDIRECT_URL);
-      });
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .redirect(process.env.EMPLOYER_AUTH_SUCCESS_REDIRECT_URL);
+        })
+        .catch((error) => {
+          return next(error);
+        });
     } catch (error) {
       return next(error);
     }
@@ -136,11 +122,42 @@ router.get("/logout", (req, res) => {
     .json({ status: true, message: "Successfully logged out" });
 });
 
+router.get("/dashboard", (req, res) => {
+  employerHelper
+    .getCounts(req.user._id)
+    .then((data) => {
+      employerHelper
+        .getApplicationFrequency(req.user._id)
+        .then((frequency) => res.json({ ...data, ...frequency }))
+        .catch((error) => res.json(error));
+    })
+    .catch((error) => res.json(error));
+});
+
 router.post("/jobs/post", upload.single("companyLogo"), (req, res) => {
   employerHelper
     .postJob(req.body, req.file, req.protocol, req.get("host"), req.user._id)
-    .then((job) => res.json(job))
+    .then((job) => {
+      employerHelper
+        .createRazorpayOrder(job._id, (job.salary / 100) * 10)
+        .then((order) => res.json(order))
+        .catch((error) => res.json(error));
+    })
     .catch((error) => res.json(error));
+});
+
+router.post("/job/payment/verify", (req, res) => {
+  employerHelper
+    .verifyRazorpayPayment(req.body.payment)
+    .then(() => {
+      employerHelper
+        .changeJobStatus(req.body.order.receipt)
+        .then((job) => res.json(job))
+        .catch((error) => res.json(error));
+    })
+    .catch((error) => {
+      res.json(error);
+    });
 });
 
 router.patch("/jobs/update", upload.single("newLogo"), (req, res) => {
@@ -161,6 +178,218 @@ router.get("/jobs", (req, res) => {
   employerHelper
     .getAllJobs(req.user._id)
     .then((jobs) => res.json(jobs))
+    .catch((error) => res.json(error));
+});
+
+router.get("/notifications", (req, res) => {
+  employerHelper
+    .getNotifications(req.user._id)
+    .then((notifications) => res.json(notifications))
+    .catch((error) => res.json(error));
+});
+
+router.post("/notifications/update/status", (req, res) => {
+  employerHelper
+    .markNotificationAsRead(req.body.notificationId)
+    .then((notification) => res.json(notification))
+    .catch((error) => res.json(error));
+});
+
+router.post("/notifications/update/status/all", (req, res) => {
+  employerHelper
+    .markAllNotificationsAsRead(req.user._id)
+    .then((updateInfo) => res.json(updateInfo))
+    .catch((error) => res.json(error));
+});
+
+router.get("/resumes", (req, res) => {
+  employerHelper
+    .getAllResumes(req.user._id)
+    .then((resumes) => res.json(resumes))
+    .catch((error) => res.json(error));
+});
+
+router.post("/resume/approve", (req, res) => {
+  employerHelper
+    .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Approved" })
+    .then((resume) => {
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Application Approved",
+          text: `Your application for ${resume.professionalTitle} is approved by the employer.`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("change-application-status", {
+            resume,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
+    .catch((error) => res.json(error));
+});
+
+router.post("/resume/approve/schedule", (req, res) => {
+  employerHelper
+    .scheduleMeeting(req.body, req.user._id)
+    .then((resume) => {
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Meeting Scheduled!",
+          text: `A meeting is scheduled at ${resume.schedule.time} by the employer.`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("schedule-meeting", {
+            resumeId: resume._id,
+            schedule: resume.schedule,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
+    .catch((error) => res.json(error));
+});
+
+router.post("/resume/reject", (req, res) => {
+  employerHelper
+    .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Rejected" })
+    .then((resume) => {
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Application Rejected",
+          text: `Your application for ${resume.professionalTitle} is rejected by the employer.`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("change-application-status", {
+            resume,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
+    .catch((error) => res.json(error));
+});
+
+router.post("/resume/reject/undo", (req, res) => {
+  employerHelper
+    .updateResumeStatus(req.body.resumeId, req.user._id, { status: "Applied" })
+    .then((resume) => res.json(resume))
+    .catch((error) => res.json(error));
+});
+
+router.post("/resume/appoint", (req, res) => {
+  employerHelper
+    .updateResumeStatus(req.body.resumeId, req.user._id, {
+      status: "Appointed",
+    })
+    .then((resume) => {
+      employerHelper
+        .createNotification({
+          notifyTo: resume.userId,
+          title: "Appointed!",
+          text: `Congrats!, You are appointed as a ${resume.professionalTitle}`,
+          endpoint: `/user/application/view/${resume._id}`,
+        })
+        .then((notification) => {
+          const io = req.app.get("socketio");
+
+          io.to(resume.userId.toString()).emit("change-application-status", {
+            resume,
+            notification,
+          });
+
+          res.json(resume);
+        })
+        .catch((error) => res.json(error));
+    })
+    .catch((error) => res.json(error));
+});
+
+router.delete("/resume/:id", (req, res) => {
+  employerHelper
+    .deleteResume(req.params.id, req.user._id)
+    .then((resume) => res.json(resume))
+    .catch((error) => res.json(error));
+});
+
+router.patch("/profile/update/info", (req, res, next) => {
+  employerHelper
+    .updateProfile(req.user._id, req.body)
+    .then((user) => {
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
+    })
+    .catch((error) => res.json(error));
+});
+
+router.patch(
+  "/profile/update/displaypicture",
+  upload.single("newDisplayPicture"),
+  (req, res, next) => {
+    employerHelper
+      .updateDisplayPicture(
+        req.user._id,
+        req.file,
+        req.protocol,
+        req.get("host")
+      )
+      .then((user) => {
+        signJwt(req, user)
+          .then(({ token, cookieOptions }) => {
+            res
+              .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+              .status(201)
+              .json({ user });
+          })
+          .catch((error) => {
+            return next(error);
+          });
+      })
+      .catch((error) => res.json(error));
+  }
+);
+
+router.delete("/profile/update/displaypicture", (req, res, next) => {
+  employerHelper
+    .deleteDisplayPicture(req.user._id)
+    .then((user) => {
+      signJwt(req, user)
+        .then(({ token, cookieOptions }) => {
+          res
+            .cookie(process.env.COOKIE_KEY, token, cookieOptions)
+            .status(201)
+            .json({ user });
+        })
+        .catch((error) => {
+          return next(error);
+        });
+    })
     .catch((error) => res.json(error));
 });
 

@@ -6,6 +6,7 @@ import WorkIcon from "@material-ui/icons/Work";
 import RecentActorsIcon from "@material-ui/icons/RecentActors";
 import DoneAllIcon from "@material-ui/icons/DoneAll";
 import CloseIcon from "@material-ui/icons/Close";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
 
 const SidebarMenu = () => {
@@ -42,7 +43,7 @@ const SidebarMenu = () => {
         </ListGroup.Item>
       </NavLink>
       <NavLink
-        to="/employer/aprooved-requests"
+        to="/employer/approved-requests"
         activeClassName="bg-light text-twitter"
       >
         <ListGroup.Item as="li" className="border-0 font-weight-bold">
@@ -60,6 +61,17 @@ const SidebarMenu = () => {
           <div className="row px-2 align-items-center">
             <CloseIcon className="col-3 p-0" />
             <div className="col-9 p-0">Rejected Requests</div>
+          </div>
+        </ListGroup.Item>
+      </NavLink>
+      <NavLink
+        to="/employer/appointed-requests"
+        activeClassName="bg-light text-twitter"
+      >
+        <ListGroup.Item as="li" className="border-0 font-weight-bold">
+          <div className="row px-2 align-items-center">
+            <CheckCircleOutlineIcon className="col-3 p-0" />
+            <div className="col-9 p-0">Appointed Requests</div>
           </div>
         </ListGroup.Item>
       </NavLink>

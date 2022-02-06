@@ -178,10 +178,50 @@ router.post(
         req.get("host"),
         req.user._id
       )
-      .then((application) => res.json(application))
+      .then((application) => {
+        userHelper
+          .createNotification({
+            notifyTo: application.jobDetails.employerId,
+            title: "New resume request",
+            text: `New resume request received from ${application.name} for ${application.jobDetails.designation} job.`,
+            endpoint: `/employer/resume-requests/view/${application._id}`,
+          })
+          .then((notification) => {
+            const io = req.app.get("socketio");
+
+            io.to(application.jobDetails.employerId.toString()).emit(
+              "new-application",
+              { application, notification }
+            );
+
+            res.json(application);
+          })
+          .catch((error) => res.json(error));
+      })
       .catch((error) => res.json(error));
   }
 );
+
+router.get("/notifications", (req, res) => {
+  userHelper
+    .getNotifications(req.user._id)
+    .then((notifications) => res.json(notifications))
+    .catch((error) => res.json(error));
+});
+
+router.post("/notifications/update/status", (req, res) => {
+  userHelper
+    .markNotificationAsRead(req.body.notificationId)
+    .then((notification) => res.json(notification))
+    .catch((error) => res.json(error));
+});
+
+router.post("/notifications/update/status/all", (req, res) => {
+  userHelper
+    .markAllNotificationsAsRead(req.user._id)
+    .then((updateInfo) => res.json(updateInfo))
+    .catch((error) => res.json(error));
+});
 
 router.get("/applications", (req, res) => {
   userHelper

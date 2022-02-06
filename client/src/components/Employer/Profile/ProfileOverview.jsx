@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import PublishIcon from "@material-ui/icons/Publish";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/Check";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import userIcon from "../../../images/user-icon.png";
 import { useAuthState } from "../../../contexts/AuthStateProvider";
@@ -8,11 +9,12 @@ import { authActionTypes } from "../../../reducers/auth";
 import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 import { employerActionTypes } from "../../../reducers/employer";
 import MySwal, { Toast } from "../../../config/sweetalert/swal";
-import { employerInstance } from "../../../axios/axios";
+import Axios, { employerInstance } from "../../../axios/axios";
 
 const ProfileOverview = () => {
   const [{ auth }, dispatch] = useAuthState();
   const [, employerDipatch] = useEmployerState();
+  const [image, setImage] = useState(null);
 
   const handleLogout = () => {
     MySwal.fire({
@@ -41,24 +43,161 @@ const ProfileOverview = () => {
     });
   };
 
+  const handleUpload = (e) => {
+    if (image) {
+      const formData = new FormData();
+
+      formData.append("newDisplayPicture", image, image.name);
+
+      employerInstance
+        .patch("/profile/update/displaypicture", formData)
+        .then((response) => {
+          if (auth.displayPictureDetails) {
+            Axios.delete(`/file/${auth.displayPictureDetails.id}`)
+              .then((deleteRresponse) => {
+                if (deleteRresponse.data.status) {
+                  dispatch({
+                    type: authActionTypes.UPDATE_AUTH,
+                    updates: response.data.user,
+                  });
+                  Toast.fire({
+                    title: "Updated successfully",
+                    icon: "success",
+                  });
+                }
+              })
+              .catch((error) => {
+                Toast.fire({
+                  title: "Something went wrong, Please try again",
+                  icon: "error",
+                });
+              });
+          } else {
+            dispatch({
+              type: authActionTypes.UPDATE_AUTH,
+              updates: response.data.user,
+            });
+            Toast.fire({
+              title: "Updated successfully",
+              icon: "success",
+            });
+          }
+        })
+        .catch((error) => {
+          Toast.fire({
+            title: "Something went wrong, Please try again",
+            icon: "error",
+          });
+        });
+    }
+  };
+
+  const handleDelete = () => {
+    MySwal.fire({
+      title: "Are you sure you want to delete?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+      reverseButtons: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        employerInstance
+          .delete("/profile/update/displaypicture")
+          .then((response) => {
+            if (auth.displayPictureDetails) {
+              Axios.delete(`/file/${auth.displayPictureDetails.id}`)
+                .then((deleteRresponse) => {
+                  if (deleteRresponse.data.status) {
+                    dispatch({
+                      type: authActionTypes.UPDATE_AUTH,
+                      updates: response.data.user,
+                    });
+                    Toast.fire({
+                      title: "Deleted successfully",
+                      icon: "success",
+                    });
+                  }
+                })
+                .catch((error) => {
+                  Toast.fire({
+                    title: "Something went wrong, Please try again",
+                    icon: "error",
+                  });
+                });
+            } else {
+              dispatch({
+                type: authActionTypes.UPDATE_AUTH,
+                updates: response.data.user,
+              });
+              Toast.fire({
+                title: "Deleted successfully",
+                icon: "success",
+              });
+            }
+          })
+          .catch((error) => {
+            Toast.fire({
+              title: "Something went wrong, Please try again",
+              icon: "error",
+            });
+          });
+      }
+    });
+  };
+
   return (
     <div className="profile-overview">
       <div className="card bg-primary shadow-soft border-light mb-5 text-center p-4">
         <div className="card-header p-0">
           <div className="profile-image shadow-inset border border-light bg-primary p-3 rounded-circle mx-auto">
             <img
-              src={userIcon}
-              className="card-img-top shadow-soft p-3 border border-light rounded-circle"
+              src={
+                image
+                  ? URL.createObjectURL(image)
+                  : auth.displayPicture
+                  ? auth.displayPicture
+                  : userIcon
+              }
+              className="card-img-top shadow-soft border border-light rounded-circle"
               alt="Joseph Avatar"
             />
           </div>
-          <div className="d-flex justify-content-center">
-            <button className="btn btn-icon-only text-twitter m-3">
-              <PublishIcon />
-            </button>
-            <button className="btn btn-icon-only text-danger m-3">
-              <DeleteIcon />
-            </button>
+          <div className="d-flex justify-content-center m-3">
+            {!image ? (
+              <div id="companyLogoInput">
+                <div className="custom-file">
+                  <input
+                    type="file"
+                    className="custom-file-input d-none"
+                    id="customFile"
+                    accept=".jpg,.jpeg,.png"
+                    onChange={(e) => setImage(e.target.files[0])}
+                    required
+                  />
+                  <label
+                    className="btn btn-icon-only text-twitter p-2 mx-3"
+                    htmlFor="customFile"
+                  >
+                    <PublishIcon />
+                  </label>
+                </div>
+              </div>
+            ) : (
+              <button
+                className="btn btn-icon-only text-slack mx-3"
+                onClick={handleUpload}
+              >
+                <CheckIcon />
+              </button>
+            )}
+            {auth.displayPicture && (
+              <button
+                className="btn btn-icon-only text-danger mx-3"
+                onClick={handleDelete}
+              >
+                <DeleteIcon />
+              </button>
+            )}
           </div>
         </div>
         <div className="card-body p-0">
@@ -69,6 +208,11 @@ const ProfileOverview = () => {
                 {auth.role}
               </span>
             </div>
+            {auth.description && auth.description.length > 0 && (
+              <div className="shadow-soft text-left rounded p-3 mt-3">
+                <h6 className="mb-2">{auth.description}</h6>
+              </div>
+            )}
           </div>
           <button
             className="btn btn-block btn-sm text-danger mt-3"

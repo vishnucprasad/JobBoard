@@ -15,6 +15,10 @@ import EmployerProfile from "../../pages/Employer/EmployerProfile";
 import EmployerPublicRoute from "./EmployerPublicRoute";
 import EmployerPrivateRoute from "./EmployerPrivateRoute";
 import NotFound from "../../pages/NotFound";
+import ViewRequest from "../../pages/Employer/ViewRequest";
+import ScheduleMeeting from "../../pages/Employer/ScheduleMeeting";
+import AppointedRequests from "../../pages/Employer/AppointedRequests";
+import EmployerNotifications from "../../pages/Employer/EmployerNotifications";
 
 const EmployerRouter = () => {
   return (
@@ -62,13 +66,48 @@ const EmployerRouter = () => {
         exact={true}
       />
       <EmployerPrivateRoute
-        path="/employer/aprooved-requests"
+        path="/employer/resume-requests/view/:id"
+        component={ViewRequest}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/approved-requests"
         component={AproovedRequests}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/approved-requests/view/:id"
+        component={ViewRequest}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/approved-requests/schedule/:id"
+        component={ScheduleMeeting}
         exact={true}
       />
       <EmployerPrivateRoute
         path="/employer/rejected-requests"
         component={RejectedRequests}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/rejected-requests/view/:id"
+        component={ViewRequest}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/appointed-requests"
+        component={AppointedRequests}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/appointed-requests/view/:id"
+        component={ViewRequest}
+        exact={true}
+      />
+      <EmployerPrivateRoute
+        path="/employer/notifications"
+        component={EmployerNotifications}
         exact={true}
       />
       <EmployerPrivateRoute

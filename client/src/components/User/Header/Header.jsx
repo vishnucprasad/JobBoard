@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import HeaderDropdown from "./HeaderDropdown";
 import HeaderList from "./HeaderList";
 import MobileHeader from "./MobileHeader";
+import Notifications from "./Notifications";
 
 const Header = () => {
   return (
@@ -11,16 +12,22 @@ const Header = () => {
         <div className="container position-relative">
           <Link
             to="/"
-            className="navbar-brand shadow-soft rounded py-2 px-5 mr-lg-5"
+            className="navbar-brand shadow-soft rounded py-2 px-2 px-md-5 mr-lg-5"
           >
-            <h4 className="text-capitalize text-twitter font-weight-bolder m-0">
+            <h4 className="text-capitalize text-twitter font-weight-bolder m-0 d-none d-md-block">
               JobBoard
             </h4>
+            <h6 className="text-capitalize text-twitter font-weight-bolder m-0 d-block d-md-none">
+              JobBoard
+            </h6>
           </Link>
           <div className="d-flex align-items-center">
             <div className="d-none d-lg-flex align-items-center">
               <div>
                 <HeaderList />
+              </div>
+              <div>
+                <Notifications />
               </div>
               <div>
                 <HeaderDropdown />

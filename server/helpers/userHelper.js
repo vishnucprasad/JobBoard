@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Job = require("../models/job");
 const Application = require("../models/application");
 const User = require("../models/user");
+const Notification = require("../models/notification");
 const Enquiry = require("../models/enquiry");
 const moment = require("moment");
 
@@ -116,6 +117,51 @@ module.exports = {
         .catch((error) => reject(error));
     });
   },
+  createNotification: ({ notifyTo, title, text, endpoint }) => {
+    return new Promise((resolve, reject) => {
+      const newNotification = {
+        notifyTo: mongoose.Types.ObjectId(notifyTo),
+        title,
+        text,
+        endpoint,
+        createdAt: moment().valueOf(),
+      };
+
+      Notification.create(newNotification)
+        .then((notification) => resolve(notification))
+        .catch((error) => reject(error));
+    });
+  },
+  getNotifications: (userId) => {
+    return new Promise((resolve, reject) => {
+      Notification.aggregate()
+        .match({ notifyTo: mongoose.Types.ObjectId(userId) })
+        .sort({ createdAt: -1 })
+        .then((notifications) => resolve(notifications))
+        .catch((error) => reject(error));
+    });
+  },
+  markNotificationAsRead: (notificationId) => {
+    return new Promise((resolve, reject) => {
+      Notification.findByIdAndUpdate(
+        notificationId,
+        { readStatus: true },
+        { new: true }
+      )
+        .then((notification) => resolve(notification))
+        .catch((error) => reject(error));
+    });
+  },
+  markAllNotificationsAsRead: (userId) => {
+    return new Promise((resolve, reject) => {
+      Notification.updateMany(
+        { notifyTo: mongoose.Types.ObjectId(userId) },
+        { readStatus: true }
+      )
+        .then((updateInfo) => resolve(updateInfo))
+        .catch((error) => reject(error));
+    });
+  },
   applyJob: (applicationDetails, files, protocol, host, userId) => {
     return new Promise((resolve, reject) => {
       const newApplication = {
@@ -139,7 +185,19 @@ module.exports = {
       };
 
       Application.create(newApplication)
-        .then((application) => resolve(application))
+        .then((application) => {
+          Application.aggregate()
+            .match({ _id: application._id })
+            .lookup({
+              from: "jobs",
+              localField: "jobId",
+              foreignField: "_id",
+              as: "jobDetails",
+            })
+            .unwind("jobDetails")
+            .then(([application]) => resolve(application))
+            .catch((error) => reject(error));
+        })
         .catch((error) => reject(error));
     });
   },

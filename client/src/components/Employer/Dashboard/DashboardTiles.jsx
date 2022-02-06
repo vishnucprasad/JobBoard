@@ -1,16 +1,16 @@
 import React from "react";
+import { useEmployerState } from "../../../contexts/EmployerStateProvider";
 
 const DashboardTiles = () => {
-  const tiles = [
-    { title: "Jobs", value: 40 },
-    { title: "Resume Requests", value: 44 },
-    { title: "Approved Requests", value: 14 },
-    { title: "Rejected Requests", value: 20 },
-  ];
+  const [
+    {
+      dashboardData: { counts },
+    },
+  ] = useEmployerState();
 
   return (
     <div className="row">
-      {tiles.map(({ title, value }, index) => (
+      {counts.map(({ title, value }, index) => (
         <div className="col-md-3 my-3 my-md-0" key={index}>
           <div className="card bg-primary shadow-soft border-light p-2">
             <div className="card-header text-center pb-0">

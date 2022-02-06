@@ -63,6 +63,8 @@ const ApplicationsList = () => {
                           application.status === "Applied"
                             ? "bg-twitter"
                             : application.status === "Approved"
+                            ? "bg-success"
+                            : application.status === "Appointed"
                             ? "bg-slack"
                             : application.status === "Rejected"
                             ? "bg-danger"
